@@ -4,53 +4,128 @@ import pl.pkozuch.poker.common.IntValidator;
 import pl.pkozuch.poker.logic.StreamController;
 
 import java.io.IOException;
-import java.net.Socket;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Hello world!
  */
 public class Client {
-    Socket socket;
     StreamController streamController;
     Integer playerID = 0;
 
-    Client(Socket socket) {
-        this.socket = socket;
+    ByteBuffer readBuffer = ByteBuffer.allocate(1024);
 
-        try {
-            streamController = new StreamController(socket.getInputStream(), socket.getOutputStream());
+    Client() {
+        try (SocketChannel client = SocketChannel.open(new InetSocketAddress("localhost", 4444))) {
+            Selector selector = Selector.open();
+            client.configureBlocking(false);
+            client.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+
+            String line = readFromChannel(client);
+            while (!IntValidator.isInt(line)) {
+                line = readFromChannel(client);
+            }
+
+            playerID = Integer.valueOf(line);
+
+            new ClientThread(this, client).start();
+
+            Scanner scanner = new Scanner(System.in);
+
+            try {
+                while (true) {
+                    selector.select();
+                    Set<SelectionKey> selectedKeys = selector.selectedKeys();
+                    Iterator<SelectionKey> iter = selectedKeys.iterator();
+                    while (iter.hasNext()) {
+
+                        SelectionKey key = iter.next();
+
+                        if (key.isReadable()) {
+                            line = readFromChannel((SocketChannel) key.channel());
+
+                            if (line != null)
+                                System.out.println(line);
+                        }
+
+                        if (key.isWritable()) {
+                            SocketChannel channel = (SocketChannel) key.channel();
+                            line = scanner.nextLine();
+                            line = 1 + " " + line;
+
+                            writeToChannel(channel, line);
+                        }
+                        iter.remove();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
-        
-        run();
+    }
+
+    public String readFromChannel(SocketChannel channel) throws IOException {
+        channel.read(readBuffer);
+
+        String message = new String(readBuffer.array());
+
+        int lineLength = message.indexOf('\n');
+
+        if (lineLength == -1)
+            return null;
+
+        message = message.substring(0, lineLength);
+
+        lineLength = message.getBytes(StandardCharsets.UTF_8).length;
+
+        readBuffer.position(lineLength + 1);
+        readBuffer.compact();
+        readBuffer.position(0);
+        if (!message.equals(""))
+            return message;
+
+        return null;
+    }
+
+    public void writeToChannel(SocketChannel channel, String message) throws IOException {
+        channel.write(ByteBuffer.wrap(message.getBytes(StandardCharsets.UTF_8)));
     }
 
     public void run() {
-        String line;
-        line = streamController.readLine();
-
-        while (!IntValidator.isInt(line))
-            line = streamController.readLines();
-
-        playerID = Integer.parseInt(line);
-
-        ClientThread thread = new ClientThread(streamController);
-        thread.start();
-
-        Scanner scanner = new Scanner(System.in);
-        line = scanner.nextLine();
-
-        while (!line.equals("EXIT")) {
-
-            streamController.sendWithNewLine(playerID + " " + line);
-
-            line = scanner.nextLine();
-        }
+//        String line;
+//        line = streamController.readLine();
+//
+//        while (!IntValidator.isInt(line))
+//            line = streamController.readLines();
+//
+//        playerID = Integer.parseInt(line);
+//
+//        ClientThread thread = new ClientThread(streamController);
+//        thread.start();
+//
+//        Scanner scanner = new Scanner(System.in);
+//        line = scanner.nextLine();
+//
+//        while (!line.equals("EXIT")) {
+//
+//            streamController.sendWithNewLine(playerID + " " + line);
+//
+//            line = scanner.nextLine();
+//        }
+//    }
     }
 
-    public static void main(String[] args) throws IOException {
-        new Client(new Socket("localhost", 4444));
+    public static void main(String[] args) {
+        new Client();
     }
 }

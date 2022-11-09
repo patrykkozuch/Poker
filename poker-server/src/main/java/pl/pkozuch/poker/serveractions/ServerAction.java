@@ -1,16 +1,16 @@
 package pl.pkozuch.poker.serveractions;
 
+import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
-import pl.pkozuch.poker.server.ServerThread;
 
 public abstract class ServerAction {
 
-    protected final ServerThread playerThread;
     protected final Server server;
+    protected final PlayerWrapper playerWrapper;
 
-    ServerAction(Server server, ServerThread playerThread) {
+    ServerAction(Server server, PlayerWrapper playerWrapper) {
         this.server = server;
-        this.playerThread = playerThread;
+        this.playerWrapper = playerWrapper;
     }
 
     public abstract void validate();

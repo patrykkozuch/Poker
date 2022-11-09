@@ -2,18 +2,18 @@ package pl.pkozuch.poker.serveractions;
 
 import pl.pkozuch.poker.common.IntValidator;
 import pl.pkozuch.poker.logic.Game;
+import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
-import pl.pkozuch.poker.server.ServerThread;
 
 public class JoinGame extends ServerAction {
 
     private final Integer gameID;
 
-    JoinGame(Server server, ServerThread playerThread, String[] args) {
-        super(server, playerThread);
+    JoinGame(Server server, PlayerWrapper playerWrapper, String[] args) {
+        super(server, playerWrapper);
 
         if (args == null || args.length != 1)
-            throw new RuntimeException("Nieprawidłowa liczba argumentów" + args[0] + args[1]);
+            throw new RuntimeException("Nieprawidłowa liczba argumentów");
 
         if (!IntValidator.isInt(args[0]))
             throw new RuntimeException("Identyfikator gry powinien być liczbą całkowitą");
@@ -28,15 +28,15 @@ public class JoinGame extends ServerAction {
         if (!server.hasGameWithID(gameID))
             throw new RuntimeException("Nie istnieje gra o podanym ID");
 
-        if (playerThread.getGameID() != null)
+        if (playerWrapper.getGameID() != null)
             throw new RuntimeException("Jesteś już członkiem gry. Aby dołączyć do innej gry, najpierw opuść aktualną (QUIT).");
 
-        if (playerThread.getPlayer().getBalance() < server.getGame(gameID).getAnte())
+        if (playerWrapper.getPlayer().getBalance() < server.getGame(gameID).getAnte())
             throw new RuntimeException("Nie możesz dołączyć do gry, ponieważ nie masz wystarczającej ilości pieniędzy do wprowadzenia ante."
                     + "Wymagane to "
                     + server.getGame(gameID).getAnte()
                     + ", a twój stan konta wynosi "
-                    + playerThread.getPlayer().getBalance());
+                    + playerWrapper.getPlayer().getBalance());
     }
 
     @Override
@@ -45,11 +45,11 @@ public class JoinGame extends ServerAction {
 
         try {
             Game g = server.getGame(gameID);
-            g.addPlayer(playerThread.getPlayer());
-            playerThread.setGameID(gameID);
-            playerThread.getPlayer().reduceBalance(g.getAnte());
+            g.addPlayer(playerWrapper.getPlayer());
+            playerWrapper.setGameID(gameID);
+            playerWrapper.getPlayer().reduceBalance(g.getAnte());
         } catch (Exception e) {
-            playerThread.sendMessageToPlayer("Nie udało się dołączyć do gry. " + e.getMessage());
+            playerWrapper.sendMessageToPlayer("Nie udało się dołączyć do gry. " + e.getMessage());
         }
     }
 

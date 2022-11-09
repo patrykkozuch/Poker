@@ -5,7 +5,7 @@ public class GameThread extends Thread {
     private final Game game;
 
     GameThread(Game game) {
-        gameController = new GameController(game, new StreamController(System.in, System.out));
+        gameController = new GameController(game);
         this.game = game;
     }
 
@@ -14,7 +14,7 @@ public class GameThread extends Thread {
         super.run();
 
         for (Player p : game.getAllPlayers()) {
-            p.lockRead();
+            p.setInGame(true);
         }
 
         gameController.startGame();
@@ -28,8 +28,9 @@ public class GameThread extends Thread {
         //End
         gameController.startNextRound();
 
-        for (Player p : game.getAllPlayers())
-            p.unlockRead();
+        for (Player p : game.getAllPlayers()) {
+            p.setInGame(false);
+        }
 
         gameController.sendMessageToAllPlayers("The game has ended.");
     }

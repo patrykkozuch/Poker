@@ -2,13 +2,16 @@ package pl.pkozuch.poker.logic;
 
 import pl.pkozuch.poker.common.Card;
 
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Player {
     public static int counter;
     private final int id;
+
+    private boolean inGame = false;
 
     Card[] cards = new Card[5];
 
@@ -23,17 +26,24 @@ public class Player {
     private Integer betInCurrentGame = 0;
 
     private final StreamController streamController;
-    private final ReentrantLock readLock = new ReentrantLock();
 
-    public Player(StreamController streamController) {
+    public Player(Selector selector, SocketChannel channel) {
         id = ++counter;
-        this.streamController = streamController;
+        this.streamController = new StreamController(selector, channel);
         Random random = new Random();
         this.balance = random.nextInt(1000);
     }
 
     public int getId() {
         return id;
+    }
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public void setInGame(boolean v) {
+        inGame = v;
     }
 
     public Card[] getCards() {
@@ -113,28 +123,12 @@ public class Player {
         resetBet();
     }
 
-    public void sendMessage(String message) {
-        streamController.sendWithNewLine(message);
+    public boolean sendMessage(String message) {
+        return streamController.writeToChannel(message);
     }
 
     public String getResponse() {
-        return streamController.readLine();
-    }
-
-    public void lockRead() {
-        readLock.lock();
-    }
-
-    public void unlockRead() {
-        readLock.unlock();
-    }
-
-    public boolean isLocked() {
-        return readLock.isLocked();
-    }
-
-    public boolean isInReady() {
-        return streamController.isInReady();
+        return streamController.readFromChannel();
     }
 
     public void changeCard(Integer idx, Card c) {

@@ -1,15 +1,15 @@
 package pl.pkozuch.poker.serveractions;
 
 import pl.pkozuch.poker.common.IntValidator;
+import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
-import pl.pkozuch.poker.server.ServerThread;
 
 public class CreateGame extends ServerAction {
 
     private final Integer ante;
 
-    CreateGame(Server server, ServerThread playerThread, String[] args) {
-        super(server, playerThread);
+    CreateGame(Server server, PlayerWrapper playerWrapper, String[] args) {
+        super(server, playerWrapper);
 
         if (args == null || args.length != 1)
             throw new RuntimeException("Nieprawidłowa liczba argumentów");
@@ -22,7 +22,7 @@ public class CreateGame extends ServerAction {
 
     @Override
     public void validate() {
-        if (playerThread.getGameID() != null)
+        if (playerWrapper.getGameID() != null)
             throw new RuntimeException("Jesteś już członkiem gry. Aby stworzyć nową grę, najpierw opuść aktualną (QUIT).");
     }
 
@@ -32,9 +32,9 @@ public class CreateGame extends ServerAction {
 
         try {
             Integer gameID = server.createGame(ante);
-            playerThread.sendMessageToPlayer("Udało się utworzyć nową grę. ID gry: " + gameID);
+            playerWrapper.sendMessageToPlayer("Udało się utworzyć nową grę. ID gry: " + gameID);
         } catch (Exception e) {
-            playerThread.sendMessageToPlayer("Nie udało się utworzyć nowej gry. " + e.getMessage());
+            playerWrapper.sendMessageToPlayer("Nie udało się utworzyć nowej gry. " + e.getMessage());
         }
     }
 

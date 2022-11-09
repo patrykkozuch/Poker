@@ -18,7 +18,7 @@ public class GameController {
     private possibleRoundStates roundState;
     private Integer reward;
 
-    GameController(Game game, StreamController streamController) {
+    GameController(Game game) {
         this.game = game;
         messageController = new MessageController(this, game.getAllPlayers());
     }
@@ -126,7 +126,11 @@ public class GameController {
             messageController.showChangeMessageForPlayer(p);
         }
 
-        return messageController.getPlayerResponse(p);
+        String response;
+        do {
+            response = messageController.getPlayerResponse(p);
+        } while (response == null);
+        return response;
     }
 
     private void updateRoundState() {
@@ -140,7 +144,7 @@ public class GameController {
             hands.add(new PlayerHand(Arrays.asList(p.cards), p).check());
             p.resetStatus();
         }
-        
+
         rewardPlayers(hands);
 
         messageController.showBalanceToAllPlayers();
@@ -151,7 +155,7 @@ public class GameController {
 
         Map<Integer, Integer> pools = calculatePools(game.getAllPlayers());
 
-        int player_idx = 0, draws_count = 1, j = 0;
+        int player_idx = 0, draws_count, j;
         Player p;
         do {
             p = ((PlayerHand) hands.get(player_idx)).getPlayer();

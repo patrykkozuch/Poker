@@ -1,8 +1,8 @@
 package pl.pkozuch.poker.serveractions;
 
 import org.reflections.Reflections;
+import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
-import pl.pkozuch.poker.server.ServerThread;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Comparator;
@@ -10,8 +10,8 @@ import java.util.List;
 
 public class Help extends ServerAction {
 
-    Help(Server server, ServerThread playerThread, String[] args) {
-        super(server, playerThread);
+    Help(Server server, PlayerWrapper playerWrapper, String[] args) {
+        super(server, playerWrapper);
 
         if (args != null)
             throw new RuntimeException("Nieprawidłowa liczba argumentów");
@@ -37,7 +37,7 @@ public class Help extends ServerAction {
                     subTypes) {
                 stringBuilder.append(String.format("\t* %1$-20s\n", c.getMethod("getHelpString").invoke(c)));
             }
-            playerThread.sendMessageToPlayer(stringBuilder.toString());
+            playerWrapper.sendMessageToPlayer(stringBuilder.toString());
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }

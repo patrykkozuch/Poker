@@ -1,12 +1,12 @@
 package pl.pkozuch.poker.serveractions;
 
+import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
-import pl.pkozuch.poker.server.ServerThread;
 
 public class StartGame extends ServerAction {
 
-    StartGame(Server server, ServerThread playerThread, String[] args) {
-        super(server, playerThread);
+    StartGame(Server server, PlayerWrapper playerWrapper, String[] args) {
+        super(server, playerWrapper);
 
         if (args != null)
             throw new RuntimeException("Nieprawidłowa liczba argumentów");
@@ -14,7 +14,10 @@ public class StartGame extends ServerAction {
 
     @Override
     public void validate() {
-        if (server.getGame(playerThread.getGameID()).getHostID() != playerThread.getPlayer().getId())
+        if (playerWrapper.getGameID() == null)
+            throw new RuntimeException("Nie jesteś aktualnie członkiem żadnej gry.");
+        
+        if (server.getGame(playerWrapper.getGameID()).getHostID() != playerWrapper.getPlayer().getId())
             throw new RuntimeException("Nie jesteś hostem gry. Grę może rozpocząć tylko jej host.");
     }
 
@@ -23,9 +26,9 @@ public class StartGame extends ServerAction {
         super.make();
 
         try {
-            server.getGame(playerThread.getGameID()).startGame();
+            server.getGame(playerWrapper.getGameID()).startGame();
         } catch (Exception e) {
-            playerThread.sendMessageToPlayer("Nie udało się rozpocząć gry. " + e.getMessage());
+            playerWrapper.sendMessageToPlayer("Nie udało się rozpocząć gry. " + e.getMessage());
         }
     }
 

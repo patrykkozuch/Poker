@@ -1,15 +1,15 @@
 package pl.pkozuch.poker.serveractions;
 
 import pl.pkozuch.poker.logic.Game;
+import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
-import pl.pkozuch.poker.server.ServerThread;
 
 import java.util.Collection;
 
 public class ListGames extends ServerAction {
 
-    ListGames(Server server, ServerThread playerThread, String[] args) {
-        super(server, playerThread);
+    ListGames(Server server, PlayerWrapper playerWrapper, String[] args) {
+        super(server, playerWrapper);
 
         if (args != null)
             throw new RuntimeException("Nieprawidłowa liczba argumentów");
@@ -41,12 +41,12 @@ public class ListGames extends ServerAction {
                         .append(g.getStatus());
             }
 
-            playerThread.sendMessageToPlayer(stringBuilder.toString());
+            playerWrapper.sendMessageToPlayer(stringBuilder.toString());
         } catch (Exception e) {
-            playerThread.sendMessageToPlayer("Nie udało się rozpocząć gry. " + e.getMessage());
+            playerWrapper.sendMessageToPlayer("Nie udało się rozpocząć gry. " + e.getMessage());
         }
     }
-    
+
     public static String getHelpString() {
         return "LIST";
     }

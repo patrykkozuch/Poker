@@ -1,12 +1,12 @@
 package pl.pkozuch.poker.serveractions;
 
 import pl.pkozuch.poker.logic.Game;
+import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
-import pl.pkozuch.poker.server.ServerThread;
 
 public class QuitGame extends ServerAction {
-    QuitGame(Server server, ServerThread playerThread, String[] args) {
-        super(server, playerThread);
+    QuitGame(Server server, PlayerWrapper playerWrapper, String[] args) {
+        super(server, playerWrapper);
 
         if (args != null)
             throw new RuntimeException("Nieprawidłowa liczba argumentów");
@@ -14,7 +14,7 @@ public class QuitGame extends ServerAction {
 
     @Override
     public void validate() {
-        if (playerThread.getGameID() == null)
+        if (playerWrapper.getGameID() == null)
             throw new RuntimeException("Nie jesteś członkiem żadnej gry. Użyj CREATE <ante> lub JOIN <id_gry> aby dołączyć do lobby.");
     }
 
@@ -23,15 +23,15 @@ public class QuitGame extends ServerAction {
         super.make();
 
         try {
-            Game g = server.getGame(playerThread.getGameID());
-            g.removePlayer(playerThread.getPlayer().getId());
+            Game g = server.getGame(playerWrapper.getGameID());
+            g.removePlayer(playerWrapper.getPlayer().getId());
 
             if (g.getStatus().equals("Nierozpoczęta"))
-                playerThread.getPlayer().raiseBalance(g.getAnte());
+                playerWrapper.getPlayer().raiseBalance(g.getAnte());
 
-            playerThread.setGameID(null);
+            playerWrapper.setGameID(null);
         } catch (Exception e) {
-            playerThread.sendMessageToPlayer("Nie udało się opuścić gry. " + e.getMessage());
+            playerWrapper.sendMessageToPlayer("Nie udało się opuścić gry. " + e.getMessage());
         }
     }
 

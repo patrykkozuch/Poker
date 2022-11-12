@@ -1,5 +1,7 @@
 package pl.pkozuch.poker.logic;
 
+import pl.pkozuch.poker.actions.IllegalActionException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,9 +22,9 @@ public class Game {
         return gameID;
     }
 
-    public void addPlayer(Player newPlayer) {
+    public void addPlayer(Player newPlayer) throws IllegalActionException {
         if (players.size() >= 4)
-            throw new RuntimeException("Serwer gry jest pełny (4/4). Nie można dołączyć.");
+            throw new IllegalActionException("Serwer gry jest pełny (4/4). Nie można dołączyć.");
 
         if (players.size() == 0)
             hostID = newPlayer.getId();
@@ -71,12 +73,12 @@ public class Game {
         return stringBuffer.toString();
     }
 
-    public void startGame() {
+    public void startGame() throws IllegalActionException {
         if (gameThread == null || !gameThread.isAlive()) {
             gameThread = new GameThread(this);
             gameThread.start();
 
-        } else throw new RuntimeException("Gra już się rozpoczęła.");
+        } else throw new IllegalActionException("Gra już się rozpoczęła.");
     }
 
     //Functions used by Actions/ServerActions

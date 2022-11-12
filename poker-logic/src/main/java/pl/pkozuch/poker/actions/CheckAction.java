@@ -9,16 +9,16 @@ public class CheckAction extends Action {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws IllegalActionException {
         if (gameController.getRoundState() != GameController.possibleRoundStates.BETTING && gameController.getRoundState() != GameController.possibleRoundStates.SECOND_BETTING)
-            throw new RuntimeException("Czekać możesz tylko w fazie obstawiania.");
+            throw new IllegalActionException("Czekać możesz tylko w fazie obstawiania.");
 
         if (gameController.doesSomeoneBetThisRound())
-            throw new RuntimeException("Nie możesz czekać, jeżeli ktoś już podbił stawkę.");
+            throw new IllegalActionException("Nie możesz czekać, jeżeli ktoś już podbił stawkę.");
     }
 
     @Override
-    public void make() {
+    public void make() throws IllegalActionException {
         super.make();
 
         player.check();

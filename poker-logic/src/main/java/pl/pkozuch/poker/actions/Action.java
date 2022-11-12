@@ -13,9 +13,9 @@ public abstract class Action {
         this.gameController = gameController;
     }
 
-    public abstract void validate();
+    public abstract void validate() throws IllegalActionException;
 
-    public void make() {
+    public void make() throws IllegalActionException{
         validate();
         sendMessageToOtherPlayers();
     }

@@ -1,6 +1,8 @@
 package pl.pkozuch.poker.logic;
 
 import pl.pkozuch.poker.actions.ActionFactory;
+import pl.pkozuch.poker.actions.IllegalActionException;
+import pl.pkozuch.poker.actions.NoSuchActionException;
 import pl.pkozuch.poker.common.Deck;
 import pl.pkozuch.poker.common.Hand;
 import pl.pkozuch.poker.common.HandSeniority;
@@ -90,7 +92,7 @@ public class GameController {
                         actionFactory.create(p, action).make();
 
                         actionMade = true;
-                    } catch (Exception e) {
+                    } catch (NoSuchActionException|IllegalArgumentException|IllegalActionException e) {
                         p.sendMessage(e.getMessage());
                     }
                 }

@@ -9,13 +9,13 @@ public class FoldAction extends Action {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws IllegalActionException {
         if (gameController.getRoundState() != GameController.possibleRoundStates.BETTING && gameController.getRoundState() != GameController.possibleRoundStates.SECOND_BETTING)
-            throw new RuntimeException("Możesz spasować tylko w trakcie obstawiania.");
+            throw new IllegalActionException("Możesz spasować tylko w trakcie obstawiania.");
     }
 
     @Override
-    public void make() {
+    public void make() throws IllegalActionException {
         super.make();
 
         player.fold();

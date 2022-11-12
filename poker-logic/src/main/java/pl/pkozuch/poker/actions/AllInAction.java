@@ -9,12 +9,11 @@ public class AllInAction extends Action {
     }
 
     @Override
-    public void validate() {
-
+    public void validate() throws IllegalActionException {
     }
 
     @Override
-    public void make() {
+    public void make() throws IllegalActionException {
         super.make();
         if (player.getBalance() >= gameController.getCurrentRoundBetPerPlayer()) {
             gameController.setCurrentRoundBetPerPlayer(player.getBalance());

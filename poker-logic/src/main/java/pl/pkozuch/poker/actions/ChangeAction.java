@@ -8,14 +8,14 @@ public class ChangeAction extends Action {
 
     private final Integer[] cardIndexesToChange;
 
-    ChangeAction(GameController gameController, Player player, String[] args) {
+    ChangeAction(GameController gameController, Player player, String[] args) throws IllegalArgumentException {
         super(gameController, player);
 
         if (args.length < 1 || args.length > 5)
-            throw new RuntimeException("Podano nieprawidłową ilość kart. Można wybrać od 0 do 4 kart. Jeżeli nie chcesz wymienić żadnej karty, wpisz 'CHANGE 0'");
+            throw new IllegalArgumentException("Podano nieprawidłową ilość kart. Można wybrać od 0 do 4 kart. Jeżeli nie chcesz wymienić żadnej karty, wpisz 'CHANGE 0'");
 
         if (!IntValidator.isInt(args))
-            throw new RuntimeException("Podano nieprawidłowy argument. Numer karty musi być liczbą");
+            throw new IllegalArgumentException("Podano nieprawidłowy argument. Numer karty musi być liczbą");
 
         cardIndexesToChange = new Integer[args.length];
 
@@ -28,13 +28,13 @@ public class ChangeAction extends Action {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws IllegalActionException {
         if (gameController.getRoundState() != GameController.possibleRoundStates.CHANGING)
-            throw new RuntimeException("Nie udało się wykonać akcji. Wymiana kart możliwa jest tylko w fazie wymiany.");
+            throw new IllegalActionException("Nie udało się wykonać akcji. Wymiana kart możliwa jest tylko w fazie wymiany.");
     }
 
     @Override
-    public void make() {
+    public void make() throws IllegalActionException {
         super.make();
 
         if (cardIndexesToChange[0] != -1) {

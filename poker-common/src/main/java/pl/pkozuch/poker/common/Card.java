@@ -13,7 +13,7 @@ public class Card {
 
     Card(String slug) {
         if (slug.length() != 2)
-            throw new RuntimeException("Card can be created only from 2-characters long slug. Slug entered" + slug);
+            throw new RuntimeException("Card can be created only from 2-characters long slug. Slug entered: " + slug);
 
         String valueString = slug.substring(1);
         String suitString = slug.substring(0, 1);

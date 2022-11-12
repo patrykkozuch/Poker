@@ -9,11 +9,11 @@ public class RaiseAction extends Action {
     private final Integer amount;
     private final Integer providedAmount;
 
-    RaiseAction(GameController gameController, Player player, String[] args) {
+    RaiseAction(GameController gameController, Player player, String[] args) throws IllegalArgumentException {
         super(gameController, player);
 
         if (args.length != 1 || !IntValidator.isInt(args[0]))
-            throw new RuntimeException("Nieprawidłowa akcja. Spróbuj ponownie");
+            throw new IllegalArgumentException("Nieprawidłowa akcja. Spróbuj ponownie");
 
         providedAmount = Integer.parseInt(args[0]);
 
@@ -21,20 +21,20 @@ public class RaiseAction extends Action {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws IllegalActionException {
         if (gameController.getRoundState() != GameController.possibleRoundStates.BETTING && gameController.getRoundState() != GameController.possibleRoundStates.SECOND_BETTING)
-            throw new RuntimeException("Podnosić stawkę możesz tylko w fazie obstawiania.");
+            throw new IllegalActionException("Podnosić stawkę możesz tylko w fazie obstawiania.");
 
         if (providedAmount < gameController.getCurrentRoundBetPerPlayer())
-            throw new RuntimeException("Nie możesz obstawiać za mniej niż obstawili inni gracze. " +
+            throw new IllegalActionException("Nie możesz obstawiać za mniej niż obstawili inni gracze. " +
                     "Aktualnie minimalna kwota to: " + gameController.getCurrentRoundBetPerPlayer());
 
         if (player.getBalance() < amount)
-            throw new RuntimeException("Nie możesz obstawiać za więcej niż masz. Spróbuj jeszcze raz zmniejszając kwotę");
+            throw new IllegalActionException("Nie możesz obstawiać za więcej niż masz. Spróbuj jeszcze raz zmniejszając kwotę");
     }
 
     @Override
-    public void make() {
+    public void make() throws IllegalActionException {
         super.make();
 
         player.reduceBalance(amount);

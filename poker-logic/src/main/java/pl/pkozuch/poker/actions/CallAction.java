@@ -13,19 +13,19 @@ public class CallAction extends Action {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws IllegalActionException{
         if (gameController.getRoundState() != GameController.possibleRoundStates.BETTING && gameController.getRoundState() != GameController.possibleRoundStates.SECOND_BETTING)
-            throw new RuntimeException("Możesz wyrównać tylko w trakcie obstawiania.");
+            throw new IllegalActionException("Możesz wyrównać tylko w trakcie obstawiania.");
 
         if (gameController.getCurrentRoundBetPerPlayer() == 0)
-            throw new RuntimeException("Nie możesz wyrównać, jeżeli nikt jeszcze nie obstawił!");
+            throw new IllegalActionException("Nie możesz wyrównać, jeżeli nikt jeszcze nie obstawił!");
 
         if (player.getBalance() < amount)
-            throw new RuntimeException("Nie możesz wyrównać, stan twojego konta jest zbyt mały.");
+            throw new IllegalActionException("Nie możesz wyrównać, stan twojego konta jest zbyt mały.");
     }
 
     @Override
-    public void make() {
+    public void make() throws IllegalActionException {
         super.make();
 
         player.reduceBalance(amount);

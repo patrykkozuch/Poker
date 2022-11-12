@@ -59,7 +59,7 @@ public class Client {
                         if (key.isWritable()) {
                             SocketChannel channel = (SocketChannel) key.channel();
                             line = scanner.nextLine();
-                            line = 1 + " " + line;
+                            line = playerID + " " + line;
 
                             writeToChannel(channel, line);
                         }
@@ -99,30 +99,6 @@ public class Client {
 
     public void writeToChannel(SocketChannel channel, String message) throws IOException {
         channel.write(ByteBuffer.wrap(message.getBytes(StandardCharsets.UTF_8)));
-    }
-
-    public void run() {
-//        String line;
-//        line = streamController.readLine();
-//
-//        while (!IntValidator.isInt(line))
-//            line = streamController.readLines();
-//
-//        playerID = Integer.parseInt(line);
-//
-//        ClientThread thread = new ClientThread(streamController);
-//        thread.start();
-//
-//        Scanner scanner = new Scanner(System.in);
-//        line = scanner.nextLine();
-//
-//        while (!line.equals("EXIT")) {
-//
-//            streamController.sendWithNewLine(playerID + " " + line);
-//
-//            line = scanner.nextLine();
-//        }
-//    }
     }
 
     public static void main(String[] args) {

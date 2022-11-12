@@ -16,7 +16,7 @@ public class ActionFactory {
         this.gameController = gameController;
     }
 
-    public Action create(Player player, String message) {
+    public Action create(Player player, String message) throws NoSuchActionException {
         parseAction(message);
 
         return switch (actionSlug) {
@@ -26,23 +26,23 @@ public class ActionFactory {
             case "CHECK" -> new CheckAction(gameController, player);
             case "CHANGE" -> new ChangeAction(gameController, player, actionsArgs);
             case "ALLIN" -> new AllInAction(gameController, player);
-            default -> throw new RuntimeException("Nieprawidłowa akcja. Spróbuj ponownie");
+            default -> throw new NoSuchActionException("Nieprawidłowa akcja. Spróbuj ponownie");
         };
     }
 
-    private void parseAction(String enteredAction) {
+    private void parseAction(String enteredAction) throws IllegalArgumentException{
         String[] splitAction = enteredAction.trim().split(" ");
 
         if (splitAction.length < 2)
-            throw new RuntimeException("Nie wprowadzono wymaganej liczby argumentów. Minimum to 3: <ID_GRACZA> <ID_GRY=0> <AKCJA>");
+            throw new IllegalArgumentException("Nie wprowadzono wymaganej liczby argumentów. Minimum to 3: <ID_GRACZA> <ID_GRY=0> <AKCJA>");
 
         if (!IntValidator.isInt(splitAction[0]))
-            throw new RuntimeException("Pierwszym parametrem powinien być identyfikator gracza będący liczbą całkowitą");
+            throw new IllegalArgumentException("Pierwszym parametrem powinien być identyfikator gracza będący liczbą całkowitą");
 
         Integer playerID = Integer.parseInt(splitAction[0]);
 
         if (!gameController.hasPlayerWithID(playerID))
-            throw new RuntimeException("Gracz o ID " + playerID + " nie istnieje.");
+            throw new IllegalArgumentException("Gracz o ID " + playerID + " nie istnieje.");
 
         actionSlug = splitAction[1].toUpperCase();
 

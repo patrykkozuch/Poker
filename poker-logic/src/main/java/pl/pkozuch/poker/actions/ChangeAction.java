@@ -23,7 +23,7 @@ public class ChangeAction extends Action {
             cardIndexesToChange[i] = Integer.parseInt(args[i]) - 1;
 
             if ((cardIndexesToChange[i] < 0 && i != 0) || cardIndexesToChange[i] >= 5)
-                throw new RuntimeException("Podano nieprawidłową liczbę. Numer karty musi być liczbą z zakresu 1 do 5.");
+                throw new IllegalArgumentException("Podano nieprawidłową liczbę. Numer karty musi być liczbą z zakresu 1 do 5.");
         }
     }
 

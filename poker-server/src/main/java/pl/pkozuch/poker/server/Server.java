@@ -53,7 +53,6 @@ public class Server {
 
                     if (key.attachment() != null) {
                         Integer playerID = ((PlayerWrapper) key.attachment()).getPlayerID();
-                        SocketChannel channel = (SocketChannel) key.channel();
                         if (welcomeQueue.contains(playerID) && key.isWritable()) {
                             if (sendMessageToPlayer(playerID, playerID.toString())) {
                                 String message = """
@@ -85,11 +84,10 @@ public class Server {
                             }
                         }
                     }
-
                     iter.remove();
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | NoSuchPlayerException e) {
             e.printStackTrace();
         }
     }
@@ -114,16 +112,16 @@ public class Server {
         return games.get(gameID);
     }
 
-    public boolean sendMessageToPlayer(Integer playerID, String message) {
+    public boolean sendMessageToPlayer(Integer playerID, String message) throws NoSuchPlayerException {
         if (!hasPlayerWithID(playerID))
-            throw new RuntimeException("Gracz o ID " + playerID + " nie istnieje.");
+            throw new NoSuchPlayerException("Gracz o ID " + playerID + " nie istnieje.");
 
         return players.get(playerID).sendMessageToPlayer(message);
     }
 
-    public String readFromPlayer(Integer playerID) {
+    public String readFromPlayer(Integer playerID) throws NoSuchPlayerException {
         if (!hasPlayerWithID(playerID))
-            throw new RuntimeException("Gracz o ID " + playerID + " nie istnieje.");
+            throw new NoSuchPlayerException("Gracz o ID " + playerID + " nie istnieje.");
 
         return players.get(playerID).getResponseFromPlayer();
     }

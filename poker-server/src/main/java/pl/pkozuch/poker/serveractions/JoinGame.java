@@ -1,5 +1,6 @@
 package pl.pkozuch.poker.serveractions;
 
+import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.common.IntValidator;
 import pl.pkozuch.poker.logic.Game;
 import pl.pkozuch.poker.server.PlayerWrapper;
@@ -9,28 +10,32 @@ public class JoinGame extends ServerAction {
 
     private final Integer gameID;
 
-    JoinGame(Server server, PlayerWrapper playerWrapper, String[] args) {
+    JoinGame(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
         if (args == null || args.length != 1)
-            throw new RuntimeException("Nieprawidłowa liczba argumentów");
+            throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
 
         if (!IntValidator.isInt(args[0]))
-            throw new RuntimeException("Identyfikator gry powinien być liczbą całkowitą");
+            throw new IllegalArgumentException("Identyfikator gry powinien być liczbą całkowitą");
 
         gameID = Integer.parseInt(args[0]);
     }
 
+    public static String getHelpString() {
+        return "JOIN <id_gry>";
+    }
+
     @Override
-    public void validate() {
+    public void validate() throws IllegalActionException {
         if (!server.hasGameWithID(gameID))
-            throw new RuntimeException("Nie istnieje gra o podanym ID");
+            throw new IllegalActionException("Nie istnieje gra o podanym ID");
 
         if (playerWrapper.getGameID() != null)
-            throw new RuntimeException("Jesteś już członkiem gry. Aby dołączyć do innej gry, najpierw opuść aktualną (QUIT).");
+            throw new IllegalActionException("Jesteś już członkiem gry. Aby dołączyć do innej gry, najpierw opuść aktualną (QUIT).");
 
         if (playerWrapper.getPlayer().getBalance() < server.getGame(gameID).getAnte())
-            throw new RuntimeException("Nie możesz dołączyć do gry, ponieważ nie masz wystarczającej ilości pieniędzy do wprowadzenia ante."
+            throw new IllegalActionException("Nie możesz dołączyć do gry, ponieważ nie masz wystarczającej ilości pieniędzy do wprowadzenia ante."
                     + "Wymagane to "
                     + server.getGame(gameID).getAnte()
                     + ", a twój stan konta wynosi "
@@ -38,7 +43,7 @@ public class JoinGame extends ServerAction {
     }
 
     @Override
-    public void make() {
+    public void make() throws IllegalActionException {
         super.make();
 
         try {
@@ -49,10 +54,5 @@ public class JoinGame extends ServerAction {
         } catch (Exception e) {
             playerWrapper.sendMessageToPlayer("Nie udało się dołączyć do gry. " + e.getMessage());
         }
-    }
-
-
-    public static String getHelpString() {
-        return "JOIN <id_gry>";
     }
 }

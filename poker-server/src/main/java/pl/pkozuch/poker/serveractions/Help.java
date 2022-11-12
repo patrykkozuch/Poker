@@ -1,6 +1,7 @@
 package pl.pkozuch.poker.serveractions;
 
 import org.reflections.Reflections;
+import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
 
@@ -10,11 +11,15 @@ import java.util.List;
 
 public class Help extends ServerAction {
 
-    Help(Server server, PlayerWrapper playerWrapper, String[] args) {
+    Help(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
         if (args != null)
-            throw new RuntimeException("Nieprawidłowa liczba argumentów");
+            throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
+    }
+
+    public static String getHelpString() {
+        return "HELP";
     }
 
     @Override
@@ -22,7 +27,7 @@ public class Help extends ServerAction {
     }
 
     @Override
-    public void make() {
+    public void make() throws IllegalActionException {
         super.make();
 
         Reflections reflection = new Reflections("pl.pkozuch.poker.serveractions");
@@ -32,6 +37,7 @@ public class Help extends ServerAction {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("Dostępne polecenia:\n");
+
         try {
             for (Class<? extends ServerAction> c :
                     subTypes) {
@@ -40,10 +46,7 @@ public class Help extends ServerAction {
             playerWrapper.sendMessageToPlayer(stringBuilder.toString());
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
+            throw new RuntimeException("Wystąpił błąd podczas wywołania getHelpString");
         }
-    }
-
-    public static String getHelpString() {
-        return "HELP";
     }
 }

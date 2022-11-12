@@ -1,5 +1,6 @@
 package pl.pkozuch.poker.serveractions;
 
+import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.logic.Game;
 import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
@@ -8,11 +9,15 @@ import java.util.Collection;
 
 public class ListGames extends ServerAction {
 
-    ListGames(Server server, PlayerWrapper playerWrapper, String[] args) {
+    ListGames(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
         if (args != null)
-            throw new RuntimeException("Nieprawidłowa liczba argumentów");
+            throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
+    }
+
+    public static String getHelpString() {
+        return "LIST";
     }
 
     @Override
@@ -20,34 +25,26 @@ public class ListGames extends ServerAction {
     }
 
     @Override
-    public void make() {
+    public void make() throws IllegalActionException {
         super.make();
 
-        try {
-            Collection<Game> games = server.getAllGames();
+        Collection<Game> games = server.getAllGames();
 
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("Aby dołączyć do gry wpisz: JOIN <id_gry>.\n");
-            stringBuilder.append("Aktywne lobby: \n");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Aby dołączyć do gry wpisz: JOIN <id_gry>.\n");
+        stringBuilder.append("Aktywne lobby: \n");
 
-            for (Game g : games) {
-                stringBuilder.append("\t* Gra nr ")
-                        .append(g.getGameID())
-                        .append(" (Ante ")
-                        .append(g.getAnte())
-                        .append(", ")
-                        .append(g.getPlayersCount())
-                        .append("/4) ")
-                        .append(g.getStatus());
-            }
-
-            playerWrapper.sendMessageToPlayer(stringBuilder.toString());
-        } catch (Exception e) {
-            playerWrapper.sendMessageToPlayer("Nie udało się rozpocząć gry. " + e.getMessage());
+        for (Game g : games) {
+            stringBuilder.append("\t* Gra nr ")
+                    .append(g.getGameID())
+                    .append(" (Ante ")
+                    .append(g.getAnte())
+                    .append(", ")
+                    .append(g.getPlayersCount())
+                    .append("/4) ")
+                    .append(g.getStatus());
         }
-    }
 
-    public static String getHelpString() {
-        return "LIST";
+        playerWrapper.sendMessageToPlayer(stringBuilder.toString());
     }
 }

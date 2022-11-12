@@ -7,11 +7,10 @@ import java.util.HashMap;
 
 public class Game {
     private final HashMap<Integer, Player> players = new HashMap<>();
-    private Integer hostID = null;
     Integer gameID;
     GameThread gameThread = null;
-
     Integer ante;
+    private Integer hostID = null;
 
     public Game(Integer gameID, Integer ante) {
         this.gameID = gameID;
@@ -78,7 +77,7 @@ public class Game {
             gameThread = new GameThread(this);
             gameThread.start();
 
-        } else throw new IllegalActionException("Gra już się rozpoczęła.");
+        } else throw new IllegalActionException("Nie udało się rozpocząć gry. Gra już się rozpoczęła.");
     }
 
     //Functions used by Actions/ServerActions

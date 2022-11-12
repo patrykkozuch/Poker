@@ -1,38 +1,35 @@
 package pl.pkozuch.poker.serveractions;
 
+import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
 
 public class StartGame extends ServerAction {
 
-    StartGame(Server server, PlayerWrapper playerWrapper, String[] args) {
+    StartGame(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
         if (args != null)
-            throw new RuntimeException("Nieprawidłowa liczba argumentów");
-    }
-
-    @Override
-    public void validate() {
-        if (playerWrapper.getGameID() == null)
-            throw new RuntimeException("Nie jesteś aktualnie członkiem żadnej gry.");
-        
-        if (server.getGame(playerWrapper.getGameID()).getHostID() != playerWrapper.getPlayer().getId())
-            throw new RuntimeException("Nie jesteś hostem gry. Grę może rozpocząć tylko jej host.");
-    }
-
-    @Override
-    public void make() {
-        super.make();
-
-        try {
-            server.getGame(playerWrapper.getGameID()).startGame();
-        } catch (Exception e) {
-            playerWrapper.sendMessageToPlayer("Nie udało się rozpocząć gry. " + e.getMessage());
-        }
+            throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
     }
 
     public static String getHelpString() {
         return "START";
+    }
+
+    @Override
+    public void validate() throws IllegalActionException {
+        if (playerWrapper.getGameID() == null)
+            throw new IllegalActionException("Nie jesteś aktualnie członkiem żadnej gry.");
+
+        if (server.getGame(playerWrapper.getGameID()).getHostID() != playerWrapper.getPlayer().getId())
+            throw new IllegalActionException("Nie jesteś hostem gry. Grę może rozpocząć tylko jej host.");
+    }
+
+    @Override
+    public void make() throws IllegalActionException {
+        super.make();
+
+        server.getGame(playerWrapper.getGameID()).startGame();
     }
 }

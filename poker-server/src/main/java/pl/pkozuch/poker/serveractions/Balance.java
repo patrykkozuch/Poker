@@ -1,15 +1,20 @@
 package pl.pkozuch.poker.serveractions;
 
+import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
 
 public class Balance extends ServerAction {
 
-    Balance(Server server, PlayerWrapper playerWrapper, String[] args) {
+    Balance(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
         if (args != null)
-            throw new RuntimeException("Nieprawidłowa liczba argumentów");
+            throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
+    }
+
+    public static String getHelpString() {
+        return "BALANCE";
     }
 
     @Override
@@ -17,7 +22,7 @@ public class Balance extends ServerAction {
     }
 
     @Override
-    public void make() {
+    public void make() throws IllegalActionException {
         super.make();
 
         try {
@@ -25,9 +30,5 @@ public class Balance extends ServerAction {
         } catch (Exception e) {
             playerWrapper.sendMessageToPlayer("Nie udało się sprawdzić stanu twojego konta. " + e.getMessage());
         }
-    }
-
-    public static String getHelpString() {
-        return "BALANCE";
     }
 }

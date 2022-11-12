@@ -1,5 +1,6 @@
 package pl.pkozuch.poker.serveractions;
 
+import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
 
@@ -13,9 +14,9 @@ public abstract class ServerAction {
         this.playerWrapper = playerWrapper;
     }
 
-    public abstract void validate();
+    public abstract void validate() throws IllegalActionException;
 
-    public void make() {
+    public void make() throws IllegalActionException {
         validate();
     }
 

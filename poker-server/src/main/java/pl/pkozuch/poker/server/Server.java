@@ -1,6 +1,9 @@
 package pl.pkozuch.poker.server;
 
+import pl.pkozuch.poker.actions.IllegalActionException;
+import pl.pkozuch.poker.actions.NoSuchActionException;
 import pl.pkozuch.poker.logic.Game;
+import pl.pkozuch.poker.logic.NoSuchPlayerException;
 import pl.pkozuch.poker.serveractions.ServerActionFactory;
 
 import java.io.IOException;
@@ -16,25 +19,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * Hello world!
  */
 public class Server {
-    private Integer gameCounter = 1;
     private final Map<Integer, Game> games = new ConcurrentHashMap<>();
     private final Map<Integer, PlayerWrapper> players = new ConcurrentHashMap<>();
-
-    public Integer createGame(Integer ante) {
-        Game newGame = new Game(gameCounter++, ante);
-
-        games.put(newGame.getGameID(), newGame);
-
-        return newGame.getGameID();
-    }
-
-    void endGame(Integer gameID) {
-        games.remove(gameID);
-    }
-
-    public Game getGame(Integer gameID) {
-        return games.get(gameID);
-    }
+    private Integer gameCounter = 1;
 
     Server() {
         try (Selector selector = Selector.open()) {
@@ -92,7 +79,8 @@ public class Server {
 
                                 serverActionFactory.create(playerWrapper, message).make();
 
-                            } catch (Exception e) {
+                            } catch (NoSuchActionException | IllegalArgumentException | IllegalActionException |
+                                     NoSuchPlayerException e) {
                                 sendMessageToPlayer(playerWrapper.getPlayerID(), e.getMessage());
                             }
                         }
@@ -104,6 +92,26 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        new Server();
+    }
+
+    public Integer createGame(Integer ante) {
+        Game newGame = new Game(gameCounter++, ante);
+
+        games.put(newGame.getGameID(), newGame);
+
+        return newGame.getGameID();
+    }
+
+    void endGame(Integer gameID) {
+        games.remove(gameID);
+    }
+
+    public Game getGame(Integer gameID) {
+        return games.get(gameID);
     }
 
     public boolean sendMessageToPlayer(Integer playerID, String message) {
@@ -118,10 +126,6 @@ public class Server {
             throw new RuntimeException("Gracz o ID " + playerID + " nie istnieje.");
 
         return players.get(playerID).getResponseFromPlayer();
-    }
-
-    public static void main(String[] args) {
-        new Server();
     }
 
     public boolean hasGameWithID(Integer gameID) {

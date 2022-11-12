@@ -19,8 +19,6 @@ public class JoinGame extends ServerAction {
             throw new RuntimeException("Identyfikator gry powinien być liczbą całkowitą");
 
         gameID = Integer.parseInt(args[0]);
-
-
     }
 
     @Override

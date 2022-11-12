@@ -1,7 +1,6 @@
 package pl.pkozuch.poker.server;
 
 import pl.pkozuch.poker.logic.Game;
-import pl.pkozuch.poker.serveractions.ServerAction;
 import pl.pkozuch.poker.serveractions.ServerActionFactory;
 
 import java.io.IOException;
@@ -90,8 +89,9 @@ public class Server {
                             try {
                                 String message = readFromPlayer(playerWrapper.getPlayerID());
                                 ServerActionFactory serverActionFactory = new ServerActionFactory(this);
-                                ServerAction action = serverActionFactory.create(playerWrapper, message);
-                                action.make();
+
+                                serverActionFactory.create(playerWrapper, message).make();
+
                             } catch (Exception e) {
                                 sendMessageToPlayer(playerWrapper.getPlayerID(), e.getMessage());
                             }

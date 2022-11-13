@@ -2,6 +2,7 @@ package pl.pkozuch.poker.server;
 
 import pl.pkozuch.poker.logic.Player;
 
+import java.io.IOException;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
@@ -21,12 +22,12 @@ public class PlayerWrapper {
         return player.getId();
     }
 
-    public void setGameID(Integer gameID) {
-        this.gameID = gameID;
-    }
-
     public Integer getGameID() {
         return gameID;
+    }
+
+    public void setGameID(Integer gameID) {
+        this.gameID = gameID;
     }
 
     public boolean sendMessageToPlayer(String message) {
@@ -34,7 +35,7 @@ public class PlayerWrapper {
         return player.sendMessage(message);
     }
 
-    public String getResponseFromPlayer() {
+    public String getResponseFromPlayer() throws IOException {
         return player.getResponse();
     }
 

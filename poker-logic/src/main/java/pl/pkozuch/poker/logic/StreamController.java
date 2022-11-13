@@ -35,6 +35,12 @@ public class StreamController {
             return null;
         } catch (IOException e) {
             e.printStackTrace();
+
+            try {
+                channel.close();
+            } catch (IOException ioe) {
+                e.printStackTrace();
+            }
             return null;
         }
     }
@@ -53,6 +59,12 @@ public class StreamController {
             return false;
         } catch (IOException e) {
             e.printStackTrace();
+
+            try {
+                channel.close();
+            } catch (IOException ioe) {
+                e.printStackTrace();
+            }
             return false;
         }
     }

@@ -92,7 +92,7 @@ public class GameController {
                         actionFactory.create(p, action).make();
 
                         actionMade = true;
-                    } catch (NoSuchActionException|IllegalArgumentException|IllegalActionException e) {
+                    } catch (NoSuchActionException | IllegalArgumentException | IllegalActionException e) {
                         p.sendMessage(e.getMessage());
                     }
                 }

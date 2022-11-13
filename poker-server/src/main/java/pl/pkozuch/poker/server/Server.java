@@ -29,6 +29,7 @@ public class Server {
             ssc.bind(new InetSocketAddress("localhost", 4444));
             ssc.configureBlocking(false);
             ssc.register(selector, SelectionKey.OP_ACCEPT);
+            Queue<Integer> welcomeQueue = new PriorityQueue<>();
             while (true) {
 
                 selector.select();
@@ -38,7 +39,6 @@ public class Server {
 
                     SelectionKey key = iter.next();
 
-                    Queue<Integer> welcomeQueue = new PriorityQueue<>();
                     if (key.isAcceptable()) {
                         SocketChannel client = ssc.accept();
 
@@ -74,10 +74,10 @@ public class Server {
                         if (!playerWrapper.isPlayerInGame()) {
                             try {
                                 String message = readFromPlayer(playerWrapper.getPlayerID());
-                                ServerActionFactory serverActionFactory = new ServerActionFactory(this);
-
-                                serverActionFactory.create(playerWrapper, message).make();
-
+                                if (message != null) {
+                                    ServerActionFactory serverActionFactory = new ServerActionFactory(this);
+                                    serverActionFactory.create(playerWrapper, message).make();
+                                }
                             } catch (NoSuchActionException | IllegalArgumentException | IllegalActionException |
                                      NoSuchPlayerException e) {
                                 sendMessageToPlayer(playerWrapper.getPlayerID(), e.getMessage());
@@ -119,7 +119,7 @@ public class Server {
         return players.get(playerID).sendMessageToPlayer(message);
     }
 
-    public String readFromPlayer(Integer playerID) throws NoSuchPlayerException {
+    public String readFromPlayer(Integer playerID) throws NoSuchPlayerException, IOException {
         if (!hasPlayerWithID(playerID))
             throw new NoSuchPlayerException("Gracz o ID " + playerID + " nie istnieje.");
 

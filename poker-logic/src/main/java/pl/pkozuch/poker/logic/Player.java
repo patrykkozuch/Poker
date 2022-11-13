@@ -10,22 +10,16 @@ import java.util.Random;
 public class Player {
     public static int counter;
     private final int id;
-
-    private boolean inGame = false;
-
+    private final StreamController streamController;
     Card[] cards = new Card[5];
-
+    private boolean inGame = false;
     private Integer balance;
-
     private boolean doesBetAllIn = false;
     private boolean doesFold = false;
     private boolean doesCheck = false;
     private boolean hasChangedCards = false;
-
     private Integer betInCurrentRound = 0;
     private Integer betInCurrentGame = 0;
-
-    private final StreamController streamController;
 
     public Player(Selector selector, SocketChannel channel) {
         id = ++counter;

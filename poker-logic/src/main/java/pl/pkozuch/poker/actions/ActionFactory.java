@@ -30,11 +30,11 @@ public class ActionFactory {
         };
     }
 
-    private void parseAction(String enteredAction) throws IllegalArgumentException{
+    private void parseAction(String enteredAction) throws IllegalArgumentException {
         String[] splitAction = enteredAction.trim().split(" ");
 
         if (splitAction.length < 2)
-            throw new IllegalArgumentException("Nie wprowadzono wymaganej liczby argumentów. Minimum to 3: <ID_GRACZA> <ID_GRY=0> <AKCJA>");
+            throw new IllegalArgumentException("Nie wprowadzono akcji.");
 
         if (!IntValidator.isInt(splitAction[0]))
             throw new IllegalArgumentException("Pierwszym parametrem powinien być identyfikator gracza będący liczbą całkowitą");

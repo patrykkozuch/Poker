@@ -24,6 +24,7 @@ public class Client {
     ByteBuffer readBuffer = ByteBuffer.allocate(1024);
 
     Client() {
+        SocketChannel channel = null;
         try (SocketChannel client = SocketChannel.open(new InetSocketAddress("localhost", 4444))) {
             Selector selector = Selector.open();
             client.configureBlocking(false);
@@ -40,38 +41,41 @@ public class Client {
 
             Scanner scanner = new Scanner(System.in);
 
-            try {
-                while (true) {
-                    selector.select();
-                    Set<SelectionKey> selectedKeys = selector.selectedKeys();
-                    Iterator<SelectionKey> iter = selectedKeys.iterator();
-                    while (iter.hasNext()) {
+            while (true) {
+                selector.select();
+                Set<SelectionKey> selectedKeys = selector.selectedKeys();
+                Iterator<SelectionKey> iter = selectedKeys.iterator();
+                while (iter.hasNext()) {
 
-                        SelectionKey key = iter.next();
+                    SelectionKey key = iter.next();
 
-                        if (key.isReadable()) {
-                            line = readFromChannel((SocketChannel) key.channel());
+                    if (key.isWritable()) {
+                        channel = (SocketChannel) key.channel();
+                        line = scanner.nextLine();
+                        line = playerID + " " + line;
 
-                            if (line != null)
-                                System.out.println(line);
-                        }
-
-                        if (key.isWritable()) {
-                            SocketChannel channel = (SocketChannel) key.channel();
-                            line = scanner.nextLine();
-                            line = playerID + " " + line;
-
-                            writeToChannel(channel, line);
-                        }
-                        iter.remove();
+                        writeToChannel(channel, line);
                     }
+                    iter.remove();
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (channel != null) {
+                    channel.close();
+                    System.out.println("Połączenie z serwerem zostało przerwane.");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        new Client();
     }
 
     public String readFromChannel(SocketChannel channel) throws IOException {
@@ -99,9 +103,5 @@ public class Client {
 
     public void writeToChannel(SocketChannel channel, String message) throws IOException {
         channel.write(ByteBuffer.wrap(message.getBytes(StandardCharsets.UTF_8)));
-    }
-
-    public static void main(String[] args) {
-        new Client();
     }
 }

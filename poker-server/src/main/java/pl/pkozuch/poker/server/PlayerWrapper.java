@@ -1,17 +1,14 @@
 package pl.pkozuch.poker.server;
 
+import pl.pkozuch.poker.logic.ChannelController;
 import pl.pkozuch.poker.logic.Player;
-
-import java.io.IOException;
-import java.nio.channels.Selector;
-import java.nio.channels.SocketChannel;
 
 public class PlayerWrapper {
     private final Player player;
     private Integer gameID = null;
 
-    PlayerWrapper(Selector selector, SocketChannel channel) {
-        player = new Player(selector, channel);
+    PlayerWrapper(ChannelController channelController) {
+        player = new Player(channelController);
     }
 
     public Player getPlayer() {
@@ -35,8 +32,8 @@ public class PlayerWrapper {
         return player.sendMessage(message);
     }
 
-    public String getResponseFromPlayer() throws IOException {
-        return player.getResponse();
+    public String readFromPlayer() {
+        return player.readFrom();
     }
 
     public boolean isPlayerInGame() {

@@ -7,16 +7,7 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 
-public class StreamController {
-
-    private final Selector selector;
-    private final SocketChannel channel;
-
-
-    public StreamController(Selector selector, SocketChannel channel) {
-        this.selector = selector;
-        this.channel = channel;
-    }
+public record ChannelController(Selector selector, SocketChannel channel) {
 
     public String readFromChannel() {
         try {

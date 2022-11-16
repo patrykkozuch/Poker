@@ -40,6 +40,6 @@ public class MessageController {
     }
 
     public String getPlayerResponse(Player p) {
-        return p.getResponse();
+        return p.readFrom();
     }
 }

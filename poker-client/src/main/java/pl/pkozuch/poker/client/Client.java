@@ -1,7 +1,7 @@
 package pl.pkozuch.poker.client;
 
 import pl.pkozuch.poker.common.IntValidator;
-import pl.pkozuch.poker.logic.StreamController;
+import pl.pkozuch.poker.logic.ChannelController;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -18,7 +18,7 @@ import java.util.Set;
  * Hello world!
  */
 public class Client {
-    StreamController streamController;
+    ChannelController channelController;
     Integer playerID = 0;
 
     ByteBuffer readBuffer = ByteBuffer.allocate(1024);

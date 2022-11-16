@@ -2,15 +2,13 @@ package pl.pkozuch.poker.logic;
 
 import pl.pkozuch.poker.common.Card;
 
-import java.nio.channels.Selector;
-import java.nio.channels.SocketChannel;
 import java.util.Arrays;
 import java.util.Random;
 
 public class Player {
     public static int counter;
     private final int id;
-    private final StreamController streamController;
+    private final ChannelController channelController;
     Card[] cards = new Card[5];
     private boolean inGame = false;
     private Integer balance;
@@ -21,9 +19,11 @@ public class Player {
     private Integer betInCurrentRound = 0;
     private Integer betInCurrentGame = 0;
 
-    public Player(Selector selector, SocketChannel channel) {
+    public Player(ChannelController channelController) {
         id = ++counter;
-        this.streamController = new StreamController(selector, channel);
+
+        this.channelController = channelController;
+
         Random random = new Random();
         this.balance = random.nextInt(1000);
     }
@@ -118,11 +118,11 @@ public class Player {
     }
 
     public boolean sendMessage(String message) {
-        return streamController.writeToChannel(message);
+        return channelController.writeToChannel(message);
     }
 
-    public String getResponse() {
-        return streamController.readFromChannel();
+    public String readFrom() {
+        return channelController.readFromChannel();
     }
 
     public void changeCard(Integer idx, Card c) {

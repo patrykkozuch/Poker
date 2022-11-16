@@ -2,6 +2,7 @@ package pl.pkozuch.poker.server;
 
 import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.actions.NoSuchActionException;
+import pl.pkozuch.poker.logic.ChannelController;
 import pl.pkozuch.poker.logic.Game;
 import pl.pkozuch.poker.logic.NoSuchPlayerException;
 import pl.pkozuch.poker.serveractions.ServerActionFactory;
@@ -42,7 +43,7 @@ public class Server {
                     if (key.isAcceptable()) {
                         SocketChannel client = ssc.accept();
 
-                        PlayerWrapper wrapper = new PlayerWrapper(selector, client);
+                        PlayerWrapper wrapper = new PlayerWrapper(new ChannelController(selector, client));
                         players.put(wrapper.getPlayerID(), wrapper);
 
                         client.configureBlocking(false);
@@ -79,7 +80,7 @@ public class Server {
                                     serverActionFactory.create(playerWrapper, message).make();
                                 }
                             } catch (NoSuchActionException | IllegalArgumentException | IllegalActionException |
-                                     NoSuchPlayerException e) {
+                                    NoSuchPlayerException e) {
                                 sendMessageToPlayer(playerWrapper.getPlayerID(), e.getMessage());
                             }
                         }
@@ -123,7 +124,7 @@ public class Server {
         if (!hasPlayerWithID(playerID))
             throw new NoSuchPlayerException("Gracz o ID " + playerID + " nie istnieje.");
 
-        return players.get(playerID).getResponseFromPlayer();
+        return players.get(playerID).readFromPlayer();
     }
 
     public boolean hasGameWithID(Integer gameID) {

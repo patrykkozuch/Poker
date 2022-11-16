@@ -1,4 +1,5 @@
-//package pl.pkozuch.poker.logic;
+package pl.pkozuch.poker.logic;
+
 //
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.Test;

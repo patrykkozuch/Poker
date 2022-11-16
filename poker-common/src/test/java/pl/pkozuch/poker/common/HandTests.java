@@ -141,7 +141,6 @@ public class HandTests {
         Assertions.assertEquals(0, higherPairHand.compareTo(equalToHigherPairHand));
 
         Assertions.assertEquals(1, lowerPairHand.compareTo(higherPairHand));
-        Assertions.assertEquals(0, higherPairHand.compareTo(higherPairHand));
     }
 
     @Test

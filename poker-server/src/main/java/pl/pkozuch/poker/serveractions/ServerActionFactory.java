@@ -44,7 +44,7 @@ public class ServerActionFactory {
 
         Integer playerID = Integer.parseInt(splitAction[0]);
 
-        if (!server.hasPlayerWithID(playerID))
+        if (server.doesNotHavePlayer(playerID))
             throw new NoSuchPlayerException("Gracz o ID " + playerID + " nie istnieje.");
 
         actionSlug = splitAction[1].toUpperCase();

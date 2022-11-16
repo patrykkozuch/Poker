@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SampleHands {
-    public static Map<HandSeniority, ArrayList<Card>> hands = new HashMap<>() {{
+    public static final Map<HandSeniority, ArrayList<Card>> hands = new HashMap<>() {{
 
         put(HandSeniority.ROYAL_FLUSH, new ArrayList<>(Arrays.asList(
                 new Card("HA"),

@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Deck {
 
-    ArrayList<Card> deck = new ArrayList<>(52);
+    final ArrayList<Card> deck = new ArrayList<>(52);
 
     public Deck() {
         buildDeck();
@@ -13,8 +13,7 @@ public class Deck {
 
     public void buildDeck() {
         deck.clear();
-        
-        int i = 0;
+
         for (CardValues type : CardValues.values()) {
             for (CardSuits Suit : CardSuits.values()) {
                 deck.add(new Card(type, Suit));

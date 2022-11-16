@@ -9,7 +9,7 @@ public class AllInAction extends Action {
     }
 
     @Override
-    public void validate() throws IllegalActionException {
+    public void validate() {
     }
 
     @Override

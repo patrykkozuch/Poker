@@ -9,7 +9,6 @@ public class DeckTests {
     public void testDrawCard() {
         Deck deck = new Deck();
         Card card = deck.draw();
-        ;
         Assertions.assertEquals(51, deck.count());
         Assertions.assertNotNull(card);
     }
@@ -17,13 +16,10 @@ public class DeckTests {
     @Test
     public void testDrawFewCards() {
         Deck deck = new Deck();
-        Card[] five_cards = new Card[5];
-        Card[] twenty_cards = new Card[20];
 
-        five_cards = deck.draw(5);
+        deck.draw(5);
         Assertions.assertEquals(47, deck.count());
 
-        twenty_cards = deck.draw(20);
         Assertions.assertEquals(27, deck.count());
     }
 
@@ -34,9 +30,7 @@ public class DeckTests {
 
         Assertions.assertEquals(0, deck.count());
 
-        Assertions.assertThrows(RuntimeException.class, () -> {
-            deck.draw();
-        });
+        Assertions.assertThrows(RuntimeException.class, deck::draw);
     }
 
     @Test
@@ -45,9 +39,7 @@ public class DeckTests {
 
         Assertions.assertEquals(52, deck.count());
 
-        Assertions.assertThrows(RuntimeException.class, () -> {
-            deck.draw(53);
-        });
+        Assertions.assertThrows(RuntimeException.class, () -> deck.draw(53));
     }
 
     @Test

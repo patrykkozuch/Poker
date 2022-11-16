@@ -3,12 +3,7 @@ package pl.pkozuch.poker.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageBuilder {
-    private final GameController gameController;
-
-    MessageBuilder(GameController gameController) {
-        this.gameController = gameController;
-    }
+public record MessageBuilder(GameController gameController) {
 
     public String buildHeaderMessage() {
         ArrayList<Player> players = gameController.getGame().getAllPlayers();
@@ -74,7 +69,7 @@ public class MessageBuilder {
         return stringBuilder.toString();
     }
 
-    public String buildChangeMessageForPlayer(Player p) {
+    public String buildChangeMessageForPlayer() {
         return "Wybierz, które karty chcesz wymienić.\nPodaj numery kart, oddzielając je spacjami, np: CHANGE 2 4";
     }
 }

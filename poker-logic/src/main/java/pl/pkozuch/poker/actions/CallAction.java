@@ -13,7 +13,7 @@ public class CallAction extends Action {
     }
 
     @Override
-    public void validate() throws IllegalActionException{
+    public void validate() throws IllegalActionException {
         if (gameController.getRoundState() != GameController.possibleRoundStates.BETTING && gameController.getRoundState() != GameController.possibleRoundStates.SECOND_BETTING)
             throw new IllegalActionException("Możesz wyrównać tylko w trakcie obstawiania.");
 
@@ -30,7 +30,6 @@ public class CallAction extends Action {
 
         player.reduceBalance(amount);
         player.raiseBetInCurrentRound(amount);
-        gameController.addToReward(amount);
     }
 
     @Override

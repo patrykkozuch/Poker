@@ -17,7 +17,7 @@ public class Card {
 
         String valueString = slug.substring(1);
         String suitString = slug.substring(0, 1);
-        
+
         this.suit = CardSuits.getSuitByString(suitString);
         this.value = CardValues.getValueByString(valueString);
     }
@@ -42,8 +42,7 @@ public class Card {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Card)) return false;
-        Card card = (Card) o;
+        if (!(o instanceof Card card)) return false;
         return value == card.value && suit == card.suit;
     }
 

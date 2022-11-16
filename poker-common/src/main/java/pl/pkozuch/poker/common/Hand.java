@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Hand implements Comparable<Hand> {
 
-    ArrayList<HandEntry> handEntries = new ArrayList<>();
+    final ArrayList<HandEntry> handEntries = new ArrayList<>();
     HandSeniority seniority = HandSeniority.HIGH_CARD;
 
     public Hand(List<Card> cards) {
@@ -56,14 +56,13 @@ public class Hand implements Comparable<Hand> {
 
     @Override
     public String toString() {
-        return seniority + " " + handEntries.toString();
+        return seniority + " " + handEntries;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Hand)) return false;
-        Hand hand = (Hand) o;
+        if (!(o instanceof Hand hand)) return false;
         return Objects.equals(handEntries, hand.handEntries) && seniority == hand.seniority;
     }
 

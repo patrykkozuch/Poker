@@ -105,23 +105,19 @@ public class Server {
         return newGame.getGameID();
     }
 
-    void endGame(Integer gameID) {
-        games.remove(gameID);
-    }
-
     public Game getGame(Integer gameID) {
         return games.get(gameID);
     }
 
     public boolean sendMessageToPlayer(Integer playerID, String message) throws NoSuchPlayerException {
-        if (!hasPlayerWithID(playerID))
+        if (doesNotHavePlayer(playerID))
             throw new NoSuchPlayerException("Gracz o ID " + playerID + " nie istnieje.");
 
         return players.get(playerID).sendMessageToPlayer(message);
     }
 
-    public String readFromPlayer(Integer playerID) throws NoSuchPlayerException, IOException {
-        if (!hasPlayerWithID(playerID))
+    public String readFromPlayer(Integer playerID) throws NoSuchPlayerException {
+        if (doesNotHavePlayer(playerID))
             throw new NoSuchPlayerException("Gracz o ID " + playerID + " nie istnieje.");
 
         return players.get(playerID).readFromPlayer();
@@ -131,8 +127,8 @@ public class Server {
         return gameID == 0 || games.containsKey(gameID);
     }
 
-    public boolean hasPlayerWithID(Integer playerID) {
-        return players.containsKey(playerID);
+    public boolean doesNotHavePlayer(Integer playerID) {
+        return !players.containsKey(playerID);
     }
 
     public Collection<Game> getAllGames() {

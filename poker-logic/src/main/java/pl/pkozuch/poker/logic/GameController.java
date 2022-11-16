@@ -18,7 +18,6 @@ public class GameController {
 
     private Integer currentRoundBetPerPlayer;
     private possibleRoundStates roundState;
-    private Integer reward;
 
     GameController(Game game) {
         this.game = game;
@@ -29,7 +28,6 @@ public class GameController {
         sendMessageToAllPlayers("Rozpoczynanie gry...");
 
         currentRoundBetPerPlayer = 0;
-        reward = 0;
 
         deck.buildDeck();
 
@@ -228,10 +226,6 @@ public class GameController {
 
     public synchronized void setCurrentRoundBetPerPlayer(Integer currentRoundBetPerPlayer) {
         this.currentRoundBetPerPlayer = currentRoundBetPerPlayer;
-    }
-
-    public synchronized void addToReward(Integer amount) {
-        reward += amount;
     }
 
     public possibleRoundStates getRoundState() {

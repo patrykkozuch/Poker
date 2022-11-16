@@ -18,8 +18,4 @@ public class PlayerHand extends Hand {
         return player;
     }
 
-    @Override
-    public Hand check() {
-        return super.check();
-    }
 }

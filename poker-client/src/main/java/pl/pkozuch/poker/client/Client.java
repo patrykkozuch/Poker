@@ -1,7 +1,6 @@
 package pl.pkozuch.poker.client;
 
 import pl.pkozuch.poker.common.IntValidator;
-import pl.pkozuch.poker.logic.ChannelController;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -18,10 +17,10 @@ import java.util.Set;
  * Hello world!
  */
 public class Client {
-    ChannelController channelController;
+    ClientThread clientThread;
     Integer playerID = 0;
 
-    ByteBuffer readBuffer = ByteBuffer.allocate(1024);
+    final ByteBuffer readBuffer = ByteBuffer.allocate(1024);
 
     Client() {
         SocketChannel channel = null;
@@ -37,7 +36,8 @@ public class Client {
 
             playerID = Integer.valueOf(line);
 
-            new ClientThread(this, client).start();
+            clientThread = new ClientThread(this, client);
+            clientThread.start();
 
             Scanner scanner = new Scanner(System.in);
 
@@ -52,6 +52,10 @@ public class Client {
                     if (key.isWritable()) {
                         channel = (SocketChannel) key.channel();
                         line = scanner.nextLine();
+
+                        if (line.equals("EXIT"))
+                            return;
+
                         line = playerID + " " + line;
 
                         writeToChannel(channel, line);
@@ -64,10 +68,15 @@ public class Client {
             e.printStackTrace();
         } finally {
             try {
-                if (channel != null) {
+                if (channel != null && channel.isOpen()) {
                     channel.close();
                     System.out.println("Połączenie z serwerem zostało przerwane.");
                 }
+
+                if (clientThread != null && clientThread.isAlive()) {
+                    clientThread.stopRunning();
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

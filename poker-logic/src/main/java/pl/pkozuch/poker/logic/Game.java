@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 public class Game {
     private final HashMap<Integer, Player> players = new HashMap<>();
-    Integer gameID;
+    final Integer gameID;
     GameThread gameThread = null;
-    Integer ante;
+    final Integer ante;
     private Integer hostID = null;
 
     public Game(Integer gameID, Integer ante) {

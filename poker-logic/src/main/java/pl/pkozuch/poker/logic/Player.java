@@ -2,7 +2,6 @@ package pl.pkozuch.poker.logic;
 
 import pl.pkozuch.poker.common.Card;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class Player {
@@ -40,20 +39,12 @@ public class Player {
         inGame = v;
     }
 
-    public Card[] getCards() {
-        return Arrays.copyOf(cards, 5);
-    }
-
     public void raiseBalance(Integer reward) {
         balance += reward;
     }
 
     public Integer getBalance() {
         return balance;
-    }
-
-    public void setBalance(Integer balance) {
-        this.balance = balance;
     }
 
     public void reduceBalance(Integer amount) {

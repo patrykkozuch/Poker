@@ -14,7 +14,9 @@ import java.util.Scanner;
 import java.util.Set;
 
 /**
- * Hello world!
+ * Client class
+ * Responsible for connecting to server, retrieving playerID, handling write
+ * and creating Thread which handles asynchronous read from a server
  */
 public class Client {
     ClientThread clientThread;
@@ -23,24 +25,31 @@ public class Client {
     final ByteBuffer readBuffer = ByteBuffer.allocate(1024);
 
     Client() {
+
         SocketChannel channel = null;
+
+        //Connecting to server
         try (SocketChannel client = SocketChannel.open(new InetSocketAddress("localhost", 4444))) {
             Selector selector = Selector.open();
+
             client.configureBlocking(false);
             client.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
 
-            String line = readFromChannel(client);
+            //Retrieving playerID (first message sent after connection)
+            String line = readLineFromChannel(client);
             while (!IntValidator.isInt(line)) {
-                line = readFromChannel(client);
+                line = readLineFromChannel(client);
             }
 
             playerID = Integer.valueOf(line);
 
+            //Starting new thread, which handles asynchronous read from server
             clientThread = new ClientThread(this, client);
             clientThread.start();
 
             Scanner scanner = new Scanner(System.in);
 
+            //Handling write to server until EXIT is typed
             while (true) {
                 selector.select();
                 Set<SelectionKey> selectedKeys = selector.selectedKeys();
@@ -63,7 +72,6 @@ public class Client {
                     iter.remove();
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -83,11 +91,14 @@ public class Client {
         }
     }
 
-    public static void main(String[] args) {
-        new Client();
-    }
-
-    public String readFromChannel(SocketChannel channel) throws IOException {
+    /**
+     * Reads ONE LINE from server
+     *
+     * @param channel - channel which will be used to read from
+     * @return String - message got from server (just single line)
+     * @throws IOException if read from server fails
+     */
+    public String readLineFromChannel(SocketChannel channel) throws IOException {
         channel.read(readBuffer);
 
         String message = new String(readBuffer.array());
@@ -110,7 +121,19 @@ public class Client {
         return null;
     }
 
+    /**
+     * Writes message to server
+     *
+     * @param channel - channel which will be used to send message to
+     * @param message - message which will be sent
+     * @throws IOException - if write to server fails
+     */
     public void writeToChannel(SocketChannel channel, String message) throws IOException {
         channel.write(ByteBuffer.wrap(message.getBytes(StandardCharsets.UTF_8)));
     }
+
+    public static void main(String[] args) {
+        new Client();
+    }
+
 }

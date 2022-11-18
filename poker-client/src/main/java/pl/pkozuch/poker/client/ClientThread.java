@@ -3,6 +3,9 @@ package pl.pkozuch.poker.client;
 import java.io.IOException;
 import java.nio.channels.SocketChannel;
 
+/**
+ * Responsible for asynchronous read from server
+ */
 public class ClientThread extends Thread {
     private final Client client;
     private final SocketChannel channel;
@@ -13,10 +16,18 @@ public class ClientThread extends Thread {
         this.channel = channel;
     }
 
+    /**
+     * Sets running flag to false, results in stopping the thread
+     */
     void stopRunning() {
         running = false;
     }
 
+    /**
+     * Gets current 'running' flag value
+     *
+     * @return boolean
+     */
     boolean isRunning() {
         return running;
     }
@@ -27,7 +38,7 @@ public class ClientThread extends Thread {
         try {
             while (isRunning()) {
 
-                String line = client.readFromChannel(channel);
+                String line = client.readLineFromChannel(channel);
 
                 if (line != null)
                     System.out.println(line);

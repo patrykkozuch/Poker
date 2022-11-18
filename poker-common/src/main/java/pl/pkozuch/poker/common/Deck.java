@@ -16,7 +16,7 @@ public class Deck {
 
         for (CardValues type : CardValues.values()) {
             for (CardSuits Suit : CardSuits.values()) {
-                deck.add(new Card(type, Suit));
+                deck.add(new Card(Suit, type));
             }
         }
     }

@@ -36,12 +36,12 @@ public enum CardSuits {
     }
 
     /**
-     * Gets enum value by specified shortcut
+     * Gets enum suit value by specified shortcut
      * Possible values:<br>
      * 'C', 'D', 'H', 'S'
      *
      * @param suitShortcut one character long shortcut of the suit
-     * @return found enum value
+     * @return found enum suit value
      * @throws RuntimeException if invalid shortcut is provided
      */
     public static CardSuits getSuitByShortcut(String suitShortcut) throws RuntimeException {

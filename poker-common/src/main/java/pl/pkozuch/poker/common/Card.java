@@ -41,7 +41,7 @@ public class Card {
         String valueString = slug.substring(1);
         String suitString = slug.substring(0, 1);
 
-        this.suit = CardSuits.getSuitByString(suitString);
+        this.suit = CardSuits.getSuitByShortcut(suitString);
         this.value = CardValues.getValueByString(valueString);
     }
 

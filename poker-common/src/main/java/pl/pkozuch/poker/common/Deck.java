@@ -7,10 +7,19 @@ public class Deck {
 
     final ArrayList<Card> deck = new ArrayList<>(52);
 
+    /**
+     * Constructs deck of 52 cards
+     */
     public Deck() {
         buildDeck();
     }
 
+    /**
+     * Rebuilds deck of cards.
+     * Previous deck is cleared.
+     *
+     * <b>REMEMBER: </b>Cards drawn from deck before rebuild <b>will not be destroyed.</b>
+     */
     public void buildDeck() {
         deck.clear();
 
@@ -21,6 +30,12 @@ public class Deck {
         }
     }
 
+    /**
+     * Draws single card from deck
+     *
+     * @return Drawn card
+     * @throws RuntimeException if deck is empty
+     */
     public Card draw() throws RuntimeException {
 
         if (count() == 0)
@@ -31,7 +46,14 @@ public class Deck {
         return deck.remove(drawnCardIdx);
     }
 
-    public Card[] draw(int number) {
+    /**
+     * Draws multiple cards from deck
+     *
+     * @param number Number of cards to draw
+     * @return Array of drawn cards
+     * @throws RuntimeException When there left less than {@code  number} of cards in deck
+     */
+    public Card[] draw(int number) throws RuntimeException {
         if (deck.size() < number)
             throw new RuntimeException("W talii jest za mało kart. Nie można wylosować kart.");
 
@@ -43,6 +65,11 @@ public class Deck {
         return cards;
     }
 
+    /**
+     * Returns current number of cards in deck
+     *
+     * @return number of cards in deck
+     */
     public int count() {
         return deck.size();
     }

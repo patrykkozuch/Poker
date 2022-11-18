@@ -17,15 +17,34 @@ public enum CardSuits {
         this.shortcut = shortcut;
     }
 
+    /**
+     * Gets name of the suit
+     *
+     * @return name of the suit
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets one character long shortcut of the suit
+     *
+     * @return shortcut of the suit
+     */
     public String getShortcut() {
         return shortcut;
     }
 
-    public static CardSuits getSuitByString(String suitShortcut) {
+    /**
+     * Gets enum value by specified shortcut
+     * Possible values:<br>
+     * 'C', 'D', 'H', 'S'
+     *
+     * @param suitShortcut one character long shortcut of the suit
+     * @return found enum value
+     * @throws RuntimeException if invalid shortcut is provided
+     */
+    public static CardSuits getSuitByShortcut(String suitShortcut) throws RuntimeException {
 
         Optional<CardSuits> foundValue = Arrays.stream(CardSuits.values())
                 .filter(cardSuit -> cardSuit.shortcut.equals(suitShortcut))

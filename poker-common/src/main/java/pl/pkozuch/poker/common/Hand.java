@@ -5,24 +5,49 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Poker hand representation, contains cards with its priorities and seniority
+ */
 public class Hand implements Comparable<Hand> {
 
     final ArrayList<HandEntry> handEntries = new ArrayList<>();
     HandSeniority seniority = HandSeniority.HIGH_CARD;
 
+    /**
+     * Constructs hand with {@code cards} provided
+     *
+     * @param cards List of cards drawn from Deck
+     */
     public Hand(List<Card> cards) {
         this.handEntries.addAll(cards.stream().map(card -> new HandEntry(card, 0)).toList());
         this.sortHand();
     }
 
+    /**
+     * Gets copy of cards from hand
+     *
+     * @return List of cards
+     */
     public ArrayList<Card> getALlCards() {
         return new ArrayList<>(handEntries.stream().map(HandEntry::getCard).toList());
     }
 
+    /**
+     * Gets card by index
+     *
+     * @param index Index of card to be get
+     * @return card object
+     */
     public Card getCard(int index) {
         return handEntries.get(index).getCard();
     }
 
+    /**
+     * <p>Sets priorities of cards - index of priority is the same as card index.</p>
+     * <p>After setting priorities, hand is sorted with use of this priorities.</p>
+     *
+     * @param priorities Array of priorities
+     */
     public void setPriority(int[] priorities) {
         for (int i = 0; i < 5; i++) {
             handEntries.get(i).setPriority(priorities[i]);
@@ -30,14 +55,27 @@ public class Hand implements Comparable<Hand> {
         sortHand();
     }
 
+    /**
+     * Sorts hand
+     */
     private void sortHand() {
         Collections.sort(this.handEntries);
     }
 
+    /**
+     * Gets hand seniority
+     *
+     * @return hand seniority. If hand wasn't checked, returns {@code HandSeniority.HIGH_CARD} by default
+     */
     public HandSeniority getSeniority() {
         return this.seniority;
     }
 
+    /**
+     * Checks hand with use of {@link HandChecker}
+     *
+     * @return {@code this}
+     */
     public Hand check() {
         this.seniority = HandChecker.check(this);
         return this;

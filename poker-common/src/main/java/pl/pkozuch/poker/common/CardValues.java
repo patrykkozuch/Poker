@@ -28,18 +28,46 @@ public enum CardValues {
         this.shortcut = shortcut;
     }
 
+    /**
+     * Gets card value name
+     * <p>
+     * Needed because '10' when displayed should be marked as '10', not as 'T'
+     *
+     * @return card value name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets card order
+     * <p>
+     * Order is set as: Ace is the 'lowest' (1 in order), 2 is the 'highest' (14 in order)
+     *
+     * @return order of the card
+     */
     public int getOrder() {
         return order;
     }
 
+    /**
+     * Gets one character long shortcut of the card
+     *
+     * @return shortcut of the card
+     */
     public String getShortcut() {
         return shortcut;
     }
 
+    /**
+     * Gets enum value by specified shortcut
+     * Possible values:<br>
+     * '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'K', 'Q', A"
+     *
+     * @param suitShortcut one character long shortcut of the suit
+     * @return found enum value
+     * @throws RuntimeException if invalid shortcut is provided
+     */
     public static CardValues getValueByString(String value) {
 
         Optional<CardValues> foundValue = Arrays.stream(CardValues.values()).filter(cardValue -> cardValue.shortcut.equals(value)).findFirst();

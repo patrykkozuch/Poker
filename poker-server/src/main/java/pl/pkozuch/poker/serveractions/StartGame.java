@@ -6,6 +6,8 @@ import pl.pkozuch.poker.server.Server;
 
 public class StartGame extends ServerAction {
 
+    @SuppressWarnings("unused")
+    @UsedViaReflection
     public static final String HELP_STRING = "START";
 
     StartGame(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {

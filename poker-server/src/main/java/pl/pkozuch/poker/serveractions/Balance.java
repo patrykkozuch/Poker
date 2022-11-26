@@ -6,6 +6,8 @@ import pl.pkozuch.poker.server.Server;
 
 public class Balance extends ServerAction {
 
+    @SuppressWarnings("unused")
+    @UsedViaReflection
     public static final String HELP_STRING = "BALANCE";
 
     Balance(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {

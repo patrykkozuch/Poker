@@ -9,6 +9,8 @@ import java.util.Collection;
 
 public class ListGames extends ServerAction {
 
+    @SuppressWarnings("unused")
+    @UsedViaReflection
     public static final String HELP_STRING = "LIST";
 
     ListGames(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {

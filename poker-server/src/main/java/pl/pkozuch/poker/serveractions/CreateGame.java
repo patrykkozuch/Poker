@@ -7,6 +7,8 @@ import pl.pkozuch.poker.server.Server;
 
 public class CreateGame extends ServerAction {
 
+    @SuppressWarnings("unused")
+    @UsedViaReflection
     public static final String HELP_STRING = "CREATE <ante>";
     private final Integer ante;
 

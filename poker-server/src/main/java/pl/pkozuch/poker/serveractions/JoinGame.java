@@ -8,6 +8,8 @@ import pl.pkozuch.poker.server.Server;
 
 public class JoinGame extends ServerAction {
 
+    @SuppressWarnings("unused")
+    @UsedViaReflection
     public static final String HELP_STRING = "JOIN <id_gry>";
     private final Integer gameID;
 
@@ -22,7 +24,7 @@ public class JoinGame extends ServerAction {
 
         gameID = Integer.parseInt(args[0]);
     }
-    
+
     @Override
     public void validate() throws IllegalActionException {
         if (!server.hasGameWithID(gameID))

@@ -6,7 +6,9 @@ import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
 
 public class QuitGame extends ServerAction {
-    
+
+    @SuppressWarnings("unused")
+    @UsedViaReflection
     public static final String HELP_STRING = "QUIT";
 
     QuitGame(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {

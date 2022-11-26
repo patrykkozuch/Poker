@@ -10,6 +10,8 @@ import java.util.List;
 
 public class Help extends ServerAction {
 
+    @SuppressWarnings("unused")
+    @UsedViaReflection
     public static final String HELP_STRING = "HELP";
 
     Help(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {

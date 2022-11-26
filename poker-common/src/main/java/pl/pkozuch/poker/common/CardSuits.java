@@ -18,6 +18,27 @@ public enum CardSuits {
     }
 
     /**
+     * Gets enum suit value by specified shortcut
+     * Possible values:<br>
+     * 'C', 'D', 'H', 'S'
+     *
+     * @param suitShortcut one character long shortcut of the suit
+     * @return found enum suit value
+     * @throws RuntimeException if invalid shortcut is provided
+     */
+    public static CardSuits getSuitByShortcut(String suitShortcut) throws InvalidShortcutException {
+
+        Optional<CardSuits> foundValue = Arrays.stream(CardSuits.values())
+                .filter(cardSuit -> cardSuit.shortcut.equals(suitShortcut))
+                .findFirst();
+
+        if (foundValue.isPresent())
+            return foundValue.get();
+        else
+            throw new InvalidShortcutException("Suit " + suitShortcut + " not found");
+    }
+
+    /**
      * Gets name of the suit
      *
      * @return name of the suit
@@ -33,26 +54,5 @@ public enum CardSuits {
      */
     public String getShortcut() {
         return shortcut;
-    }
-
-    /**
-     * Gets enum suit value by specified shortcut
-     * Possible values:<br>
-     * 'C', 'D', 'H', 'S'
-     *
-     * @param suitShortcut one character long shortcut of the suit
-     * @return found enum suit value
-     * @throws RuntimeException if invalid shortcut is provided
-     */
-    public static CardSuits getSuitByShortcut(String suitShortcut) throws RuntimeException {
-
-        Optional<CardSuits> foundValue = Arrays.stream(CardSuits.values())
-                .filter(cardSuit -> cardSuit.shortcut.equals(suitShortcut))
-                .findFirst();
-
-        if (foundValue.isPresent())
-            return foundValue.get();
-        else
-            throw new RuntimeException("Suit " + suitShortcut + " not found");
     }
 }

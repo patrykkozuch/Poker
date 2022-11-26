@@ -2,6 +2,9 @@ package pl.pkozuch.poker.common;
 
 public class IntValidator {
 
+    private IntValidator() {
+    }
+
     public static boolean isInt(String s) {
         if (s == null) return false;
         return s.matches("^\\d+$");

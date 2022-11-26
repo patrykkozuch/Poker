@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class Hand implements Comparable<Hand> {
 
-    final ArrayList<HandEntry> handEntries = new ArrayList<>();
+    ArrayList<HandEntry> handEntries = new ArrayList<>();
     HandSeniority seniority = HandSeniority.HIGH_CARD;
 
     /**
@@ -28,7 +28,7 @@ public class Hand implements Comparable<Hand> {
      *
      * @return List of cards
      */
-    public ArrayList<Card> getALlCards() {
+    public List<Card> getALlCards() {
         return new ArrayList<>(handEntries.stream().map(HandEntry::getCard).toList());
     }
 
@@ -94,7 +94,7 @@ public class Hand implements Comparable<Hand> {
 
     @Override
     public String toString() {
-        return seniority + " " + handEntries;
+        return seniority + " " + handEntries.toString();
     }
 
     @Override

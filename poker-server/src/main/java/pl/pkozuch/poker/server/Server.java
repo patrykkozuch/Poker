@@ -53,16 +53,24 @@ public class Server {
                     }
 
                     if (key.attachment() != null) {
-                        Integer playerID = ((PlayerWrapper) key.attachment()).getPlayerID();
+                        PlayerWrapper playerWrapper = (PlayerWrapper) key.attachment();
+                        Integer playerID = playerWrapper.getPlayerID();
                         if (welcomeQueue.contains(playerID) && key.isWritable()) {
                             if (sendMessageToPlayer(playerID, playerID.toString())) {
                                 String message = """
                                         Witaj na serwerze Pokera.
                                         Wybierz co chcesz zrobić:
-                                        1. Stwórz nową grę
-                                        2. Dołącz do istniejącej gry""";
+                                        """;
 
                                 sendMessageToPlayer(playerID, message);
+
+                                try {
+                                    ServerActionFactory actionFactory = new ServerActionFactory(this);
+                                    actionFactory.create(playerWrapper, playerID + " HELP").make();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
                                 welcomeQueue.remove(playerID);
                             }
                         }
@@ -79,9 +87,11 @@ public class Server {
                                     ServerActionFactory serverActionFactory = new ServerActionFactory(this);
                                     serverActionFactory.create(playerWrapper, message).make();
                                 }
-                            } catch (NoSuchActionException | IllegalArgumentException | IllegalActionException |
+                            } catch (NoSuchActionException | IllegalActionException |
                                     NoSuchPlayerException e) {
                                 sendMessageToPlayer(playerWrapper.getPlayerID(), e.getMessage());
+                            } catch (IllegalArgumentException e) {
+                                sendMessageToPlayer(playerWrapper.getPlayerID(), e.getMessage() + " Sprawdź prawidłowe użycie akcji poleceniem HELP");
                             }
                         }
                     }

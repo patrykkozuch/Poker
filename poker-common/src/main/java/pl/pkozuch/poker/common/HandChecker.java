@@ -2,6 +2,9 @@ package pl.pkozuch.poker.common;
 
 public class HandChecker {
 
+    private HandChecker() {
+    }
+
     private static boolean isRoyalFlush(Hand hand) {
         return hand.getCard(0).value == CardValues.ACE && isStraightFlush(hand);
     }

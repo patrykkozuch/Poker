@@ -25,13 +25,15 @@ public class Server {
     private Integer gameCounter = 1;
 
     Server() {
+        ServerSocketChannel ssc = null;
         try (Selector selector = Selector.open()) {
-            ServerSocketChannel ssc = ServerSocketChannel.open();
+            ssc = ServerSocketChannel.open();
             ssc.bind(new InetSocketAddress("localhost", 4444));
             ssc.configureBlocking(false);
             ssc.register(selector, SelectionKey.OP_ACCEPT);
             Queue<Integer> welcomeQueue = new PriorityQueue<>();
-            while (true) {
+
+            while (ssc.isOpen()) {
 
                 selector.select();
                 Set<SelectionKey> selectedKeys = selector.selectedKeys();
@@ -41,70 +43,94 @@ public class Server {
                     SelectionKey key = iter.next();
 
                     if (key.isAcceptable()) {
-                        SocketChannel client = ssc.accept();
-
-                        PlayerWrapper wrapper = new PlayerWrapper(new ChannelController(selector, client));
-                        players.put(wrapper.getPlayerID(), wrapper);
-
-                        client.configureBlocking(false);
-                        client.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE, wrapper);
-
-                        welcomeQueue.add(wrapper.getPlayerID());
+                        handleAccept(ssc, selector, welcomeQueue);
                     }
 
                     if (key.attachment() != null) {
-                        PlayerWrapper playerWrapper = (PlayerWrapper) key.attachment();
-                        Integer playerID = playerWrapper.getPlayerID();
-                        if (welcomeQueue.contains(playerID) && key.isWritable()) {
-                            if (sendMessageToPlayer(playerID, playerID.toString())) {
-                                String message = """
-                                        Witaj na serwerze Pokera.
-                                        Wybierz co chcesz zrobić:
-                                        """;
-
-                                sendMessageToPlayer(playerID, message);
-
-                                try {
-                                    ServerActionFactory actionFactory = new ServerActionFactory(this);
-                                    actionFactory.create(playerWrapper, playerID + " HELP").make();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-
-                                welcomeQueue.remove(playerID);
-                            }
-                        }
+                        handleWelcome(welcomeQueue, key);
                     }
 
                     if (key.isReadable()) {
-
-                        PlayerWrapper playerWrapper = (PlayerWrapper) key.attachment();
-
-                        if (!playerWrapper.isPlayerInGame()) {
-                            try {
-                                String message = readFromPlayer(playerWrapper.getPlayerID());
-                                if (message != null) {
-                                    ServerActionFactory serverActionFactory = new ServerActionFactory(this);
-                                    serverActionFactory.create(playerWrapper, message).make();
-                                }
-                            } catch (NoSuchActionException | IllegalActionException |
-                                    NoSuchPlayerException e) {
-                                sendMessageToPlayer(playerWrapper.getPlayerID(), e.getMessage());
-                            } catch (IllegalArgumentException e) {
-                                sendMessageToPlayer(playerWrapper.getPlayerID(), e.getMessage() + " Sprawdź prawidłowe użycie akcji poleceniem HELP");
-                            }
-                        }
+                        handleRead(key);
                     }
                     iter.remove();
                 }
             }
         } catch (IOException | NoSuchPlayerException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (ssc != null)
+                    ssc.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public static void main(String[] args) {
         new Server();
+    }
+
+    private void handleWelcome(Queue<Integer> welcomeQueue, SelectionKey key) throws NoSuchPlayerException {
+        PlayerWrapper playerWrapper = (PlayerWrapper) key.attachment();
+        Integer playerID = playerWrapper.getPlayerID();
+        if (welcomeQueue.contains(playerID) && key.isWritable() && sendMessageToPlayer(playerID, playerID.toString())) {
+            sendWelcomeMessage(welcomeQueue, playerWrapper, playerID);
+        }
+    }
+
+    private void handleRead(SelectionKey key) throws NoSuchPlayerException {
+        PlayerWrapper playerWrapper = (PlayerWrapper) key.attachment();
+
+        if (!playerWrapper.isPlayerInGame()) {
+            processAction(playerWrapper);
+        }
+    }
+
+    private void handleAccept(ServerSocketChannel ssc, Selector selector, Queue<Integer> welcomeQueue) throws IOException {
+        SocketChannel client = ssc.accept();
+
+        PlayerWrapper wrapper = new PlayerWrapper(new ChannelController(selector, client));
+        players.put(wrapper.getPlayerID(), wrapper);
+
+        client.configureBlocking(false);
+        client.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE, wrapper);
+
+        welcomeQueue.add(wrapper.getPlayerID());
+    }
+
+    private void sendWelcomeMessage(Queue<Integer> welcomeQueue, PlayerWrapper playerWrapper, Integer playerID) throws NoSuchPlayerException {
+        String message = """
+                Witaj na serwerze Pokera.
+                Wybierz co chcesz zrobić:
+                """;
+
+        sendMessageToPlayer(playerID, message);
+
+        try {
+            ServerActionFactory actionFactory = new ServerActionFactory(this);
+            actionFactory.create(playerWrapper, playerID + " HELP").make();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        welcomeQueue.remove(playerID);
+    }
+
+    private void processAction(PlayerWrapper playerWrapper) throws NoSuchPlayerException {
+        try {
+            String message = readFromPlayer(playerWrapper.getPlayerID());
+            if (message != null) {
+                ServerActionFactory serverActionFactory = new ServerActionFactory(this);
+                serverActionFactory.create(playerWrapper, message).make();
+            }
+        } catch (NoSuchActionException | IllegalActionException |
+                 NoSuchPlayerException e) {
+            sendMessageToPlayer(playerWrapper.getPlayerID(), e.getMessage());
+        } catch (IllegalArgumentException e) {
+            sendMessageToPlayer(playerWrapper.getPlayerID(), e.getMessage() + " Sprawdź prawidłowe użycie akcji poleceniem HELP");
+        }
     }
 
     public Integer createGame(Integer ante) {

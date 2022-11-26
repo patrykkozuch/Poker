@@ -9,9 +9,11 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.*;
 
 /**
  * Client class
@@ -19,12 +21,14 @@ import java.util.Set;
  * and creating Thread which handles asynchronous read from a server
  */
 public class Client {
+    final ByteBuffer readBuffer = ByteBuffer.allocate(1024);
+    final Logger console = Logger.getLogger("console");
+    final Logger logger = Logger.getLogger("error");
     ClientThread clientThread;
     Integer playerID = 0;
 
-    final ByteBuffer readBuffer = ByteBuffer.allocate(1024);
-
     Client() {
+        configureLoggers();
 
         SocketChannel channel = null;
 
@@ -32,20 +36,9 @@ public class Client {
         try (SocketChannel client = SocketChannel.open(new InetSocketAddress("localhost", 4444))) {
             Selector selector = Selector.open();
 
-            client.configureBlocking(false);
-            client.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+            connectToServer(selector, client);
 
-            //Retrieving playerID (first message sent after connection)
-            String line = readLineFromChannel(client);
-            while (!IntValidator.isInt(line)) {
-                line = readLineFromChannel(client);
-            }
-
-            playerID = Integer.valueOf(line);
-
-            //Starting new thread, which handles asynchronous read from server
-            clientThread = new ClientThread(this, client);
-            clientThread.start();
+            String line;
 
             Scanner scanner = new Scanner(System.in);
 
@@ -62,10 +55,10 @@ public class Client {
                         channel = (SocketChannel) key.channel();
                         line = scanner.nextLine();
 
-                        if (line.equals("EXIT"))
+                        if (line.equalsIgnoreCase("EXIT"))
                             return;
 
-                        line = playerID + " " + line;
+                        line = String.format("%d %s", playerID, line);
 
                         writeToChannel(channel, line);
                     }
@@ -73,22 +66,69 @@ public class Client {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
+            console.log(Level.SEVERE, "Wystąpił błąd. Proszę spróbować za chwilę.");
         } finally {
             try {
-                if (channel != null && channel.isOpen()) {
+                if (channel != null) {
                     channel.close();
-                    System.out.println("Połączenie z serwerem zostało przerwane.");
+                    console.log(new LogRecord(Level.FINEST, "Połączenie z serwerem zostało przerwane."));
                 }
 
-                if (clientThread != null && clientThread.isAlive()) {
+                if (clientThread != null) {
                     clientThread.stopRunning();
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.log(new LogRecord(Level.SEVERE, Arrays.toString(e.getStackTrace())));
             }
         }
+    }
+
+    public static void main(String[] args) {
+        new Client();
+    }
+
+    private void configureLoggers() {
+        Handler consoleHandler = new ConsoleHandler();
+        consoleHandler.setFormatter(new Formatter() {
+            @Override
+            public String format(LogRecord logRecord) {
+                return logRecord.getMessage();
+            }
+
+
+        });
+
+        console.setUseParentHandlers(false);
+        console.addHandler(consoleHandler);
+
+        logger.setUseParentHandlers(false);
+
+        try {
+            Handler fileHandler = new FileHandler("logs/error.log", true);
+
+            logger.addHandler(fileHandler);
+        } catch (IOException e) {
+            console.log(Level.SEVERE, "Nie udało się otworzyć loggera błędów.");
+        }
+    }
+
+    private void connectToServer(Selector selector, SocketChannel client) throws IOException {
+        client.configureBlocking(false);
+        client.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+
+        //Retrieving playerID (first message sent after connection)
+        String line = readLineFromChannel(client);
+        while (!IntValidator.isInt(line)) {
+            line = readLineFromChannel(client);
+        }
+
+        playerID = Integer.valueOf(line);
+
+        //Starting new thread, which handles asynchronous read from server
+        clientThread = new ClientThread(this, client);
+        clientThread.start();
     }
 
     /**
@@ -130,10 +170,6 @@ public class Client {
      */
     public void writeToChannel(SocketChannel channel, String message) throws IOException {
         channel.write(ByteBuffer.wrap(message.getBytes(StandardCharsets.UTF_8)));
-    }
-
-    public static void main(String[] args) {
-        new Client();
     }
 
 }

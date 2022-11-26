@@ -10,6 +10,7 @@ public class AllInAction extends Action {
 
     @Override
     public void validate() {
+        // Validation not needed in this case
     }
 
     @Override

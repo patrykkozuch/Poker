@@ -3,3 +3,4 @@
 /poker-common/target/
 /poker-logic/target/
 /poker-server/target/
+/logs/*

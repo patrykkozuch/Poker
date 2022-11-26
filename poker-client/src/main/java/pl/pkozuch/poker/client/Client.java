@@ -96,8 +96,6 @@ public class Client {
             public String format(LogRecord logRecord) {
                 return logRecord.getMessage();
             }
-
-
         });
 
         console.setUseParentHandlers(false);

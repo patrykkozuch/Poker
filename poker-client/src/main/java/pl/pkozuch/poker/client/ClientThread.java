@@ -2,6 +2,9 @@ package pl.pkozuch.poker.client;
 
 import java.io.IOException;
 import java.nio.channels.SocketChannel;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Responsible for asynchronous read from server
@@ -9,6 +12,8 @@ import java.nio.channels.SocketChannel;
 public class ClientThread extends Thread {
     private final Client client;
     private final SocketChannel channel;
+    private final Logger console = Logger.getLogger("console");
+    private final Logger logger = Logger.getLogger("error");
     private boolean running = true;
 
     ClientThread(Client client, SocketChannel channel) {
@@ -41,18 +46,18 @@ public class ClientThread extends Thread {
                 String line = client.readLineFromChannel(channel);
 
                 if (line != null)
-                    System.out.println(line);
+                    console.log(Level.FINEST, line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
         } finally {
             try {
                 if (channel != null && channel.isOpen()) {
                     channel.close();
-                    System.out.println("Połączenie z serwerem zostało przerwane.");
+                    console.log(Level.SEVERE, "Połączenie z serwerem zostało przerwane.");
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
             }
         }
     }

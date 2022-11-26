@@ -51,6 +51,7 @@ public class GameController {
             case BETTING, SECOND_BETTING -> startBetting();
             case CHANGING -> startChanging();
             case END -> endRound();
+            default -> throw new GameNotStartedException("Gra jeszcze się nie rozpoczęła.");
         }
     }
 
@@ -71,9 +72,9 @@ public class GameController {
     }
 
     private void playersActions() {
-        ArrayList<Player> activePlayers = getActivePlayers();
+        List<Player> activePlayers = getActivePlayers();
 
-        while (activePlayers.size() != 0 && countPlayersInGame() != 1) {
+        while (!activePlayers.isEmpty() && countPlayersInGame() != 1) {
             for (Player p : activePlayers) {
 
                 if (countPlayersInGame() == 1)
@@ -99,7 +100,7 @@ public class GameController {
         }
     }
 
-    public ArrayList<Player> getActivePlayers() {
+    public List<Player> getActivePlayers() {
         if (roundState == possibleRoundStates.BETTING || roundState == possibleRoundStates.SECOND_BETTING)
             return new ArrayList<>(
                     game.getAllPlayers().stream()
@@ -155,30 +156,32 @@ public class GameController {
 
         Map<Integer, Integer> pools = calculatePools(game.getAllPlayers());
 
-        int player_idx = 0, draws_count, j;
+        int playerIdx = 0;
+        int drawsCount;
+        int j;
         Player p;
         do {
-            p = ((PlayerHand) hands.get(player_idx)).getPlayer();
+            p = ((PlayerHand) hands.get(playerIdx)).getPlayer();
 
-            j = player_idx + 1;
-            draws_count = 1;
-            while (j + 1 < hands.size() && hands.get(player_idx).compareTo(hands.get(j)) == 0) {
-                draws_count++;
+            j = playerIdx + 1;
+            drawsCount = 1;
+            while (j + 1 < hands.size() && hands.get(playerIdx).compareTo(hands.get(j)) == 0) {
+                drawsCount++;
                 j++;
             }
 
             Integer winnerID = p.getId();
-            Integer prize = (p.doesBetAllIn() ? pools.get(p.getBetInCurrentGame()) : pools.get(0)) / draws_count;
-            HandSeniority winningHand = hands.get(player_idx).getSeniority();
+            Integer prize = (p.doesBetAllIn() ? pools.get(p.getBetInCurrentGame()) : pools.get(0)) / drawsCount;
+            HandSeniority winningHand = hands.get(playerIdx).getSeniority();
 
             sendMessageToAllPlayers("ZWYCIĘZCY:");
             sendMessageToAllPlayers(String.format("\t* Player %1d, wygrywa %2d z układem %3s!", winnerID, prize, winningHand));
 
             p.raiseBalance(prize);
-        } while (p.doesBetAllIn() || draws_count != 1);
+        } while (p.doesBetAllIn() || drawsCount != 1);
     }
 
-    private Map<Integer, Integer> calculatePools(ArrayList<Player> players) {
+    private Map<Integer, Integer> calculatePools(List<Player> players) {
         Map<Integer, Integer> pools = new HashMap<>();
 
         Integer currentBet = 0;
@@ -220,7 +223,7 @@ public class GameController {
         return currentRoundBetPerPlayer != 0;
     }
 
-    public Integer getCurrentRoundBetPerPlayer() {
+    public synchronized int getCurrentRoundBetPerPlayer() {
         return currentRoundBetPerPlayer;
     }
 

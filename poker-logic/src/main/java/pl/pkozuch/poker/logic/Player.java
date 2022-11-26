@@ -5,7 +5,7 @@ import pl.pkozuch.poker.common.Card;
 import java.util.Random;
 
 public class Player {
-    public static int counter;
+    private static int counter;
     private final int id;
     private final ChannelController channelController;
     Card[] cards = new Card[5];

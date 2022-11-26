@@ -1,13 +1,13 @@
 package pl.pkozuch.poker.logic;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MessageController {
     private final MessageBuilder messageBuilder;
     private final GameController gameController;
-    private final ArrayList<Player> players;
+    private final List<Player> players;
 
-    public MessageController(GameController gameController, ArrayList<Player> players) {
+    public MessageController(GameController gameController, List<Player> players) {
         this.messageBuilder = new MessageBuilder(gameController);
         this.gameController = gameController;
         this.players = players;

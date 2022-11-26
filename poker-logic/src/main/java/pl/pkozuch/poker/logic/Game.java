@@ -4,12 +4,13 @@ import pl.pkozuch.poker.actions.IllegalActionException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Game {
-    private final HashMap<Integer, Player> players = new HashMap<>();
     final Integer gameID;
-    GameThread gameThread = null;
     final Integer ante;
+    private final HashMap<Integer, Player> players = new HashMap<>();
+    GameThread gameThread = null;
     private Integer hostID = null;
 
     public Game(Integer gameID, Integer ante) {
@@ -51,7 +52,7 @@ public class Game {
         players.remove(playerToRemoveID);
     }
 
-    public ArrayList<Player> getAllPlayers() {
+    public List<Player> getAllPlayers() {
         return new ArrayList<>(players.values());
     }
 
@@ -59,7 +60,7 @@ public class Game {
         return players.size();
     }
 
-    synchronized private String getPlayersListAsString() {
+    private synchronized String getPlayersListAsString() {
         StringBuilder stringBuffer = new StringBuilder();
         stringBuffer.append("Aktualnie w lobby: \n");
         for (Player p : players.values()) {

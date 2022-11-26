@@ -1,12 +1,11 @@
 package pl.pkozuch.poker.logic;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public record MessageBuilder(GameController gameController) {
 
     public String buildHeaderMessage() {
-        ArrayList<Player> players = gameController.getGame().getAllPlayers();
+        List<Player> players = gameController.getGame().getAllPlayers();
 
         List<String> playersNicknames = players.stream().map(p -> {
             String s = "Player " + p.getId();
@@ -27,7 +26,7 @@ public record MessageBuilder(GameController gameController) {
 
     public String buildCardMessage(Player currentPlayer) {
 
-        ArrayList<Player> players = gameController.getGame().getAllPlayers();
+        List<Player> players = gameController.getGame().getAllPlayers();
 
         StringBuilder cardsSummary = new StringBuilder();
 

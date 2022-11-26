@@ -9,6 +9,8 @@ import java.util.Collection;
 
 public class ListGames extends ServerAction {
 
+    public static final String HELP_STRING = "LIST";
+
     ListGames(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
@@ -16,12 +18,9 @@ public class ListGames extends ServerAction {
             throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
     }
 
-    public static String getHelpString() {
-        return "LIST";
-    }
-
     @Override
     public void validate() {
+        // Validation not needed
     }
 
     @Override

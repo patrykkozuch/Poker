@@ -7,6 +7,7 @@ import pl.pkozuch.poker.server.Server;
 
 public class CreateGame extends ServerAction {
 
+    public static final String HELP_STRING = "CREATE <ante>";
     private final Integer ante;
 
     CreateGame(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
@@ -19,10 +20,6 @@ public class CreateGame extends ServerAction {
             throw new IllegalArgumentException("Ante powinno być liczbą całkowitą.");
 
         ante = Integer.parseInt(args[0]);
-    }
-
-    public static String getHelpString() {
-        return "CREATE <ante>";
     }
 
     @Override

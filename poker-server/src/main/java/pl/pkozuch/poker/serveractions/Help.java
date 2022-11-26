@@ -5,11 +5,12 @@ import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Comparator;
 import java.util.List;
 
 public class Help extends ServerAction {
+
+    public static final String HELP_STRING = "HELP";
 
     Help(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
@@ -18,12 +19,9 @@ public class Help extends ServerAction {
             throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
     }
 
-    public static String getHelpString() {
-        return "HELP";
-    }
-
     @Override
     public void validate() {
+        // Validation not needed
     }
 
     @Override
@@ -41,12 +39,11 @@ public class Help extends ServerAction {
         try {
             for (Class<? extends ServerAction> c :
                     subTypes) {
-                stringBuilder.append(String.format("\t* %1$-20s\n", c.getMethod("getHelpString").invoke(c)));
+                stringBuilder.append(String.format("\t* %1$-20s%n", c.getField("HELP_STRING").get(null)));
             }
             playerWrapper.sendMessageToPlayer(stringBuilder.toString());
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
-            throw new RuntimeException("Wystąpił błąd podczas wywołania getHelpString");
         }
     }
 }

@@ -6,6 +6,8 @@ import pl.pkozuch.poker.server.Server;
 
 public class Balance extends ServerAction {
 
+    public static final String HELP_STRING = "BALANCE";
+
     Balance(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
@@ -13,12 +15,9 @@ public class Balance extends ServerAction {
             throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
     }
 
-    public static String getHelpString() {
-        return "BALANCE";
-    }
-
     @Override
     public void validate() {
+        // Validation not needed
     }
 
     @Override

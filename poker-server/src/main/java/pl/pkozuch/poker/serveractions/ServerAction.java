@@ -19,8 +19,4 @@ public abstract class ServerAction {
     public void make() throws IllegalActionException {
         validate();
     }
-
-    public static String getHelpString() {
-        return null;
-    }
 }

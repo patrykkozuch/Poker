@@ -39,7 +39,10 @@ public class Game {
         }
     }
 
-    public void removePlayer(Integer playerToRemoveID) {
+    public void removePlayer(Integer playerToRemoveID) throws IllegalActionException {
+
+        if (!players.containsKey(playerToRemoveID))
+            throw new IllegalActionException("Nie istnieje gracz o ID = " + playerToRemoveID);
 
         for (Player playerInLobby : players.values()) {
             if (playerToRemoveID != playerInLobby.getId()) {

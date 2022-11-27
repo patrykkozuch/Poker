@@ -20,6 +20,7 @@ public class DeckTests {
         deck.draw(5);
         Assertions.assertEquals(47, deck.count());
 
+        deck.draw(20);
         Assertions.assertEquals(27, deck.count());
     }
 
@@ -43,7 +44,7 @@ public class DeckTests {
     }
 
     @Test
-    public void testRebuildDeck() {
+    void testRebuildDeck() {
         Deck deck = new Deck();
         deck.draw(52);
 

@@ -9,8 +9,9 @@ public class AllInAction extends Action {
     }
 
     @Override
-    public void validate() {
-        // Validation not needed in this case
+    public void validate() throws IllegalActionException {
+        if (gameController.getRoundState() != GameController.possibleRoundStates.BETTING && gameController.getRoundState() != GameController.possibleRoundStates.SECOND_BETTING)
+            throw new IllegalActionException("Możesz wejsć ALL IN tylko w trakcie obstawiania.");
     }
 
     @Override

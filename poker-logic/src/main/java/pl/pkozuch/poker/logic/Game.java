@@ -39,10 +39,10 @@ public class Game {
         }
     }
 
-    public void removePlayer(Integer playerToRemoveID) throws IllegalActionException {
+    public void removePlayer(Integer playerToRemoveID) throws NoSuchPlayerException {
 
         if (!players.containsKey(playerToRemoveID))
-            throw new IllegalActionException("Nie istnieje gracz o ID = " + playerToRemoveID);
+            throw new NoSuchPlayerException("Nie istnieje gracz o ID = " + playerToRemoveID);
 
         for (Player playerInLobby : players.values()) {
             if (playerToRemoveID != playerInLobby.getId()) {
@@ -105,5 +105,12 @@ public class Game {
         } else {
             return "W trakcie";
         }
+    }
+
+    public Player getPlayerByID(Integer playerID) throws NoSuchPlayerException {
+        if (!players.containsKey(playerID))
+            throw new NoSuchPlayerException("Nie udało się znaleźć gracza o podanym ID = " + playerID);
+
+        return players.get(playerID);
     }
 }

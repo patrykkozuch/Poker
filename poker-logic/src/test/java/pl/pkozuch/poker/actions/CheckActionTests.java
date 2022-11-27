@@ -3,10 +3,9 @@ package pl.pkozuch.poker.actions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pl.pkozuch.poker.logic.GameController;
+import pl.pkozuch.poker.logic.NoSuchPlayerException;
 import pl.pkozuch.poker.logic.Player;
 import pl.pkozuch.poker.logic.TestPreparer;
-
-import java.util.List;
 
 public class CheckActionTests {
 
@@ -28,47 +27,39 @@ public class CheckActionTests {
     }
 
     @Test
-    public void testIfPlayerIsInactiveAfterCheck() throws IllegalActionException {
+    public void testIfPlayerIsInactiveAfterCheck() throws IllegalActionException, NoSuchPlayerException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
         PlayerStub p = (PlayerStub) objects[1];
 
-        List<Player> activePlayers = gc.getActivePlayers();
-
-        Assertions.assertTrue(activePlayers.contains(p));
+        Assertions.assertTrue(gc.isPlayerActive(p.getId()));
 
         CheckAction checkAction = new CheckAction(gc, p);
         checkAction.make();
 
-        activePlayers = gc.getActivePlayers();
-
-        Assertions.assertFalse(activePlayers.contains(p));
+        Assertions.assertFalse(gc.isPlayerActive(p.getId()));
     }
 
     @Test
-    public void testPlayerActiveAfterSbRaise() throws IllegalActionException {
+    public void testPlayerActiveAfterSbRaise() throws IllegalActionException, NoSuchPlayerException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
         Player p1 = (Player) objects[1];
         Player p2 = (Player) objects[2];
 
-        List<Player> activePlayers = gc.getActivePlayers();
-
-        Assertions.assertTrue(activePlayers.contains(p1));
+        Assertions.assertTrue(gc.isPlayerActive(p1.getId()));
 
         CheckAction checkAction = new CheckAction(gc, p1);
         checkAction.make();
 
-        activePlayers = gc.getActivePlayers();
-        Assertions.assertFalse(activePlayers.contains(p1));
+        Assertions.assertFalse(gc.isPlayerActive(p1.getId()));
 
         RaiseAction raiseAction = new RaiseAction(gc, p2, new String[]{"10"});
         raiseAction.make();
 
-        activePlayers = gc.getActivePlayers();
-        Assertions.assertTrue(activePlayers.contains(p1));
+        Assertions.assertTrue(gc.isPlayerActive(p1.getId()));
     }
 
     @Test
@@ -87,7 +78,7 @@ public class CheckActionTests {
     }
 
     @Test
-    public void testCheckDuringChanging() {
+    public void testCheckDuringChanging() throws NoSuchPlayerException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -99,8 +90,7 @@ public class CheckActionTests {
         p2.setAction("CALL");
         p3.setAction("CALL");
 
-        List<Player> activePlayers = gc.getActivePlayers();
-        Assertions.assertTrue(activePlayers.contains(p1));
+        Assertions.assertTrue(gc.isPlayerActive(p1.getId()));
 
         /*
             Start betting round - use actions declared above:

@@ -100,13 +100,20 @@ public class GameController {
         }
     }
 
-    public List<Player> getActivePlayers() {
+    private List<Player> getActivePlayers() {
         if (roundState == possibleRoundStates.BETTING || roundState == possibleRoundStates.SECOND_BETTING)
             return new ArrayList<>(
                     game.getAllPlayers().stream()
                             .filter(
                                     p -> ((currentRoundBetPerPlayer == 0 && !p.doesCheck()) || !Objects.equals(p.getBetInCurrentRound(), currentRoundBetPerPlayer)) && !p.doesFold() && !p.doesBetAllIn())
                             .toList());
+        else if (roundState == possibleRoundStates.END)
+            return new ArrayList<>(
+                    game.getAllPlayers().stream()
+                            .filter(
+                                    p -> !p.doesFold()
+                            ).toList()
+            );
         else
             return new ArrayList<>(
                     game.getAllPlayers().stream()
@@ -143,12 +150,12 @@ public class GameController {
 
         for (Player p : game.getAllPlayers().stream().filter(p -> !p.doesFold()).toList()) {
             hands.add(new PlayerHand(Arrays.asList(p.cards), p).check());
-            p.resetStatus();
         }
 
         rewardPlayers(hands);
 
         messageController.showBalanceToAllPlayers();
+        game.getAllPlayers().forEach(Player::resetStatus);
     }
 
     private void rewardPlayers(ArrayList<Hand> hands) {
@@ -156,29 +163,35 @@ public class GameController {
 
         Map<Integer, Integer> pools = calculatePools(game.getAllPlayers());
 
-        int playerIdx = 0;
+        int playerIdx = -1;
         int drawsCount;
         int j;
         Player p;
         do {
-            p = ((PlayerHand) hands.get(playerIdx)).getPlayer();
+            p = ((PlayerHand) hands.get(++playerIdx)).getPlayer();
 
-            j = playerIdx + 1;
+            j = 0;
             drawsCount = 1;
-            while (j + 1 < hands.size() && hands.get(playerIdx).compareTo(hands.get(j)) == 0) {
-                drawsCount++;
+            while (j < hands.size() && hands.get(playerIdx).compareTo(hands.get(j)) == 0) {
+                if (j != playerIdx) {
+                    drawsCount++;
+                }
                 j++;
             }
 
             Integer winnerID = p.getId();
-            Integer prize = (p.doesBetAllIn() ? pools.get(p.getBetInCurrentGame()) : pools.get(0)) / drawsCount;
+            Integer prize = pools.get(p.getBetInCurrentGame()) / drawsCount;
             HandSeniority winningHand = hands.get(playerIdx).getSeniority();
 
             sendMessageToAllPlayers("ZWYCIĘZCY:");
             sendMessageToAllPlayers(String.format("\t* Player %1d, wygrywa %2d z układem %3s!", winnerID, prize, winningHand));
 
             p.raiseBalance(prize);
-        } while (p.doesBetAllIn() || drawsCount != 1);
+        } while (p.doesBetAllIn() || (playerIdx + 1 < getActivePlayersCount() && hands.get(playerIdx).compareTo(hands.get(playerIdx + 1)) == 0));
+    }
+
+    private int getActivePlayersCount() {
+        return getActivePlayers().size();
     }
 
     private Map<Integer, Integer> calculatePools(List<Player> players) {
@@ -191,11 +204,7 @@ public class GameController {
         for (int i = 0; i < players.size(); i++) {
             Player p = playersSortedByBetInGame.get(i);
 
-            if (p.doesBetAllIn()) {
-                pools.put(p.getBetInCurrentGame(), pools.getOrDefault(p.getBetInCurrentGame(), 0) + (p.getBetInCurrentGame() - currentBet) * (players.size() - i - 1));
-            }
-
-            pools.put(0, pools.getOrDefault(0, 0) + p.getBetInCurrentGame());
+            pools.put(p.getBetInCurrentGame(), pools.getOrDefault(p.getBetInCurrentGame(), 0) + (p.getBetInCurrentGame() - currentBet) * (players.size() - i));
 
             currentBet = p.getBetInCurrentGame();
         }
@@ -212,6 +221,10 @@ public class GameController {
             if (p != without)
                 p.sendMessage(message);
         }
+    }
+
+    public boolean isPlayerActive(Integer playerID) throws NoSuchPlayerException {
+        return getActivePlayers().contains(game.getPlayerByID(playerID));
     }
 
     //Functions used by Actions

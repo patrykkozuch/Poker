@@ -3,10 +3,8 @@ package pl.pkozuch.poker.actions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pl.pkozuch.poker.logic.GameController;
-import pl.pkozuch.poker.logic.Player;
+import pl.pkozuch.poker.logic.NoSuchPlayerException;
 import pl.pkozuch.poker.logic.TestPreparer;
-
-import java.util.List;
 
 public class FoldActionTests {
     @Test
@@ -25,26 +23,22 @@ public class FoldActionTests {
     }
 
     @Test
-    public void testIfPlayerIsActiveAfterFold__Betting() throws IllegalActionException {
+    public void testIfPlayerIsActiveAfterFold__Betting() throws IllegalActionException, NoSuchPlayerException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
         PlayerStub p = (PlayerStub) objects[1];
 
-        List<Player> activePlayers = gc.getActivePlayers();
-
-        Assertions.assertTrue(activePlayers.contains(p));
+        Assertions.assertTrue(gc.isPlayerActive(p.getId()));
 
         FoldAction foldAction = new FoldAction(gc, p);
         foldAction.make();
 
-        activePlayers = gc.getActivePlayers();
-
-        Assertions.assertFalse(activePlayers.contains(p));
+        Assertions.assertFalse(gc.isPlayerActive(p.getId()));
     }
 
     @Test
-    public void testIfPlayerIsActiveAfterFold__Change() {
+    public void testIfPlayerIsActiveAfterFold__Change() throws NoSuchPlayerException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -56,8 +50,7 @@ public class FoldActionTests {
         p2.setAction("CHECK");
         p3.setAction("CHECK");
 
-        List<Player> activePlayers = gc.getActivePlayers();
-        Assertions.assertTrue(activePlayers.contains(p1));
+        Assertions.assertTrue(gc.isPlayerActive(p1.getId()));
 
         /*
             Start betting round - use actions declared above:
@@ -69,8 +62,7 @@ public class FoldActionTests {
         gc.startNextRound();
 
         //  So after this three moves, first player should be inactive.
-        activePlayers = gc.getActivePlayers();
-        Assertions.assertFalse(activePlayers.contains(p1));
+        Assertions.assertFalse(gc.isPlayerActive(p1.getId()));
     }
 
     @Test

@@ -34,7 +34,7 @@ public class Card {
      *
      * @param slug 2 characters long slug
      */
-    Card(String slug) {
+    public Card(String slug) {
         if (slug.length() != 2)
             throw new InvalidSlugException("Card can be created only from 2-characters long slug. Slug entered: " + slug);
 

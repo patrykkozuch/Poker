@@ -2,6 +2,7 @@ package pl.pkozuch.poker.serveractions;
 
 import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.logic.Game;
+import pl.pkozuch.poker.logic.NoSuchPlayerException;
 import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
 
@@ -29,11 +30,17 @@ public class QuitGame extends ServerAction {
         super.make();
 
         Game g = server.getGame(playerWrapper.getGameID());
-        g.removePlayer(playerWrapper.getPlayer().getId());
 
-        if (g.getStatus().equals("Nierozpoczęta"))
-            playerWrapper.getPlayer().raiseBalance(g.getAnte());
+        try {
+            g.removePlayer(playerWrapper.getPlayer().getId());
 
-        playerWrapper.setGameID(null);
+            if (g.getStatus().equals("Nierozpoczęta"))
+                playerWrapper.getPlayer().raiseBalance(g.getAnte());
+
+            playerWrapper.setGameID(null);
+
+        } catch (NoSuchPlayerException e) {
+            playerWrapper.sendMessageToPlayer("Nie jesteś członkiem wybranej gry.");
+        }
     }
 }

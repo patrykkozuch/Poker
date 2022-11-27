@@ -1,6 +1,9 @@
 package pl.pkozuch.poker.actions;
 
+import pl.pkozuch.poker.common.Card;
 import pl.pkozuch.poker.logic.Player;
+
+import java.util.ArrayList;
 
 public class PlayerStub extends Player {
     private String action = "";
@@ -19,7 +22,11 @@ public class PlayerStub extends Player {
         return action;
     }
 
-    void setAction(String action) {
+    public void setAction(String action) {
         this.action = this.getId() + " " + action;
+    }
+
+    public void setCards(ArrayList<Card> cards) {
+        this.cards = cards.toArray(this.cards);
     }
 }

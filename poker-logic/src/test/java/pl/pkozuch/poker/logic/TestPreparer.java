@@ -4,12 +4,17 @@ import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.actions.PlayerStub;
 
 public class TestPreparer {
+
+    public static Object[] createGameControllerAndPlayers() {
+        return createGameControllerAndPlayers(0);
+    }
+    
     /**
      * @return Object[GameController, Player, Player, Player]
      */
-    public static Object[] createGameControllerAndPlayers() {
+    public static Object[] createGameControllerAndPlayers(Integer ante) {
 
-        Game game = new Game(1, 0);
+        Game game = new Game(1, ante);
 
         GameController gameController = new GameController(game);
 

@@ -71,7 +71,7 @@ public class GameTests {
     }
 
     @Test
-    void testRemovePlayerSuccessful() throws IllegalActionException {
+    void testRemovePlayerSuccessful() throws IllegalActionException, NoSuchPlayerException {
         Game game = new Game(0, 0);
 
         Player p1 = new PlayerStub();
@@ -87,7 +87,7 @@ public class GameTests {
     void testRemovePlayerNoPlayerWithID() {
         Game game = new Game(0, 0);
 
-        Assertions.assertThrows(IllegalActionException.class, () -> game.removePlayer(0));
+        Assertions.assertThrows(NoSuchPlayerException.class, () -> game.removePlayer(0));
     }
     
     //TODO: check if host ID changes after user quit

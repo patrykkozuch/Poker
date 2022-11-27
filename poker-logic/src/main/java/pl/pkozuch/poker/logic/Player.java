@@ -8,7 +8,7 @@ public class Player {
     private static int counter;
     private final int id;
     private final ChannelController channelController;
-    Card[] cards = new Card[5];
+    protected Card[] cards = new Card[5];
     private boolean inGame = false;
     private Integer balance;
     private boolean doesBetAllIn = false;

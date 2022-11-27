@@ -6,10 +6,10 @@ import pl.pkozuch.poker.actions.PlayerStub;
 import pl.pkozuch.poker.common.Card;
 import pl.pkozuch.poker.common.Deck;
 
-public class PlayerTests {
+class PlayerTests {
 
     @Test
-    public void testBalance() {
+    void testBalance() {
         Player p = new PlayerStub();
 
         p.setBalance(100);
@@ -23,7 +23,7 @@ public class PlayerTests {
     }
 
     @Test
-    public void testCheck() {
+    void testCheck() {
         Player p = new PlayerStub();
 
         Assertions.assertFalse(p.doesCheck());
@@ -38,7 +38,7 @@ public class PlayerTests {
     }
 
     @Test
-    public void testFold() {
+    void testFold() {
         Player p = new PlayerStub();
 
         Assertions.assertFalse(p.doesFold());
@@ -53,7 +53,7 @@ public class PlayerTests {
     }
 
     @Test
-    public void testBetAllIn() {
+    void testBetAllIn() {
         Player p = new PlayerStub();
 
         Assertions.assertFalse(p.doesBetAllIn());
@@ -68,7 +68,7 @@ public class PlayerTests {
     }
 
     @Test
-    public void testCardChange() {
+    void testCardChange() {
         Player p = new PlayerStub();
 
         Assertions.assertFalse(p.hasChangedCards());
@@ -83,7 +83,7 @@ public class PlayerTests {
     }
 
     @Test
-    public void testBet() {
+    void testBet() {
         Player p = new PlayerStub();
 
         Assertions.assertEquals(0, p.getBetInCurrentRound());
@@ -102,7 +102,7 @@ public class PlayerTests {
     }
 
     @Test
-    public void testCards() {
+    void testCards() {
         Player p = new PlayerStub();
         Deck d = new Deck();
 

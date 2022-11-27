@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import pl.pkozuch.poker.actions.PlayerStub;
 import pl.pkozuch.poker.common.HandSeniority;
 
-public class GameControllerTests {
+class GameControllerTests {
     @Test
-    public void testGameStart() {
+    void testGameStart() {
         Game game = new Game(0, 0);
         GameController gc = new GameController(game);
 
@@ -21,7 +21,7 @@ public class GameControllerTests {
     }
 
     @Test
-    public void testGameFlow__EveryoneFolds() {
+    void testGameFlow__EveryoneFolds() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gameController = (GameController) objects[0];
@@ -44,13 +44,13 @@ public class GameControllerTests {
 
         gameController.startNextRound();
 
-        Assertions.assertEquals(p1.getBalance(), 100);
-        Assertions.assertEquals(p2.getBalance(), 100);
-        Assertions.assertEquals(p3.getBalance(), 100);
+        Assertions.assertEquals(100, p1.getBalance());
+        Assertions.assertEquals(100, p2.getBalance());
+        Assertions.assertEquals(100, p3.getBalance());
     }
 
     @Test
-    public void testGameFlow__EveryoneChecks() {
+    void testGameFlow__EveryoneChecks() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gameController = (GameController) objects[0];
@@ -81,13 +81,13 @@ public class GameControllerTests {
 
         gameController.startNextRound();
 
-        Assertions.assertEquals(p1.getBalance(), 100);
-        Assertions.assertEquals(p2.getBalance(), 100);
-        Assertions.assertEquals(p3.getBalance(), 100);
+        Assertions.assertEquals(100, p1.getBalance());
+        Assertions.assertEquals(100, p2.getBalance());
+        Assertions.assertEquals(100, p3.getBalance());
     }
 
     @Test
-    public void testGameFlow__OnePlayerRaiseOtherFolds() {
+    void testGameFlow__OnePlayerRaiseOtherFolds() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gameController = (GameController) objects[0];
@@ -110,13 +110,13 @@ public class GameControllerTests {
 
         gameController.startNextRound();
 
-        Assertions.assertEquals(p1.getBalance(), 100);
-        Assertions.assertEquals(p2.getBalance(), 100);
-        Assertions.assertEquals(p3.getBalance(), 100);
+        Assertions.assertEquals(100, p1.getBalance());
+        Assertions.assertEquals(100, p2.getBalance());
+        Assertions.assertEquals(100, p3.getBalance());
     }
 
     @Test
-    public void testGameFlow__OnePlayerRaiseOtherCall() {
+    void testGameFlow__OnePlayerRaiseOtherCall() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gameController = (GameController) objects[0];
@@ -134,7 +134,7 @@ public class GameControllerTests {
         p1.setCards(SampleHands.hands.get(HandSeniority.HIGH_CARD));
         p2.setCards(SampleHands.hands.get(HandSeniority.ROYAL_FLUSH));
         p3.setCards(SampleHands.hands.get(HandSeniority.HIGH_CARD));
-        
+
         gameController.startNextRound();
 
         p1.setAction("CHANGE 0");
@@ -151,13 +151,13 @@ public class GameControllerTests {
 
         gameController.startNextRound();
 
-        Assertions.assertEquals(p1.getBalance(), 90);
-        Assertions.assertEquals(p2.getBalance(), 120);
-        Assertions.assertEquals(p3.getBalance(), 90);
+        Assertions.assertEquals(90, p1.getBalance());
+        Assertions.assertEquals(120, p2.getBalance());
+        Assertions.assertEquals(90, p3.getBalance());
     }
 
     @Test
-    public void testGameFlow__Draw() {
+    void testGameFlow__Draw() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gameController = (GameController) objects[0];
@@ -199,7 +199,7 @@ public class GameControllerTests {
     }
 
     @Test
-    public void testGameFlow__AllIn() {
+    void testGameFlow__AllIn() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gameController = (GameController) objects[0];

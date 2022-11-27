@@ -7,7 +7,7 @@ import pl.pkozuch.poker.actions.PlayerStub;
 
 import java.util.List;
 
-public class GameTests {
+class GameTests {
 
     @Test
     void testAddPlayer() throws IllegalActionException {
@@ -89,6 +89,6 @@ public class GameTests {
 
         Assertions.assertThrows(NoSuchPlayerException.class, () -> game.removePlayer(0));
     }
-    
+
     //TODO: check if host ID changes after user quit
 }

@@ -7,10 +7,10 @@ import pl.pkozuch.poker.logic.NoSuchPlayerException;
 import pl.pkozuch.poker.logic.Player;
 import pl.pkozuch.poker.logic.TestPreparer;
 
-public class AllInActionTests {
+class AllInActionTests {
 
     @Test
-    public void testAllInAction() throws IllegalActionException {
+    void testAllInAction() throws IllegalActionException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -30,7 +30,7 @@ public class AllInActionTests {
     }
 
     @Test
-    public void testIsPlayerInactiveAfterAllIn() throws IllegalActionException, NoSuchPlayerException {
+    void testIsPlayerInactiveAfterAllIn() throws IllegalActionException, NoSuchPlayerException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -45,7 +45,7 @@ public class AllInActionTests {
     }
 
     @Test
-    public void testCurrentBetPerPlayerDoesNotRaiseIfBetLowerThanCurrentBet() throws IllegalActionException {
+    void testCurrentBetPerPlayerDoesNotRaiseIfBetLowerThanCurrentBet() throws IllegalActionException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -65,11 +65,11 @@ public class AllInActionTests {
     }
 
     @Test
-    public void testCheckDuringChanging() throws NoSuchPlayerException {
+    void testCheckDuringChanging() throws NoSuchPlayerException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
-        
+
         PlayerStub p1 = (PlayerStub) objects[1];
         PlayerStub p2 = (PlayerStub) objects[2];
         PlayerStub p3 = (PlayerStub) objects[3];

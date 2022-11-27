@@ -4,6 +4,8 @@ import java.util.List;
 
 public record MessageBuilder(GameController gameController) {
 
+    public static String buildChangeMessageForPlayer = "Wybierz, które karty chcesz wymienić.\nPodaj numery kart, oddzielając je spacjami, np: CHANGE 2 4";
+
     public String buildHeaderMessage() {
         List<Player> players = gameController.getGame().getAllPlayers();
 
@@ -66,9 +68,5 @@ public record MessageBuilder(GameController gameController) {
         stringBuilder.append("FOLD\n");
 
         return stringBuilder.toString();
-    }
-
-    public String buildChangeMessageForPlayer() {
-        return "Wybierz, które karty chcesz wymienić.\nPodaj numery kart, oddzielając je spacjami, np: CHANGE 2 4";
     }
 }

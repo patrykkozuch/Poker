@@ -6,10 +6,10 @@ import pl.pkozuch.poker.logic.GameController;
 import pl.pkozuch.poker.logic.Player;
 import pl.pkozuch.poker.logic.TestPreparer;
 
-public class RaiseActionsTests {
+class RaiseActionsTests {
 
     @Test
-    public void testRaiseActionWithoutAmount() {
+    void testRaiseActionWithoutAmount() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -19,7 +19,7 @@ public class RaiseActionsTests {
     }
 
     @Test
-    public void testRaiseActionWithTooManyArguments() {
+    void testRaiseActionWithTooManyArguments() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -29,7 +29,7 @@ public class RaiseActionsTests {
     }
 
     @Test
-    public void testRaiseActionWithInvalidArgument() {
+    void testRaiseActionWithInvalidArgument() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -39,7 +39,7 @@ public class RaiseActionsTests {
     }
 
     @Test
-    public void testRaiseActionWithLowerAmountThanCurrentBet() throws IllegalActionException {
+    void testRaiseActionWithLowerAmountThanCurrentBet() throws IllegalActionException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -55,7 +55,7 @@ public class RaiseActionsTests {
     }
 
     @Test
-    public void testRaiseActionWithHigherThanCurrentBalance() throws IllegalActionException {
+    void testRaiseActionWithHigherThanCurrentBalance() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -68,7 +68,7 @@ public class RaiseActionsTests {
     }
 
     @Test
-    public void testRaiseActionDuringChanging() {
+    void testRaiseActionDuringChanging() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -88,7 +88,7 @@ public class RaiseActionsTests {
     }
 
     @Test
-    public void testRaiseActionSuccessfully() throws IllegalActionException {
+    void testRaiseActionSuccessfully() throws IllegalActionException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -104,7 +104,7 @@ public class RaiseActionsTests {
     }
 
     @Test
-    public void testMultipleRaisesSuccessful() throws IllegalActionException {
+    void testMultipleRaisesSuccessful() throws IllegalActionException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];

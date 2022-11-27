@@ -6,9 +6,9 @@ import pl.pkozuch.poker.logic.GameController;
 import pl.pkozuch.poker.logic.NoSuchPlayerException;
 import pl.pkozuch.poker.logic.TestPreparer;
 
-public class FoldActionTests {
+class FoldActionTests {
     @Test
-    public void testFoldAction() throws IllegalActionException {
+    void testFoldAction() throws IllegalActionException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -23,7 +23,7 @@ public class FoldActionTests {
     }
 
     @Test
-    public void testIfPlayerIsActiveAfterFold__Betting() throws IllegalActionException, NoSuchPlayerException {
+    void testIfPlayerIsActiveAfterFold__Betting() throws IllegalActionException, NoSuchPlayerException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -38,7 +38,7 @@ public class FoldActionTests {
     }
 
     @Test
-    public void testIfPlayerIsActiveAfterFold__Change() throws NoSuchPlayerException {
+    void testIfPlayerIsActiveAfterFold__Change() throws NoSuchPlayerException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -66,7 +66,7 @@ public class FoldActionTests {
     }
 
     @Test
-    public void testFoldDuringChanging() {
+    void testFoldDuringChanging() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];

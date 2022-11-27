@@ -6,10 +6,10 @@ import pl.pkozuch.poker.logic.GameController;
 import pl.pkozuch.poker.logic.Player;
 import pl.pkozuch.poker.logic.TestPreparer;
 
-public class CallActionTests {
+class CallActionTests {
 
     @Test
-    public void testCallWithoutRaise() {
+    void testCallWithoutRaise() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         CallAction callAction = new CallAction((GameController) objects[0], (Player) objects[1]);
@@ -18,7 +18,7 @@ public class CallActionTests {
     }
 
     @Test
-    public void testCallWithoutEnoughMoney() throws IllegalActionException {
+    void testCallWithoutEnoughMoney() throws IllegalActionException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -36,7 +36,7 @@ public class CallActionTests {
     }
 
     @Test
-    public void testCallWhileChanging() {
+    void testCallWhileChanging() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -56,7 +56,7 @@ public class CallActionTests {
     }
 
     @Test
-    public void testCallActionSuccessfully() throws IllegalActionException {
+    void testCallActionSuccessfully() throws IllegalActionException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
         GameController gc = (GameController) objects[0];
 

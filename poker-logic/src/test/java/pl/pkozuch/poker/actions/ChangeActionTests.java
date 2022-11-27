@@ -6,9 +6,9 @@ import pl.pkozuch.poker.common.Card;
 import pl.pkozuch.poker.logic.GameController;
 import pl.pkozuch.poker.logic.TestPreparer;
 
-public class ChangeActionTests {
+class ChangeActionTests {
     @Test
-    public void testWrongCardNumber() {
+    void testWrongCardNumber() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -20,7 +20,7 @@ public class ChangeActionTests {
     }
 
     @Test
-    public void testChangeCardDuringOtherStateThanChanging() {
+    void testChangeCardDuringOtherStateThanChanging() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -31,7 +31,7 @@ public class ChangeActionTests {
     }
 
     @Test
-    public void testChangeSuccessfully() throws IllegalActionException {
+    void testChangeSuccessfully() throws IllegalActionException {
 
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
@@ -70,7 +70,7 @@ public class ChangeActionTests {
     }
 
     @Test
-    public void testChangeWithInvalidArgumentType() {
+    void testChangeWithInvalidArgumentType() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];

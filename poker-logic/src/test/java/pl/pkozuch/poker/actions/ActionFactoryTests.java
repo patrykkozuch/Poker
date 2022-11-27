@@ -12,7 +12,7 @@ import pl.pkozuch.poker.logic.Player;
 
 import java.util.stream.Stream;
 
-public class ActionFactoryTests {
+class ActionFactoryTests {
 
     private static Stream<?> provideValidActions() {
         return Stream.of(
@@ -44,9 +44,10 @@ public class ActionFactoryTests {
         );
     }
 
+    @SuppressWarnings("JUnitMalformedDeclaration")
     @ParameterizedTest
     @MethodSource("provideValidActions")
-    public void testCreateValidAction(Class<Action> actionClass, String actionString) throws NoSuchActionException, IllegalActionException, NoSuchPlayerException {
+    void testCreateValidAction(Class<Action> actionClass, String actionString) throws NoSuchActionException, IllegalActionException, NoSuchPlayerException {
         Game g = new Game(1, 1);
 
         GameController gameController = new GameController(g);
@@ -63,7 +64,7 @@ public class ActionFactoryTests {
 
     @ParameterizedTest
     @MethodSource("provideInvalidActions")
-    public void testCreateInvalidAction(String actionString) throws IllegalActionException {
+    void testCreateInvalidAction(String actionString) throws IllegalActionException {
         Game g = new Game(1, 1);
 
         GameController gameController = new GameController(g);
@@ -76,12 +77,13 @@ public class ActionFactoryTests {
 
         ActionFactory actionFactory = new ActionFactory(gameController);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> actionFactory.create(p, String.format("%d %s", p.getId(), actionString)));
+        String finalActionString = String.format("%d %s", p.getId(), actionString);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> actionFactory.create(p, finalActionString));
     }
 
     @ParameterizedTest
     @MethodSource("provideNonExistingActions")
-    public void testCreateNonExistingActions(String actionString) throws IllegalActionException {
+    void testCreateNonExistingActions(String actionString) throws IllegalActionException {
         Game g = new Game(1, 1);
 
         GameController gameController = new GameController(g);
@@ -98,7 +100,7 @@ public class ActionFactoryTests {
     }
 
     @Test
-    public void testCreateActionWithWrongPlayerID() throws IllegalActionException {
+    void testCreateActionWithWrongPlayerID() throws IllegalActionException {
         Game g = new Game(1, 1);
 
         GameController gameController = new GameController(g);
@@ -111,11 +113,11 @@ public class ActionFactoryTests {
 
         ActionFactory actionFactory = new ActionFactory(gameController);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> actionFactory.create(p, String.format("%d %s", -1, "FOLD")));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> actionFactory.create(p, "-1 FOLD"));
     }
 
     @Test
-    public void testCreateActionWithoutPlayerID() throws IllegalActionException {
+    void testCreateActionWithoutPlayerID() throws IllegalActionException {
         Game g = new Game(1, 1);
 
         GameController gameController = new GameController(g);
@@ -132,7 +134,7 @@ public class ActionFactoryTests {
     }
 
     @Test
-    public void testCreateActionWithInvalidPlayerID() throws IllegalActionException {
+    void testCreateActionWithInvalidPlayerID() throws IllegalActionException {
         Game g = new Game(1, 1);
 
         GameController gameController = new GameController(g);

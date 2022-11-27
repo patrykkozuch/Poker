@@ -7,10 +7,10 @@ import pl.pkozuch.poker.logic.NoSuchPlayerException;
 import pl.pkozuch.poker.logic.Player;
 import pl.pkozuch.poker.logic.TestPreparer;
 
-public class CheckActionTests {
+class CheckActionTests {
 
     @Test
-    public void testCheckAction() throws IllegalActionException {
+    void testCheckAction() throws IllegalActionException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -25,7 +25,7 @@ public class CheckActionTests {
     }
 
     @Test
-    public void testIfPlayerIsInactiveAfterCheck() throws IllegalActionException, NoSuchPlayerException {
+    void testIfPlayerIsInactiveAfterCheck() throws IllegalActionException, NoSuchPlayerException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -40,7 +40,7 @@ public class CheckActionTests {
     }
 
     @Test
-    public void testPlayerActiveAfterSbRaise() throws IllegalActionException, NoSuchPlayerException {
+    void testPlayerActiveAfterSbRaise() throws IllegalActionException, NoSuchPlayerException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -61,7 +61,7 @@ public class CheckActionTests {
     }
 
     @Test
-    public void testCheckAfterRaise() throws IllegalActionException {
+    void testCheckAfterRaise() throws IllegalActionException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -76,7 +76,7 @@ public class CheckActionTests {
     }
 
     @Test
-    public void testCheckDuringChanging() throws NoSuchPlayerException {
+    void testCheckDuringChanging() throws NoSuchPlayerException {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];

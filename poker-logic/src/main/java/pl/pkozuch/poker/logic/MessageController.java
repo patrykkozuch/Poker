@@ -28,7 +28,7 @@ public class MessageController {
     }
 
     public void showChangeMessageForPlayer(Player p) {
-        p.sendMessage(messageBuilder.buildChangeMessageForPlayer());
+        p.sendMessage(MessageBuilder.buildChangeMessageForPlayer);
     }
 
     public String getPlayerResponse(Player p) {

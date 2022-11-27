@@ -47,6 +47,10 @@ public class Player {
         return balance;
     }
 
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
     public void reduceBalance(Integer amount) {
         this.balance -= amount;
     }
@@ -119,5 +123,4 @@ public class Player {
     public void changeCard(Integer idx, Card c) {
         this.cards[idx] = c;
     }
-
 }

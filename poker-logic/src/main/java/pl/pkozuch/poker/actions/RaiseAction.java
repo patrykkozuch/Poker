@@ -40,6 +40,7 @@ public class RaiseAction extends Action {
         player.reduceBalance(amount);
         player.raiseBetInCurrentRound(amount);
 
+        gameController.setCurrentRoundBetPerPlayer(providedAmount);
     }
 
     @Override

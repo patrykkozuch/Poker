@@ -334,4 +334,12 @@ public class GameControllerTests {
         Assertions.assertTrue(gameController.doesSomeoneBetThisRound());
         Assertions.assertEquals(30, gameController.getCurrentRoundBetPerPlayer());
     }
+
+    @Test
+    void testStartNextRound__BeforeGameStart() {
+        Game game = new Game(0, 0);
+        GameController gameController = new GameController(game);
+
+        Assertions.assertThrows(GameNotStartedException.class, gameController::startNextRound);
+    }
 }

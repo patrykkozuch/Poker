@@ -17,7 +17,7 @@ public class GameController {
     private final Deck deck = new Deck();
 
     private Integer currentRoundBetPerPlayer;
-    private possibleRoundStates roundState;
+    private possibleRoundStates roundState = possibleRoundStates.START;
 
     public GameController(Game game) {
         this.game = game;
@@ -257,7 +257,7 @@ public class GameController {
     }
 
     public enum possibleRoundStates {
-        BETTING, CHANGING, SECOND_BETTING, END
+        BETTING, CHANGING, SECOND_BETTING, START, END
     }
 
 

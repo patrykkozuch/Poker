@@ -18,8 +18,6 @@ public class AllInActionTests {
 
         Integer balanceBeforeAllIn = p.getBalance();
 
-        gc.startGame();
-
         Assertions.assertFalse(p.doesBetAllIn());
 
         AllInAction allInAction = new AllInAction(gc, p);
@@ -38,8 +36,6 @@ public class AllInActionTests {
         GameController gc = (GameController) objects[0];
         PlayerStub p = (PlayerStub) objects[1];
 
-        gc.startGame();
-
         Assertions.assertTrue(gc.isPlayerActive(p.getId()));
 
         AllInAction allInAction = new AllInAction(gc, p);
@@ -53,6 +49,7 @@ public class AllInActionTests {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
+
         Player p1 = (Player) objects[1];
         Player p2 = (Player) objects[2];
 
@@ -72,6 +69,7 @@ public class AllInActionTests {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
+        
         PlayerStub p1 = (PlayerStub) objects[1];
         PlayerStub p2 = (PlayerStub) objects[2];
         PlayerStub p3 = (PlayerStub) objects[3];

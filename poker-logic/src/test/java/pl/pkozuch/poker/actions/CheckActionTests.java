@@ -16,8 +16,6 @@ public class CheckActionTests {
         GameController gc = (GameController) objects[0];
         PlayerStub p = (PlayerStub) objects[1];
 
-        gc.startGame();
-
         Assertions.assertFalse(p.doesCheck());
 
         CheckAction checkAction = new CheckAction(gc, p);
@@ -82,22 +80,17 @@ public class CheckActionTests {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
+
         PlayerStub p1 = (PlayerStub) objects[1];
         PlayerStub p2 = (PlayerStub) objects[2];
         PlayerStub p3 = (PlayerStub) objects[3];
 
-        p1.setAction("RAISE 10");
-        p2.setAction("CALL");
-        p3.setAction("CALL");
+        p1.setAction("CHECK");
+        p2.setAction("CHECK");
+        p3.setAction("CHECK");
 
         Assertions.assertTrue(gc.isPlayerActive(p1.getId()));
 
-        /*
-            Start betting round - use actions declared above:
-            1. First player raise bet
-            2. Second player calls
-
-         */
         gc.startNextRound();
 
         //Now round state == CHANGING

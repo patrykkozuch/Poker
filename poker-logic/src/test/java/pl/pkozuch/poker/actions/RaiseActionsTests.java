@@ -43,6 +43,7 @@ public class RaiseActionsTests {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
+
         Player p1 = (Player) objects[1];
         Player p2 = (Player) objects[2];
 
@@ -58,6 +59,7 @@ public class RaiseActionsTests {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
+
         PlayerStub p1 = (PlayerStub) objects[1];
         PlayerStub p2 = (PlayerStub) objects[2];
         PlayerStub p3 = (PlayerStub) objects[3];
@@ -77,6 +79,7 @@ public class RaiseActionsTests {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
+
         Player p = (Player) objects[1];
 
         RaiseAction raiseAction1 = new RaiseAction(gc, p, new String[]{"20"});
@@ -92,6 +95,7 @@ public class RaiseActionsTests {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
+
         Player p1 = (Player) objects[1];
         Player p2 = (Player) objects[2];
 

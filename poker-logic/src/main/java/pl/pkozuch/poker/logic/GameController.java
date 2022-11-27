@@ -19,7 +19,7 @@ public class GameController {
     private Integer currentRoundBetPerPlayer;
     private possibleRoundStates roundState;
 
-    GameController(Game game) {
+    public GameController(Game game) {
         this.game = game;
         messageController = new MessageController(this, game.getAllPlayers());
     }

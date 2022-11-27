@@ -7,7 +7,15 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 
-public record ChannelController(Selector selector, SocketChannel channel) {
+public class ChannelController {
+
+    private final Selector selector;
+    private final SocketChannel channel;
+
+    public ChannelController(Selector selector, SocketChannel channel) {
+        this.selector = selector;
+        this.channel = channel;
+    }
 
     public String readFromChannel() {
         try {

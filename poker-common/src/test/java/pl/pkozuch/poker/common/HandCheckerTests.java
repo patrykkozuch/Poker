@@ -3,9 +3,9 @@ package pl.pkozuch.poker.common;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class HandCheckerTests {
+class HandCheckerTests {
     @Test
-    public void testCheck() {
+    void testCheck() {
         for (HandSeniority seniority : HandSeniority.values())
             Assertions.assertEquals(
                     seniority,

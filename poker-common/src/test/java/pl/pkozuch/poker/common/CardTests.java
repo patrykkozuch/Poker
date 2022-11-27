@@ -3,10 +3,10 @@ package pl.pkozuch.poker.common;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class CardTests {
+class CardTests {
 
     @Test
-    public void testCardCreationFromString__CheckSuits() {
+    void testCardCreationFromString__CheckSuits() {
         for (CardSuits suit : CardSuits.values()) {
             Assertions.assertEquals(
                     new Card(suit.getShortcut() + "2").getSuit(),
@@ -17,7 +17,7 @@ public class CardTests {
     }
 
     @Test
-    public void testCardCreationFromString__CheckValues() {
+    void testCardCreationFromString__CheckValues() {
         for (CardValues value : CardValues.values()) {
             Assertions.assertEquals(
                     new Card("S" + value.getShortcut()).getValue(),
@@ -28,7 +28,7 @@ public class CardTests {
     }
 
     @Test
-    public void testIsCardBeforeAnotherInSeniorityOrder() {
+    void testIsCardBeforeAnotherInSeniorityOrder() {
         Card ace = new Card("HA");
         Card king = new Card("SK");
 

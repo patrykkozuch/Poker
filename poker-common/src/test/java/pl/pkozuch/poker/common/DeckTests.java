@@ -3,10 +3,10 @@ package pl.pkozuch.poker.common;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class DeckTests {
+class DeckTests {
 
     @Test
-    public void testDrawCard() {
+    void testDrawCard() {
         Deck deck = new Deck();
         Card card = deck.draw();
         Assertions.assertEquals(51, deck.count());
@@ -14,7 +14,7 @@ public class DeckTests {
     }
 
     @Test
-    public void testDrawFewCards() {
+    void testDrawFewCards() {
         Deck deck = new Deck();
 
         deck.draw(5);
@@ -25,7 +25,7 @@ public class DeckTests {
     }
 
     @Test
-    public void testDrawFromEmptyDeck() {
+    void testDrawFromEmptyDeck() {
         Deck deck = new Deck();
         deck.draw(52);
 
@@ -35,7 +35,7 @@ public class DeckTests {
     }
 
     @Test
-    public void testNotEnoughCardsInDeck() {
+    void testNotEnoughCardsInDeck() {
         Deck deck = new Deck();
 
         Assertions.assertEquals(52, deck.count());
@@ -56,7 +56,7 @@ public class DeckTests {
     }
 
     @Test
-    public void testRebuildFullDeck() {
+    void testRebuildFullDeck() {
         Deck deck = new Deck();
 
         Assertions.assertEquals(52, deck.count());

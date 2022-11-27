@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class HandTests {
+class HandTests {
 
 
     @Test
-    public void testHandCreatingAndSorting__AllInOneSuit() {
+    void testHandCreatingAndSorting__AllInOneSuit() {
 
         final ArrayList<Card> cardsInOneSuitNotSorted = new ArrayList<>(Arrays.asList(
                 new Card("H2"),
@@ -37,7 +37,7 @@ public class HandTests {
     }
 
     @Test
-    public void testHandCreatingAndSorting__DifferentSuits() {
+    void testHandCreatingAndSorting__DifferentSuits() {
 
         final ArrayList<Card> cardsInAllSuitsNotSorted = new ArrayList<>(Arrays.asList(
                 new Card("D2"),
@@ -63,7 +63,7 @@ public class HandTests {
     }
 
     @Test
-    public void testGetCardsOneByOne() {
+    void testGetCardsOneByOne() {
         final ArrayList<Card> cardsInAllSuitsSorted = new ArrayList<>(Arrays.asList(
                 new Card("HA"),
                 new Card("SQ"),
@@ -79,7 +79,7 @@ public class HandTests {
     }
 
     @Test
-    public void testGetAllCards() {
+    void testGetAllCards() {
         final ArrayList<Card> cardsInAllSuitsSorted = new ArrayList<>(Arrays.asList(
                 new Card("HA"),
                 new Card("SQ"),
@@ -101,7 +101,7 @@ public class HandTests {
     }
 
     @Test
-    public void handComparisonTest__sameSeniority() {
+    void handComparisonTest__sameSeniority() {
         //HIGH CARD
         final ArrayList<Card> higherPairCards = new ArrayList<>(Arrays.asList(
                 new Card("H4"),
@@ -144,7 +144,7 @@ public class HandTests {
     }
 
     @Test
-    public void handComparisonTest__differentSeniority() {
+    void handComparisonTest__differentSeniority() {
         Hand olderHand = new Hand(SampleHands.hands.get(HandSeniority.ROYAL_FLUSH));
         Hand youngerHand = new Hand(SampleHands.hands.get(HandSeniority.FULL_HOUSE));
 
@@ -152,12 +152,12 @@ public class HandTests {
         olderHand.check();
         youngerHand.check();
 
-        Assertions.assertEquals(olderHand.compareTo(youngerHand), -1);
-        Assertions.assertEquals(youngerHand.compareTo(olderHand), 1);
+        Assertions.assertEquals(-1, olderHand.compareTo(youngerHand));
+        Assertions.assertEquals(1, youngerHand.compareTo(olderHand));
     }
 
     @Test
-    public void testCheck() {
+    void testCheck() {
         for (HandSeniority seniority : HandSeniority.values()) {
             Hand h = new Hand(SampleHands.hands.get(seniority));
             h.check();
@@ -171,7 +171,7 @@ public class HandTests {
     }
 
     @Test
-    public void testPriorities__determinedPriorities() {
+    void testPriorities__determinedPriorities() {
         ArrayList<Card> sortedCards = new ArrayList<>(Arrays.asList(
                 new Card("CK"),
                 new Card("D9"),
@@ -195,7 +195,7 @@ public class HandTests {
     }
 
     @Test
-    public void testPriorities__afterCheck() {
+    void testPriorities__afterCheck() {
         ArrayList<Card> fourOfAKind__beforeCheck = new ArrayList<>(Arrays.asList(
                 new Card("H2"),
                 new Card("D2"),

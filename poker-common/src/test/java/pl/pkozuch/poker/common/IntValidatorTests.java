@@ -3,10 +3,10 @@ package pl.pkozuch.poker.common;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class IntValidatorTests {
+class IntValidatorTests {
 
     @Test
-    public void testIsInt() {
+    void testIsInt() {
         String a = "123";
         String b = "123.45";
         String c = "123f4";
@@ -19,7 +19,7 @@ public class IntValidatorTests {
     }
 
     @Test
-    public void testIsInt__Array() {
+    void testIsInt__Array() {
         String[] validNumbers = new String[2];
         String[] invalidNumbers__float = new String[2];
         String[] invalidNumbers__NAN = new String[2];

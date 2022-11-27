@@ -14,16 +14,15 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Hello world!
  */
 public class Server {
-    private final Map<Integer, Game> games = new ConcurrentHashMap<>();
-    private final Map<Integer, PlayerWrapper> players = new ConcurrentHashMap<>();
+    protected final Map<Integer, PlayerWrapper> players = new HashMap<>();
+    protected final Map<Integer, Game> games = new HashMap<>();
     private Integer gameCounter = 1;
-    
+
     public static void main(String[] args) {
         Server server = new Server();
         server.run();

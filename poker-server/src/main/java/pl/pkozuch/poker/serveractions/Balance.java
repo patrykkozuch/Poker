@@ -25,7 +25,7 @@ public class Balance extends ServerAction {
     @Override
     public void make() throws IllegalActionException {
         super.make();
-        
+
         playerWrapper.sendMessageToPlayer("Twój stan konta to: " + playerWrapper.getPlayer().getBalance());
     }
 }

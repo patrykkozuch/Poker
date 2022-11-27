@@ -45,13 +45,9 @@ public class JoinGame extends ServerAction {
     public void make() throws IllegalActionException {
         super.make();
 
-        try {
-            Game g = server.getGame(gameID);
-            g.addPlayer(playerWrapper.getPlayer());
-            playerWrapper.setGameID(gameID);
-            playerWrapper.getPlayer().reduceBalance(g.getAnte());
-        } catch (Exception e) {
-            playerWrapper.sendMessageToPlayer("Nie udało się dołączyć do gry. " + e.getMessage());
-        }
+        Game g = server.getGame(gameID);
+        g.addPlayer(playerWrapper.getPlayer());
+        playerWrapper.setGameID(gameID);
+        playerWrapper.getPlayer().reduceBalance(g.getAnte());
     }
 }

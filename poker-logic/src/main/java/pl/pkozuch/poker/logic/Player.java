@@ -123,4 +123,8 @@ public class Player {
     public void changeCard(Integer idx, Card c) {
         this.cards[idx] = c;
     }
+
+    public Card[] getCards() {
+        return this.cards.clone();
+    }
 }

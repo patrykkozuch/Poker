@@ -82,23 +82,27 @@ public class GameController {
 
                 sendMessageToAllPlayers("Ruch gracza: " + p.getId());
 
-                boolean actionMade = false;
-
-                while (!actionMade) {
-                    try {
-                        String action = askPlayerForAction(p);
-
-                        actionFactory.create(p, action).make();
-
-                        actionMade = true;
-                    } catch (NoSuchActionException | IllegalArgumentException | IllegalActionException e) {
-                        p.sendMessage(e.getMessage());
-                    } catch (NoSuchPlayerException e) {
-                        //Will never happen
-                    }
-                }
+                processPlayerAction(p);
             }
             activePlayers = getActivePlayers();
+        }
+    }
+
+    private void processPlayerAction(Player p) {
+        boolean actionMade = false;
+
+        while (!actionMade) {
+            try {
+                String action = askPlayerForAction(p);
+
+                actionFactory.create(p, action).make();
+
+                actionMade = true;
+            } catch (NoSuchActionException | IllegalArgumentException | IllegalActionException e) {
+                p.sendMessage(e.getMessage());
+            } catch (NoSuchPlayerException e) {
+                //Will never happen
+            }
         }
     }
 

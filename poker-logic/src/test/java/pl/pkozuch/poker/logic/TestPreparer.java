@@ -1,34 +1,33 @@
 package pl.pkozuch.poker.logic;
 
-public class TestPreparer {
-//    public static Object[] createGameControllerAndPlayers() {
-//        return createGameControllerAndPlayers("");
-//    }
+import pl.pkozuch.poker.actions.IllegalActionException;
+import pl.pkozuch.poker.actions.PlayerStub;
 
-//    /**
-//     * @return Object[GameController, Player, Player, Player]
-//     */
-//    public static Object[] createGameControllerAndPlayers(String actions) {
-//        if (!actions.equals("")) {
-//            System.setIn(new ByteArrayInputStream(actions.getBytes(StandardCharsets.UTF_8)));
-//        }
-//
-//        GameController gameController = new GameController(null, new StreamController(System.in, System.out));
-//
-//        Player p1 = new Player(new StreamController(System.in, System.out));
-//        Player p2 = new Player(new StreamController(System.in, System.out));
-//        Player p3 = new Player(new StreamController(System.in, System.out));
-//
-//        p1.setBalance(100);
-//        p2.setBalance(100);
-//        p3.setBalance(100);
-//
-////        gameController.addPlayer(p1);
-////        gameController.addPlayer(p2);
-////        gameController.addPlayer(p3);
-//
-//        gameController.startGame();
-//
-//        return new Object[]{gameController, p1, p2, p3};
-//    }
+public class TestPreparer {
+    /**
+     * @return Object[GameController, Player, Player, Player]
+     */
+    public static Object[] createGameControllerAndPlayers() {
+
+        Game game = new Game(1, 0);
+
+        GameController gameController = new GameController(game);
+
+        Player p1 = new PlayerStub();
+        Player p2 = new PlayerStub();
+        Player p3 = new PlayerStub();
+
+        try {
+            game.addPlayer(p1);
+            game.addPlayer(p2);
+            game.addPlayer(p3);
+
+        } catch (IllegalActionException e) {
+            e.printStackTrace();
+        }
+
+        gameController.startGame();
+
+        return new Object[]{gameController, p1, p2, p3};
+    }
 }

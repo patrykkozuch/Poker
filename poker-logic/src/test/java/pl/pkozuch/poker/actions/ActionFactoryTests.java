@@ -50,7 +50,7 @@ public class ActionFactoryTests {
 
         GameController gameController = new GameController(g);
 
-        Player p = new Player(new ChannelControllerStub(null, null));
+        Player p = new PlayerStub();
 
         g.addPlayer(p);
 
@@ -67,7 +67,7 @@ public class ActionFactoryTests {
 
         GameController gameController = new GameController(g);
 
-        Player p = new Player(new ChannelControllerStub(null, null));
+        Player p = new PlayerStub();
 
         g.addPlayer(p);
 
@@ -85,7 +85,7 @@ public class ActionFactoryTests {
 
         GameController gameController = new GameController(g);
 
-        Player p = new Player(new ChannelControllerStub(null, null));
+        Player p = new PlayerStub();
 
         g.addPlayer(p);
 
@@ -102,7 +102,7 @@ public class ActionFactoryTests {
 
         GameController gameController = new GameController(g);
 
-        Player p = new Player(new ChannelControllerStub(null, null));
+        Player p = new PlayerStub();
 
         g.addPlayer(p);
 
@@ -119,7 +119,7 @@ public class ActionFactoryTests {
 
         GameController gameController = new GameController(g);
 
-        Player p = new Player(new ChannelControllerStub(null, null));
+        Player p = new PlayerStub();
 
         g.addPlayer(p);
 

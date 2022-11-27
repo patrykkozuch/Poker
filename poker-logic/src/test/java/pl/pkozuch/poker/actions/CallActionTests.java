@@ -36,7 +36,7 @@ public class CallActionTests {
     }
 
     @Test
-    public void testCallWhileChanging() throws IllegalActionException {
+    public void testCallWhileChanging() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 
         GameController gc = (GameController) objects[0];
@@ -62,9 +62,6 @@ public class CallActionTests {
 
         Player p1 = (Player) objects[1];
         Player p2 = (Player) objects[2];
-
-        p1.setBalance(100);
-        p2.setBalance(100);
 
         RaiseAction raiseAction = new RaiseAction(gc, p1, new String[]{"10"});
         raiseAction.make();

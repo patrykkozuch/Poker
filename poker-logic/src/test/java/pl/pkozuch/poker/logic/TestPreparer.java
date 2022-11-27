@@ -17,11 +17,14 @@ public class TestPreparer {
         Player p2 = new PlayerStub();
         Player p3 = new PlayerStub();
 
+        p1.setBalance(100);
+        p2.setBalance(100);
+        p3.setBalance(100);
+
         try {
             game.addPlayer(p1);
             game.addPlayer(p2);
             game.addPlayer(p3);
-
         } catch (IllegalActionException e) {
             e.printStackTrace();
         }

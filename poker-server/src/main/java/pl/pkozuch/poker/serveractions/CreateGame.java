@@ -34,11 +34,7 @@ public class CreateGame extends ServerAction {
     public void make() throws IllegalActionException {
         super.make();
 
-        try {
-            Integer gameID = server.createGame(ante);
-            playerWrapper.sendMessageToPlayer("Udało się utworzyć nową grę. ID gry: " + gameID);
-        } catch (Exception e) {
-            playerWrapper.sendMessageToPlayer("Nie udało się utworzyć nowej gry. " + e.getMessage());
-        }
+        Integer gameID = server.createGame(ante);
+        playerWrapper.sendMessageToPlayer("Udało się utworzyć nową grę. ID gry: " + gameID);
     }
 }

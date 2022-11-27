@@ -23,8 +23,13 @@ public class Server {
     private final Map<Integer, Game> games = new ConcurrentHashMap<>();
     private final Map<Integer, PlayerWrapper> players = new ConcurrentHashMap<>();
     private Integer gameCounter = 1;
+    
+    public static void main(String[] args) {
+        Server server = new Server();
+        server.run();
+    }
 
-    Server() {
+    private void run() {
         ServerSocketChannel ssc = null;
         try (Selector selector = Selector.open()) {
             ssc = ServerSocketChannel.open();
@@ -66,10 +71,6 @@ public class Server {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static void main(String[] args) {
-        new Server();
     }
 
     private void handleWelcome(Queue<Integer> welcomeQueue, SelectionKey key) throws NoSuchPlayerException {

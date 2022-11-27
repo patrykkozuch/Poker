@@ -7,7 +7,7 @@ public class PlayerWrapperStub extends PlayerWrapper {
     private String action = "";
 
     public PlayerWrapperStub() {
-        super(null);
+        player = new PlayerStub();
     }
 
     @Override

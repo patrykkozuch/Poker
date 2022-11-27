@@ -4,8 +4,12 @@ import pl.pkozuch.poker.logic.ChannelController;
 import pl.pkozuch.poker.logic.Player;
 
 public class PlayerWrapper {
-    private final Player player;
+    protected Player player;
     private Integer gameID = null;
+
+    protected PlayerWrapper() {
+        player = null;
+    }
 
     protected PlayerWrapper(ChannelController channelController) {
         player = new Player(channelController);

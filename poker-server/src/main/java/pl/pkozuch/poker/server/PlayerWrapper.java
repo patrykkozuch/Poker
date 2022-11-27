@@ -7,7 +7,7 @@ public class PlayerWrapper {
     private final Player player;
     private Integer gameID = null;
 
-    PlayerWrapper(ChannelController channelController) {
+    protected PlayerWrapper(ChannelController channelController) {
         player = new Player(channelController);
     }
 

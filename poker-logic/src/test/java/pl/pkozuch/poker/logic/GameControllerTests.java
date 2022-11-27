@@ -34,6 +34,8 @@ public class GameControllerTests {
         p2.setAction("FOLD");
         p3.setAction("FOLD");
 
+        gameController.startGame();
+
         gameController.startNextRound();
 
         gameController.startNextRound();
@@ -60,6 +62,8 @@ public class GameControllerTests {
         p1.setAction("CHECK");
         p2.setAction("CHECK");
         p3.setAction("CHECK");
+
+        gameController.startGame();
 
         gameController.startNextRound();
 
@@ -96,6 +100,8 @@ public class GameControllerTests {
         p2.setAction("RAISE 10");
         p3.setAction("FOLD");
 
+        gameController.startGame();
+
         gameController.startNextRound();
 
         gameController.startNextRound();
@@ -123,10 +129,12 @@ public class GameControllerTests {
         p2.setAction("CALL");
         p3.setAction("CALL");
 
+        gameController.startGame();
+
         p1.setCards(SampleHands.hands.get(HandSeniority.HIGH_CARD));
         p2.setCards(SampleHands.hands.get(HandSeniority.ROYAL_FLUSH));
         p3.setCards(SampleHands.hands.get(HandSeniority.HIGH_CARD));
-
+        
         gameController.startNextRound();
 
         p1.setAction("CHANGE 0");
@@ -162,9 +170,12 @@ public class GameControllerTests {
         p2.setAction("CALL");
         p3.setAction("CALL");
 
+        gameController.startGame();
+
         p1.setCards(SampleHands.hands.get(HandSeniority.ROYAL_FLUSH));
         p2.setCards(SampleHands.hands.get(HandSeniority.ROYAL_FLUSH));
         p3.setCards(SampleHands.hands.get(HandSeniority.HIGH_CARD));
+
 
         gameController.startNextRound();
 
@@ -205,6 +216,8 @@ public class GameControllerTests {
         p2.setAction("ALLIN");
         p3.setAction("ALLIN");
 
+        gameController.startGame();
+
         p1.setCards(SampleHands.hands.get(HandSeniority.HIGH_CARD));
         p2.setCards(SampleHands.hands.get(HandSeniority.TWO_PAIR));
         p3.setCards(SampleHands.hands.get(HandSeniority.ROYAL_FLUSH));
@@ -242,6 +255,8 @@ public class GameControllerTests {
         p2.setAction("CHECK");
         p3.setAction("CHECK");
 
+        gameController.startGame();
+
         Assertions.assertEquals(GameController.possibleRoundStates.BETTING, gameController.getRoundState());
         gameController.startNextRound();
 
@@ -277,6 +292,8 @@ public class GameControllerTests {
         p2.setAction("RAISE 100");
         p3.setAction("ALLIN");
 
+        gameController.startGame();
+
         Assertions.assertTrue(gameController.isPlayerActive(p1.getId()));
         gameController.startNextRound();
         Assertions.assertFalse(gameController.isPlayerActive(p1.getId()));
@@ -311,6 +328,8 @@ public class GameControllerTests {
         p1.setAction("RAISE 10");
         p2.setAction("CALL");
         p3.setAction("CALL");
+
+        gameController.startGame();
 
         Assertions.assertFalse(gameController.doesSomeoneBetThisRound());
 

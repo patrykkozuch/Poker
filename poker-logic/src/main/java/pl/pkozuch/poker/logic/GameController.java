@@ -93,6 +93,8 @@ public class GameController {
                         actionMade = true;
                     } catch (NoSuchActionException | IllegalArgumentException | IllegalActionException e) {
                         p.sendMessage(e.getMessage());
+                    } catch (NoSuchPlayerException e) {
+                        //Will never happen
                     }
                 }
             }
@@ -257,7 +259,7 @@ public class GameController {
     }
 
     public enum possibleRoundStates {
-        BETTING, CHANGING, SECOND_BETTING, START, END
+        START, BETTING, CHANGING, SECOND_BETTING, END
     }
 
 

@@ -55,6 +55,19 @@ public class RaiseActionsTests {
     }
 
     @Test
+    public void testRaiseActionWithHigherThanCurrentBalance() throws IllegalActionException {
+        Object[] objects = TestPreparer.createGameControllerAndPlayers();
+
+        GameController gc = (GameController) objects[0];
+
+        Player p1 = (Player) objects[1];
+        p1.setBalance(100);
+
+        RaiseAction raiseAction = new RaiseAction(gc, p1, new String[]{"1000"});
+        Assertions.assertThrows(IllegalActionException.class, raiseAction::make);
+    }
+
+    @Test
     public void testRaiseActionDuringChanging() {
         Object[] objects = TestPreparer.createGameControllerAndPlayers();
 

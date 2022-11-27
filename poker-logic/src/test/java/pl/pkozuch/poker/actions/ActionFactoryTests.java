@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import pl.pkozuch.poker.logic.Game;
 import pl.pkozuch.poker.logic.GameController;
+import pl.pkozuch.poker.logic.NoSuchPlayerException;
 import pl.pkozuch.poker.logic.Player;
 
 import java.util.stream.Stream;
@@ -45,7 +46,7 @@ public class ActionFactoryTests {
 
     @ParameterizedTest
     @MethodSource("provideValidActions")
-    public void testCreateValidAction(Class<Action> actionClass, String actionString) throws NoSuchActionException, IllegalActionException {
+    public void testCreateValidAction(Class<Action> actionClass, String actionString) throws NoSuchActionException, IllegalActionException, NoSuchPlayerException {
         Game g = new Game(1, 1);
 
         GameController gameController = new GameController(g);
@@ -128,5 +129,22 @@ public class ActionFactoryTests {
         ActionFactory actionFactory = new ActionFactory(gameController);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> actionFactory.create(p, "FOLD"));
+    }
+
+    @Test
+    public void testCreateActionWithInvalidPlayerID() throws IllegalActionException {
+        Game g = new Game(1, 1);
+
+        GameController gameController = new GameController(g);
+
+        Player p = new PlayerStub();
+
+        g.addPlayer(p);
+
+        gameController.startGame();
+
+        ActionFactory actionFactory = new ActionFactory(gameController);
+
+        Assertions.assertThrows(NoSuchPlayerException.class, () -> actionFactory.create(p, "10 FOLD"));
     }
 }

@@ -1,6 +1,7 @@
 package pl.pkozuch.poker.serveractions;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -97,5 +98,16 @@ class TestServerActionFactory {
         ServerActionFactory actionFactory = new ServerActionFactory(s);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> actionFactory.create(p, invalidAction));
+    }
+
+    @Test
+    void testCreateActionWithNonExistingPlayerID() {
+        ServerStub s = new ServerStub();
+        PlayerWrapperStub p = new PlayerWrapperStub();
+        s.addPlayer(p);
+
+        ServerActionFactory actionFactory = new ServerActionFactory(s);
+
+        Assertions.assertThrows(NoSuchPlayerException.class, () -> actionFactory.create(p, "5 HELP"));
     }
 }

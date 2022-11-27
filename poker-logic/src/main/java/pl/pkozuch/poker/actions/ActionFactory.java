@@ -2,6 +2,7 @@ package pl.pkozuch.poker.actions;
 
 import pl.pkozuch.poker.common.IntValidator;
 import pl.pkozuch.poker.logic.GameController;
+import pl.pkozuch.poker.logic.NoSuchPlayerException;
 import pl.pkozuch.poker.logic.Player;
 
 import java.util.Arrays;
@@ -16,7 +17,7 @@ public class ActionFactory {
         this.gameController = gameController;
     }
 
-    public Action create(Player player, String message) throws NoSuchActionException {
+    public Action create(Player player, String message) throws NoSuchActionException, NoSuchPlayerException {
         parseAction(message);
 
         return switch (actionSlug) {
@@ -30,7 +31,7 @@ public class ActionFactory {
         };
     }
 
-    private void parseAction(String enteredAction) throws IllegalArgumentException {
+    private void parseAction(String enteredAction) throws IllegalArgumentException, NoSuchPlayerException {
         String[] splitAction = enteredAction.trim().split(" ");
 
         if (splitAction.length < 2)
@@ -42,7 +43,7 @@ public class ActionFactory {
         Integer playerID = Integer.parseInt(splitAction[0]);
 
         if (!gameController.hasPlayerWithID(playerID))
-            throw new IllegalArgumentException("Gracz o ID " + playerID + " nie istnieje.");
+            throw new NoSuchPlayerException("Gracz o ID " + playerID + " nie istnieje.");
 
         actionSlug = splitAction[1].toUpperCase();
 

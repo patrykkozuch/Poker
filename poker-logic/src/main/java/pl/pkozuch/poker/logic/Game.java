@@ -89,6 +89,10 @@ public class Game {
         return hostID;
     }
 
+    public void setHostID(Integer id) {
+        hostID = id;
+    }
+
     public boolean hasPlayerWithID(Integer playerID) {
         return players.containsKey(playerID);
     }

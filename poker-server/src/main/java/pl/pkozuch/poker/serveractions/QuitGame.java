@@ -23,6 +23,12 @@ public class QuitGame extends ServerAction {
     public void validate() throws IllegalActionException {
         if (playerWrapper.getGameID() == null)
             throw new IllegalActionException("Nie jesteś członkiem żadnej gry. Użyj CREATE <ante> lub JOIN <id_gry> aby dołączyć do lobby.");
+
+        Game g = server.getGame(playerWrapper.getGameID());
+
+        if (g.getStatus().equals("W trakcie"))
+            throw new IllegalActionException("Nie możesz opuścić gry w trakcie");
+
     }
 
     @Override
@@ -39,8 +45,14 @@ public class QuitGame extends ServerAction {
 
             playerWrapper.setGameID(null);
 
+            if (g.getPlayersCount() > 0) {
+                g.setHostID(g.getAllPlayers().get(0).getId());
+            } else {
+                g.setHostID(null);
+            }
+
         } catch (NoSuchPlayerException e) {
-            playerWrapper.sendMessageToPlayer("Nie jesteś członkiem wybranej gry.");
+            // Will never happen
         }
     }
 }

@@ -42,7 +42,6 @@ public class GameControllerTests {
 
         gameController.startNextRound();
 
-        Assertions.assertEquals(GameController.possibleRoundStates.END, gameController.getRoundState());
         Assertions.assertEquals(p1.getBalance(), 100);
         Assertions.assertEquals(p2.getBalance(), 100);
         Assertions.assertEquals(p3.getBalance(), 100);
@@ -78,7 +77,6 @@ public class GameControllerTests {
 
         gameController.startNextRound();
 
-        Assertions.assertEquals(GameController.possibleRoundStates.END, gameController.getRoundState());
         Assertions.assertEquals(p1.getBalance(), 100);
         Assertions.assertEquals(p2.getBalance(), 100);
         Assertions.assertEquals(p3.getBalance(), 100);
@@ -106,8 +104,6 @@ public class GameControllerTests {
 
         gameController.startNextRound();
 
-
-        Assertions.assertEquals(GameController.possibleRoundStates.END, gameController.getRoundState());
         Assertions.assertEquals(p1.getBalance(), 100);
         Assertions.assertEquals(p2.getBalance(), 100);
         Assertions.assertEquals(p3.getBalance(), 100);
@@ -147,7 +143,6 @@ public class GameControllerTests {
 
         gameController.startNextRound();
 
-        Assertions.assertEquals(GameController.possibleRoundStates.END, gameController.getRoundState());
         Assertions.assertEquals(p1.getBalance(), 90);
         Assertions.assertEquals(p2.getBalance(), 120);
         Assertions.assertEquals(p3.getBalance(), 90);
@@ -187,7 +182,6 @@ public class GameControllerTests {
 
         gameController.startNextRound();
 
-        Assertions.assertEquals(GameController.possibleRoundStates.END, gameController.getRoundState());
         Assertions.assertEquals(105, p1.getBalance());
         Assertions.assertEquals(105, p2.getBalance());
         Assertions.assertEquals(90, p3.getBalance());
@@ -229,9 +223,115 @@ public class GameControllerTests {
 
         gameController.startNextRound();
 
-        Assertions.assertEquals(GameController.possibleRoundStates.END, gameController.getRoundState());
         Assertions.assertEquals(10, p1.getBalance());
         Assertions.assertEquals(20, p2.getBalance());
         Assertions.assertEquals(90, p3.getBalance());
+    }
+
+    @Test
+    void testRoundState() {
+        Object[] objects = TestPreparer.createGameControllerAndPlayers();
+
+        GameController gameController = (GameController) objects[0];
+
+        PlayerStub p1 = (PlayerStub) objects[1];
+        PlayerStub p2 = (PlayerStub) objects[2];
+        PlayerStub p3 = (PlayerStub) objects[3];
+
+        p1.setAction("CHECK");
+        p2.setAction("CHECK");
+        p3.setAction("CHECK");
+
+        Assertions.assertEquals(GameController.possibleRoundStates.BETTING, gameController.getRoundState());
+        gameController.startNextRound();
+
+        p1.setAction("CHANGE 0");
+        p2.setAction("CHANGE 0");
+        p3.setAction("CHANGE 0");
+
+        Assertions.assertEquals(GameController.possibleRoundStates.CHANGING, gameController.getRoundState());
+        gameController.startNextRound();
+
+        p1.setAction("CHECK");
+        p2.setAction("CHECK");
+        p3.setAction("CHECK");
+
+        Assertions.assertEquals(GameController.possibleRoundStates.SECOND_BETTING, gameController.getRoundState());
+        gameController.startNextRound();
+
+        Assertions.assertEquals(GameController.possibleRoundStates.END, gameController.getRoundState());
+        gameController.startNextRound();
+    }
+
+    @Test
+    void testIsUserActive() throws NoSuchPlayerException {
+        Object[] objects = TestPreparer.createGameControllerAndPlayers();
+
+        GameController gameController = (GameController) objects[0];
+
+        PlayerStub p1 = (PlayerStub) objects[1];
+        PlayerStub p2 = (PlayerStub) objects[2];
+        PlayerStub p3 = (PlayerStub) objects[3];
+
+        p1.setAction("FOLD");
+        p2.setAction("RAISE 100");
+        p3.setAction("ALLIN");
+
+        Assertions.assertTrue(gameController.isPlayerActive(p1.getId()));
+        gameController.startNextRound();
+        Assertions.assertFalse(gameController.isPlayerActive(p1.getId()));
+
+        p2.setAction("CHANGE 0");
+        p3.setAction("CHANGE 0");
+
+        Assertions.assertFalse(gameController.isPlayerActive(p1.getId()));
+        gameController.startNextRound();
+
+        p2.setAction("CHECK");
+
+        Assertions.assertFalse(gameController.isPlayerActive(p1.getId()));
+        Assertions.assertFalse(gameController.isPlayerActive(p3.getId()));
+        gameController.startNextRound();
+
+        Assertions.assertFalse(gameController.isPlayerActive(p1.getId()));
+        Assertions.assertTrue(gameController.isPlayerActive(p3.getId()));
+        gameController.startNextRound();
+    }
+
+    @Test
+    void testRoundBet() {
+        Object[] objects = TestPreparer.createGameControllerAndPlayers();
+
+        GameController gameController = (GameController) objects[0];
+
+        PlayerStub p1 = (PlayerStub) objects[1];
+        PlayerStub p2 = (PlayerStub) objects[2];
+        PlayerStub p3 = (PlayerStub) objects[3];
+
+        p1.setAction("RAISE 10");
+        p2.setAction("CALL");
+        p3.setAction("CALL");
+
+        Assertions.assertFalse(gameController.doesSomeoneBetThisRound());
+
+        gameController.startNextRound();
+
+        Assertions.assertTrue(gameController.doesSomeoneBetThisRound());
+        Assertions.assertEquals(10, gameController.getCurrentRoundBetPerPlayer());
+
+        p1.setAction("CHANGE 0");
+        p2.setAction("CHANGE 0");
+        p3.setAction("CHANGE 0");
+
+        gameController.startNextRound();
+
+        p1.setAction("RAISE 30");
+        p2.setAction("CALL");
+        p3.setAction("CALL");
+
+        gameController.startNextRound();
+
+        Assertions.assertTrue(gameController.doesSomeoneBetThisRound());
+        Assertions.assertEquals(30, gameController.getCurrentRoundBetPerPlayer());
     }
 }

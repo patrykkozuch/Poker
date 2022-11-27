@@ -5,24 +5,24 @@ import org.junit.jupiter.api.Test;
 import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.server.Server;
 
-public class TestCreateGameAction {
+class CreateGameActionTests {
 
     @Test
     void testCreateGameCreation__NoArgument() {
         PlayerWrapperStub p = new PlayerWrapperStub();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new CreateGame(null, p, null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new CreateGameAction(null, p, null));
     }
 
     @Test
     void testCreateGameCreation__TooManyArguments() {
         PlayerWrapperStub p = new PlayerWrapperStub();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new CreateGame(null, p, new String[]{"12", "23", "45", "56"}));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new CreateGameAction(null, p, new String[]{"12", "23", "45", "56"}));
     }
 
     @Test
     void testCreateGameCreation__AnteNotIntegral() {
         PlayerWrapperStub p = new PlayerWrapperStub();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new CreateGame(null, p, new String[]{"abd"}));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new CreateGameAction(null, p, new String[]{"abd"}));
     }
 
     @Test
@@ -30,8 +30,8 @@ public class TestCreateGameAction {
         Server server = new Server();
         PlayerWrapperStub p = new PlayerWrapperStub();
 
-        CreateGame createGame = new CreateGame(server, p, new String[]{"20"});
-        createGame.make();
+        CreateGameAction createGameAction = new CreateGameAction(server, p, new String[]{"20"});
+        createGameAction.make();
 
         Assertions.assertTrue(server.hasGameWithID(1));
     }
@@ -42,13 +42,13 @@ public class TestCreateGameAction {
         PlayerWrapperStub p = new PlayerWrapperStub();
         p.getPlayer().setBalance(100);
 
-        CreateGame createGame = new CreateGame(server, p, new String[]{"20"});
-        createGame.make();
+        CreateGameAction createGameAction = new CreateGameAction(server, p, new String[]{"20"});
+        createGameAction.make();
 
-        JoinGame joinGame = new JoinGame(server, p, new String[]{"1"});
-        joinGame.make();
+        JoinGameAction joinGameAction = new JoinGameAction(server, p, new String[]{"1"});
+        joinGameAction.make();
 
-        Assertions.assertThrows(IllegalActionException.class, () -> new CreateGame(server, p, new String[]{"20"}).make());
+        Assertions.assertThrows(IllegalActionException.class, () -> new CreateGameAction(server, p, new String[]{"20"}).make());
         Assertions.assertFalse(server.hasGameWithID(2));
     }
 }

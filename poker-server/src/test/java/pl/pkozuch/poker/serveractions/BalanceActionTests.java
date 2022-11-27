@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.server.Server;
 
-public class testBalanceAction {
+class BalanceActionTests {
 
     @Test
     void testBalanceAction() throws IllegalActionException {
         PlayerWrapperStub p = new PlayerWrapperStub();
 
-        Balance balance = new Balance(null, p, null);
-        balance.make();
+        BalanceAction balanceAction = new BalanceAction(null, p, null);
+        balanceAction.make();
 
         Assertions.assertTrue(p.getSentMessage().contains(p.getPlayer().getBalance().toString()));
     }
@@ -22,7 +22,7 @@ public class testBalanceAction {
         Server s = new Server();
         PlayerWrapperStub p = new PlayerWrapperStub();
 
-        new Balance(s, p, null).make();
+        new BalanceAction(s, p, null).make();
 
         Assertions.assertTrue(p.getSentMessage().contains(p.getPlayer().getBalance().toString()));
 

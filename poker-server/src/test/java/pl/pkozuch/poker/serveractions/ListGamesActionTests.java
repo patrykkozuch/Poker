@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.server.Server;
 
-class TestListGamesAction {
+class ListGamesActionTests {
 
     @Test
     void testListGamesAction__TooManyArguments() {
         Server s = new Server();
         PlayerWrapperStub p = new PlayerWrapperStub();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new ListGames(s, p, new String[]{"as", "as", "asd"}));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new ListGamesAction(s, p, new String[]{"as", "as", "asd"}));
     }
 
     @Test
@@ -19,11 +19,11 @@ class TestListGamesAction {
         Server s = new Server();
         PlayerWrapperStub p = new PlayerWrapperStub();
 
-        new CreateGame(s, p, new String[]{"20"}).make();
-        new CreateGame(s, p, new String[]{"30"}).make();
-        new CreateGame(s, p, new String[]{"40"}).make();
+        new CreateGameAction(s, p, new String[]{"20"}).make();
+        new CreateGameAction(s, p, new String[]{"30"}).make();
+        new CreateGameAction(s, p, new String[]{"40"}).make();
 
-        new ListGames(s, p, null).make();
+        new ListGamesAction(s, p, null).make();
 
         Assertions.assertTrue(p.getSentMessage().contains("Gra nr 1 (Ante 20"));
         Assertions.assertTrue(p.getSentMessage().contains("Gra nr 2 (Ante 30"));

@@ -5,19 +5,19 @@ import org.junit.jupiter.api.Test;
 import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.server.Server;
 
-public class TestStartGameAction {
+class StartGameActionTests {
     @Test
     void testStartGameAction__TooManyArguments() {
         Server s = new Server();
         PlayerWrapperStub p = new PlayerWrapperStub();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new StartGame(s, p, new String[]{"as", "as", "asd"}));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new StartGameAction(s, p, new String[]{"as", "as", "asd"}));
     }
 
     @Test
     void testStartGame__NotInLobby() {
         Server s = new Server();
         PlayerWrapperStub p = new PlayerWrapperStub();
-        Assertions.assertThrows(IllegalActionException.class, () -> new StartGame(s, p, null).make());
+        Assertions.assertThrows(IllegalActionException.class, () -> new StartGameAction(s, p, null).make());
     }
 
     @Test
@@ -29,11 +29,11 @@ public class TestStartGameAction {
         p.getPlayer().setBalance(100);
         p2.getPlayer().setBalance(100);
 
-        new CreateGame(s, p, new String[]{"10"}).make();
-        new JoinGame(s, p, new String[]{"1"}).make();
-        new JoinGame(s, p2, new String[]{"1"}).make();
+        new CreateGameAction(s, p, new String[]{"10"}).make();
+        new JoinGameAction(s, p, new String[]{"1"}).make();
+        new JoinGameAction(s, p2, new String[]{"1"}).make();
 
-        Assertions.assertThrows(IllegalActionException.class, () -> new StartGame(s, p2, null).make());
+        Assertions.assertThrows(IllegalActionException.class, () -> new StartGameAction(s, p2, null).make());
     }
 
     @Test
@@ -43,10 +43,10 @@ public class TestStartGameAction {
 
         p.getPlayer().setBalance(100);
 
-        new CreateGame(s, p, new String[]{"10"}).make();
-        new JoinGame(s, p, new String[]{"1"}).make();
+        new CreateGameAction(s, p, new String[]{"10"}).make();
+        new JoinGameAction(s, p, new String[]{"1"}).make();
 
-        new StartGame(s, p, null).make();
+        new StartGameAction(s, p, null).make();
 
         Assertions.assertEquals("W trakcie", s.getGame(1).getStatus());
     }

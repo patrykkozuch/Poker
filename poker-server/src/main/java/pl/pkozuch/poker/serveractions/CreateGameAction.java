@@ -5,14 +5,14 @@ import pl.pkozuch.poker.common.IntValidator;
 import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
 
-public class CreateGame extends ServerAction {
+public class CreateGameAction extends ServerAction {
 
     @SuppressWarnings("unused")
     @UsedViaReflection
     public static final String HELP_STRING = "CREATE <ante>";
     private final Integer ante;
 
-    CreateGame(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
+    CreateGameAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
         if (args == null || args.length != 1)

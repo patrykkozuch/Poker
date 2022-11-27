@@ -11,17 +11,17 @@ import pl.pkozuch.poker.logic.NoSuchPlayerException;
 
 import java.util.stream.Stream;
 
-class TestServerActionFactory {
+class ServerActionFactoryTests {
     private static Stream<?> provideValidActions() {
         return Stream.of(
-                Arguments.of(Balance.class, "BALANCE"),
-                Arguments.of(Balance.class, "balance"),
-                Arguments.of(Help.class, "HELP"),
-                Arguments.of(CreateGame.class, "CREATE 0"),
-                Arguments.of(ListGames.class, "LIST"),
-                Arguments.of(JoinGame.class, "JOIN 1"),
-                Arguments.of(QuitGame.class, "QUIT"),
-                Arguments.of(StartGame.class, "START")
+                Arguments.of(BalanceAction.class, "BALANCE"),
+                Arguments.of(BalanceAction.class, "balance"),
+                Arguments.of(HelpAction.class, "HELP"),
+                Arguments.of(CreateGameAction.class, "CREATE 0"),
+                Arguments.of(ListGamesAction.class, "LIST"),
+                Arguments.of(JoinGameAction.class, "JOIN 1"),
+                Arguments.of(QuitGameAction.class, "QUIT"),
+                Arguments.of(StartGameAction.class, "START")
         );
     }
 
@@ -50,6 +50,7 @@ class TestServerActionFactory {
         );
     }
 
+    @SuppressWarnings("JUnitMalformedDeclaration")
     @ParameterizedTest
     @MethodSource("provideValidActions")
     void testCreateValidAction(Class<Action> actionClass, String actionString) throws NoSuchActionException, NoSuchPlayerException {

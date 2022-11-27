@@ -4,13 +4,13 @@ import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
 
-public class StartGame extends ServerAction {
+public class StartGameAction extends ServerAction {
 
     @SuppressWarnings("unused")
     @UsedViaReflection
     public static final String HELP_STRING = "START";
 
-    StartGame(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
+    StartGameAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
         if (args != null)

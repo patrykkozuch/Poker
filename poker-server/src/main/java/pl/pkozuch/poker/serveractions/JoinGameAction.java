@@ -6,14 +6,14 @@ import pl.pkozuch.poker.logic.Game;
 import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
 
-public class JoinGame extends ServerAction {
+public class JoinGameAction extends ServerAction {
 
     @SuppressWarnings("unused")
     @UsedViaReflection
     public static final String HELP_STRING = "JOIN <id_gry>";
     private final Integer gameID;
 
-    JoinGame(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
+    JoinGameAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
         if (args == null || args.length != 1)

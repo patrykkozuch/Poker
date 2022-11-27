@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.server.Server;
 
-public class TestHelpAction {
+class HelpActionTests {
     @Test
     void testHelpAction__TooManyArguments() {
         Server s = new Server();
         PlayerWrapperStub p = new PlayerWrapperStub();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new Help(s, p, new String[]{"as", "as", "asd"}));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new HelpAction(s, p, new String[]{"as", "as", "asd"}));
     }
 
     @Test
@@ -18,7 +18,7 @@ public class TestHelpAction {
         Server s = new Server();
         PlayerWrapperStub p = new PlayerWrapperStub();
 
-        new Help(s, p, null).make();
+        new HelpAction(s, p, null).make();
 
         Assertions.assertTrue(p.getSentMessage().contains("JOIN"));
         Assertions.assertTrue(p.getSentMessage().contains("CREATE"));

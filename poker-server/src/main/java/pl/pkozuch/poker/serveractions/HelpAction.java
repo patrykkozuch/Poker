@@ -8,13 +8,13 @@ import pl.pkozuch.poker.server.Server;
 import java.util.Comparator;
 import java.util.List;
 
-public class Help extends ServerAction {
+public class HelpAction extends ServerAction {
 
     @SuppressWarnings("unused")
     @UsedViaReflection
     public static final String HELP_STRING = "HELP";
 
-    Help(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
+    HelpAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
         if (args != null)

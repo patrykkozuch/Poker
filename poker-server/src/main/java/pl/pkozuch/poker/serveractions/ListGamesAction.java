@@ -7,13 +7,13 @@ import pl.pkozuch.poker.server.Server;
 
 import java.util.Collection;
 
-public class ListGames extends ServerAction {
+public class ListGamesAction extends ServerAction {
 
     @SuppressWarnings("unused")
     @UsedViaReflection
     public static final String HELP_STRING = "LIST";
 
-    ListGames(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
+    ListGamesAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
         if (args != null)

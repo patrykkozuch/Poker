@@ -9,11 +9,9 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.logging.*;
 
 /**
  * Client class
@@ -22,14 +20,10 @@ import java.util.logging.*;
  */
 public class Client {
     final ByteBuffer readBuffer = ByteBuffer.allocate(1024);
-    final Logger console = Logger.getLogger("console");
-    final Logger logger = Logger.getLogger("error");
     ClientThread clientThread;
     Integer playerID = 0;
 
     Client() {
-        configureLoggers();
-
         SocketChannel channel = null;
 
         //Connecting to server
@@ -66,13 +60,12 @@ public class Client {
                 }
             }
         } catch (IOException e) {
-            logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
-            console.log(Level.SEVERE, "Wystąpił błąd. Proszę spróbować za chwilę.");
+            System.out.println("Wystąpił błąd. Proszę spróbować za chwilę.");
         } finally {
             try {
                 if (channel != null) {
                     channel.close();
-                    console.log(new LogRecord(Level.FINEST, "Połączenie z serwerem zostało przerwane."));
+                    System.out.println("Połączenie z serwerem zostało przerwane.");
                 }
 
                 if (clientThread != null) {
@@ -80,36 +73,13 @@ public class Client {
                 }
 
             } catch (IOException e) {
-                logger.log(new LogRecord(Level.SEVERE, Arrays.toString(e.getStackTrace())));
+                e.printStackTrace();
             }
         }
     }
 
     public static void main(String[] args) {
         new Client();
-    }
-
-    private void configureLoggers() {
-        Handler consoleHandler = new ConsoleHandler();
-        consoleHandler.setFormatter(new Formatter() {
-            @Override
-            public String format(LogRecord logRecord) {
-                return logRecord.getMessage();
-            }
-        });
-
-        console.setUseParentHandlers(false);
-        console.addHandler(consoleHandler);
-
-        logger.setUseParentHandlers(false);
-
-        try {
-            Handler fileHandler = new FileHandler("logs/error.log", true);
-
-            logger.addHandler(fileHandler);
-        } catch (IOException e) {
-            console.log(Level.SEVERE, "Nie udało się otworzyć loggera błędów.");
-        }
     }
 
     private void connectToServer(Selector selector, SocketChannel client) throws IOException {

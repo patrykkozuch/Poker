@@ -16,7 +16,7 @@ import java.nio.channels.SocketChannel;
 import java.util.*;
 
 /**
- * Hello world!
+ * Class responsible for creating and running poker server
  */
 public class Server {
     protected final Map<Integer, PlayerWrapper> players = new HashMap<>();
@@ -29,6 +29,9 @@ public class Server {
         server.run();
     }
 
+    /**
+     * Runs server
+     */
     private void run() {
         ServerSocketChannel ssc = null;
         try (Selector selector = Selector.open()) {
@@ -134,6 +137,12 @@ public class Server {
         }
     }
 
+    /**
+     * Creates game with provided ante
+     *
+     * @param ante Ante provided by Player
+     * @return gameID
+     */
     public Integer createGame(Integer ante) {
         Game newGame = new Game(++counter, ante);
 
@@ -146,6 +155,14 @@ public class Server {
         return games.get(gameID);
     }
 
+    /**
+     * Sends message to Player
+     *
+     * @param playerID ID of Player to whom message should be sent
+     * @param message  which will be sent
+     * @return true if message was sent successfully, false otherwise
+     * @throws NoSuchPlayerException if player with {@code playerID} does not exist
+     */
     public boolean sendMessageToPlayer(Integer playerID, String message) throws NoSuchPlayerException {
         if (doesNotHavePlayer(playerID))
             throw new NoSuchPlayerException("Gracz o ID " + playerID + " nie istnieje.");
@@ -153,6 +170,13 @@ public class Server {
         return players.get(playerID).sendMessageToPlayer(message);
     }
 
+    /**
+     * Reads message from player
+     *
+     * @param playerID ID of Player from whom read message
+     * @return {@code String} message, if failed returns {@code null}
+     * @throws NoSuchPlayerException if player of ID does not exists
+     */
     public String readFromPlayer(Integer playerID) throws NoSuchPlayerException {
         if (doesNotHavePlayer(playerID))
             throw new NoSuchPlayerException("Gracz o ID " + playerID + " nie istnieje.");

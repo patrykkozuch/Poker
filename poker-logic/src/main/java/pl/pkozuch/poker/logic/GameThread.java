@@ -44,5 +44,13 @@ public class GameThread extends Thread {
         }
 
         gameController.sendMessageToAllPlayers("The game has ended.");
+
+        try {
+            for (Player p : game.getAllPlayers()) {
+                game.removePlayer(p.getId());
+            }
+        } catch (NoSuchPlayerException e) {
+            //Will never happen
+        }
     }
 }

@@ -2,20 +2,28 @@ package pl.pkozuch.poker.common;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class IntValidatorTests {
 
-    @Test
-    void testIsInt() {
-        String a = "123";
-        String b = "123.45";
-        String c = "123f4";
-        String d = "0";
+    @ParameterizedTest
+    @ValueSource(strings = {"123", "0"})
+    void testIsInt__Successful(String v) {
+        Assertions.assertTrue(IntValidator.isInt(v));
+    }
 
-        Assertions.assertTrue(IntValidator.isInt(a));
-        Assertions.assertFalse(IntValidator.isInt(b));
-        Assertions.assertFalse(IntValidator.isInt(c));
-        Assertions.assertTrue(IntValidator.isInt(d));
+    @ParameterizedTest
+    @ValueSource(strings = {"123.45", "123f4", "-1"})
+    void testIsInt__Unsuccessful(String v) {
+        Assertions.assertFalse(IntValidator.isInt(v));
+    }
+
+    @Test
+    @SuppressWarnings("ConstantConditions")
+    void testIsInt__Null() {
+        String s = null;
+        Assertions.assertFalse(IntValidator.isInt(s));
     }
 
     @Test

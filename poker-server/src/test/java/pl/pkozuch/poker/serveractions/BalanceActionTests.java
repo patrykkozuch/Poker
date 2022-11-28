@@ -11,7 +11,7 @@ class BalanceActionTests {
     void testBalanceAction() throws IllegalActionException {
         PlayerWrapperStub p = new PlayerWrapperStub();
 
-        BalanceAction balanceAction = new BalanceAction(null, p, null);
+        BalanceAction balanceAction = new BalanceAction(null, p);
         balanceAction.make();
 
         Assertions.assertTrue(p.getSentMessage().contains(p.getPlayer().getBalance().toString()));
@@ -22,7 +22,7 @@ class BalanceActionTests {
         Server s = new Server();
         PlayerWrapperStub p = new PlayerWrapperStub();
 
-        new BalanceAction(s, p, null).make();
+        new BalanceAction(s, p).make();
 
         Assertions.assertTrue(p.getSentMessage().contains(p.getPlayer().getBalance().toString()));
 

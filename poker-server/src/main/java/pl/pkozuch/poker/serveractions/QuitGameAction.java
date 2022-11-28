@@ -12,11 +12,8 @@ public class QuitGameAction extends ServerAction {
     @UsedViaReflection
     public static final String HELP_STRING = "QUIT";
 
-    QuitGameAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
+    QuitGameAction(Server server, PlayerWrapper playerWrapper) {
         super(server, playerWrapper);
-
-        if (args != null)
-            throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
     }
 
     /**

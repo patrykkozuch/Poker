@@ -6,19 +6,11 @@ import pl.pkozuch.poker.actions.IllegalActionException;
 import pl.pkozuch.poker.server.Server;
 
 class QuitGameActionTests {
-
-    @Test
-    void testQuitGameAction__TooManyArguments() {
-        Server s = new Server();
-        PlayerWrapperStub p = new PlayerWrapperStub();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new QuitGameAction(s, p, new String[]{"as", "as", "asd"}));
-    }
-
     @Test
     void testQuitGameAction__NotInGame() {
         Server s = new Server();
         PlayerWrapperStub p = new PlayerWrapperStub();
-        Assertions.assertThrows(IllegalActionException.class, () -> new QuitGameAction(s, p, null).make());
+        Assertions.assertThrows(IllegalActionException.class, () -> new QuitGameAction(s, p).make());
     }
 
     @Test
@@ -30,9 +22,9 @@ class QuitGameActionTests {
         new CreateGameAction(s, p, new String[]{"0"}).make();
         new JoinGameAction(s, p, new String[]{"1"}).make();
         new JoinGameAction(s, p2, new String[]{"1"}).make();
-        new StartGameAction(s, p, null).make();
+        new StartGameAction(s, p).make();
 
-        Assertions.assertThrows(IllegalActionException.class, () -> new QuitGameAction(s, p, null).make());
+        Assertions.assertThrows(IllegalActionException.class, () -> new QuitGameAction(s, p).make());
     }
 
     @Test
@@ -47,7 +39,7 @@ class QuitGameActionTests {
 
         Assertions.assertEquals(90, p.getPlayer().getBalance());
 
-        new QuitGameAction(s, p, null).make();
+        new QuitGameAction(s, p).make();
         Assertions.assertEquals(100, p.getPlayer().getBalance());
     }
 
@@ -65,7 +57,7 @@ class QuitGameActionTests {
 
         Assertions.assertEquals(p.getPlayer().getId(), s.getGame(p.getGameID()).getHostID());
 
-        new QuitGameAction(s, p, null).make();
+        new QuitGameAction(s, p).make();
 
         Assertions.assertEquals(p2.getPlayer().getId(), s.getGame(p2.getGameID()).getHostID());
     }
@@ -82,7 +74,7 @@ class QuitGameActionTests {
 
         Assertions.assertEquals(p.getPlayer().getId(), s.getGame(1).getHostID());
 
-        new QuitGameAction(s, p, null).make();
+        new QuitGameAction(s, p).make();
 
         Assertions.assertNull(s.getGame(1).getHostID());
     }

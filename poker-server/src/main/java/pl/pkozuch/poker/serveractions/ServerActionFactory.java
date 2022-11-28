@@ -46,11 +46,11 @@ public class ServerActionFactory {
         return switch (actionSlug) {
             case "CREATE" -> new CreateGameAction(server, playerWrapper, actionsArgs);
             case "JOIN" -> new JoinGameAction(server, playerWrapper, actionsArgs);
-            case "START" -> new StartGameAction(server, playerWrapper, actionsArgs);
-            case "QUIT" -> new QuitGameAction(server, playerWrapper, actionsArgs);
-            case "LIST" -> new ListGamesAction(server, playerWrapper, actionsArgs);
-            case "BALANCE" -> new BalanceAction(server, playerWrapper, actionsArgs);
-            case "HELP" -> new HelpAction(server, playerWrapper, actionsArgs);
+            case "START" -> new StartGameAction(server, playerWrapper);
+            case "QUIT" -> new QuitGameAction(server, playerWrapper);
+            case "LIST" -> new ListGamesAction(server, playerWrapper);
+            case "BALANCE" -> new BalanceAction(server, playerWrapper);
+            case "HELP" -> new HelpAction(server, playerWrapper);
             default -> throw new NoSuchActionException("Wybrana akcja nie istnieje.");
         };
     }

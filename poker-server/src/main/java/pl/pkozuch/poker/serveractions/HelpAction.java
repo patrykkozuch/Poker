@@ -22,11 +22,8 @@ public class HelpAction extends ServerAction {
      * @param playerWrapper {@link ServerAction#playerWrapper}
      * @throws IllegalArgumentException if {@code args} != null
      */
-    HelpAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
+    HelpAction(Server server, PlayerWrapper playerWrapper) {
         super(server, playerWrapper);
-
-        if (args != null)
-            throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
     }
 
     @Override

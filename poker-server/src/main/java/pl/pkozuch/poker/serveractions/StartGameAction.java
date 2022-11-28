@@ -10,16 +10,8 @@ public class StartGameAction extends ServerAction {
     @UsedViaReflection
     public static final String HELP_STRING = "START";
 
-    /**
-     * @param server        {@link ServerAction#server}
-     * @param playerWrapper {@link ServerAction#playerWrapper}
-     * @throws IllegalArgumentException if {@code args} is not null
-     */
-    StartGameAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
+    StartGameAction(Server server, PlayerWrapper playerWrapper) {
         super(server, playerWrapper);
-
-        if (args != null)
-            throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
     }
 
     /**

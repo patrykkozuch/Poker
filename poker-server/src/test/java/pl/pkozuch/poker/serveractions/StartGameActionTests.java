@@ -7,17 +7,10 @@ import pl.pkozuch.poker.server.Server;
 
 class StartGameActionTests {
     @Test
-    void testStartGameAction__TooManyArguments() {
-        Server s = new Server();
-        PlayerWrapperStub p = new PlayerWrapperStub();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new StartGameAction(s, p, new String[]{"as", "as", "asd"}));
-    }
-
-    @Test
     void testStartGame__NotInLobby() {
         Server s = new Server();
         PlayerWrapperStub p = new PlayerWrapperStub();
-        Assertions.assertThrows(IllegalActionException.class, () -> new StartGameAction(s, p, null).make());
+        Assertions.assertThrows(IllegalActionException.class, () -> new StartGameAction(s, p).make());
     }
 
     @Test
@@ -33,7 +26,7 @@ class StartGameActionTests {
         new JoinGameAction(s, p, new String[]{"1"}).make();
         new JoinGameAction(s, p2, new String[]{"1"}).make();
 
-        Assertions.assertThrows(IllegalActionException.class, () -> new StartGameAction(s, p2, null).make());
+        Assertions.assertThrows(IllegalActionException.class, () -> new StartGameAction(s, p2).make());
     }
 
     @Test
@@ -46,7 +39,7 @@ class StartGameActionTests {
         new CreateGameAction(s, p, new String[]{"10"}).make();
         new JoinGameAction(s, p, new String[]{"1"}).make();
 
-        new StartGameAction(s, p, null).make();
+        new StartGameAction(s, p).make();
 
         Assertions.assertEquals("W trakcie", s.getGame(1).getStatus());
     }

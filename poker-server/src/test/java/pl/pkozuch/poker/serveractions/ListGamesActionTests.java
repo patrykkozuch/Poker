@@ -8,13 +8,6 @@ import pl.pkozuch.poker.server.Server;
 class ListGamesActionTests {
 
     @Test
-    void testListGamesAction__TooManyArguments() {
-        Server s = new Server();
-        PlayerWrapperStub p = new PlayerWrapperStub();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new ListGamesAction(s, p, new String[]{"as", "as", "asd"}));
-    }
-
-    @Test
     void testListGamesAction__ShowsAllGames() throws IllegalActionException {
         Server s = new Server();
         PlayerWrapperStub p = new PlayerWrapperStub();
@@ -23,7 +16,7 @@ class ListGamesActionTests {
         new CreateGameAction(s, p, new String[]{"30"}).make();
         new CreateGameAction(s, p, new String[]{"40"}).make();
 
-        new ListGamesAction(s, p, null).make();
+        new ListGamesAction(s, p).make();
 
         Assertions.assertTrue(p.getSentMessage().contains("Gra nr 1 (Ante 20"));
         Assertions.assertTrue(p.getSentMessage().contains("Gra nr 2 (Ante 30"));

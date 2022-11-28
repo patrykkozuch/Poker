@@ -27,9 +27,7 @@ class ServerActionFactoryTests {
 
     private static Stream<?> provideInvalidActions() {
         return Stream.of(
-                Arguments.of("BALANCE 5"),
                 Arguments.of("CREATE 4 4"),
-                Arguments.of("LIST ALL"),
                 Arguments.of("JOIN -1")
         );
     }

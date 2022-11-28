@@ -13,16 +13,8 @@ public class BalanceAction extends ServerAction {
     @UsedViaReflection
     public static final String HELP_STRING = "BALANCE";
 
-    /**
-     * @param server        {@link ServerAction#server}
-     * @param playerWrapper {@link ServerAction#playerWrapper}
-     * @throws IllegalArgumentException {@code args} != null
-     */
-    BalanceAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
+    BalanceAction(Server server, PlayerWrapper playerWrapper) {
         super(server, playerWrapper);
-
-        if (args != null)
-            throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
     }
 
     @Override

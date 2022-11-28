@@ -88,4 +88,97 @@ public class SampleHands {
                 new Card("HT")
         )));
     }};
+
+    public static final Map<ArrayList<Card>, HandSeniority> allPossibleHands = new HashMap<>() {{
+        hands.forEach((key, value) -> put(value, key));
+
+        put(new ArrayList<>(Arrays.asList(
+                new Card("HA"),
+                new Card("DA"),
+                new Card("CA"),
+                new Card("H2"),
+                new Card("C2")
+        )), HandSeniority.FULL_HOUSE);
+
+
+        put(new ArrayList<>(Arrays.asList(
+                new Card("HA"),
+                new Card("CA"),
+                new Card("DA"),
+                new Card("SQ"),
+                new Card("HT")
+        )), HandSeniority.THREE_OF_KIND);
+
+        put(new ArrayList<>(Arrays.asList(
+                new Card("HA"),
+                new Card("HK"),
+                new Card("DK"),
+                new Card("CK"),
+                new Card("HT")
+        )), HandSeniority.THREE_OF_KIND);
+
+        put(new ArrayList<>(Arrays.asList(
+                new Card("HA"),
+                new Card("CA"),
+                new Card("DK"),
+                new Card("CK"),
+                new Card("HT")
+        )), HandSeniority.TWO_PAIR);
+
+        put(new ArrayList<>(Arrays.asList(
+                new Card("HA"),
+                new Card("CA"),
+                new Card("H2"),
+                new Card("D2"),
+                new Card("HT")
+        )), HandSeniority.TWO_PAIR);
+
+        put(new ArrayList<>(Arrays.asList(
+                new Card("HA"),
+                new Card("DA"),
+                new Card("H2"),
+                new Card("SQ"),
+                new Card("HT")
+        )), HandSeniority.ONE_PAIR);
+
+        put(new ArrayList<>(Arrays.asList(
+                new Card("HA"),
+                new Card("DK"),
+                new Card("HK"),
+                new Card("SQ"),
+                new Card("HT")
+        )), HandSeniority.ONE_PAIR);
+
+        put(new ArrayList<>(Arrays.asList(
+                new Card("HA"),
+                new Card("DK"),
+                new Card("CQ"),
+                new Card("HQ"),
+                new Card("HT")
+        )), HandSeniority.ONE_PAIR);
+
+        put(new ArrayList<>(Arrays.asList(
+                new Card("HA"),
+                new Card("HK"),
+                new Card("HQ"),
+                new Card("CJ"),
+                new Card("HT")
+        )), HandSeniority.STRAIGHT);
+
+        put(new ArrayList<>(Arrays.asList(
+                new Card("HA"),
+                new Card("HK"),
+                new Card("HQ"),
+                new Card("HJ"),
+                new Card("CT")
+        )), HandSeniority.STRAIGHT);
+
+        put(new ArrayList<>(Arrays.asList(
+                new Card("HA"),
+                new Card("HK"),
+                new Card("HJ"),
+                new Card("HT"),
+                new Card("H9")
+        )), HandSeniority.FLUSH);
+    }};
 }

@@ -4,8 +4,18 @@ import pl.pkozuch.poker.common.IntValidator;
 import pl.pkozuch.poker.logic.GameController;
 import pl.pkozuch.poker.logic.Player;
 
+/**
+ * Change cards Action - means that players change fixed number of their cards
+ * <p>
+ * Player can also want not to change their cards - they should enter '0' as card index to be changed.
+ * <p>
+ * Can be performed only during changing phase of the game.
+ */
 public class ChangeAction extends Action {
 
+    /**
+     * Card indexes to be changed
+     */
     private final Integer[] cardIndexesToChange;
 
     ChangeAction(GameController gameController, Player player, String[] args) throws IllegalArgumentException {

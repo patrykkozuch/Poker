@@ -7,16 +7,38 @@ import pl.pkozuch.poker.logic.Player;
 
 import java.util.Arrays;
 
+/**
+ * Factory class which creates needed actions based on user input
+ */
 public class ActionFactory {
+    /**
+     * GameController on which Action will be performed
+     */
     private final GameController gameController;
 
+    /**
+     * Action slug provided by Player
+     */
     private String actionSlug;
+
+    /**
+     * Arguments provided by Player, if none set tu null
+     */
     private String[] actionsArgs;
 
     public ActionFactory(GameController gameController) {
         this.gameController = gameController;
     }
 
+    /**
+     * Creates Action based on Player input
+     *
+     * @param player  which wants to perform action
+     * @param message Player input
+     * @return Action if action was valid
+     * @throws NoSuchActionException if there are no action with entered {@link ActionFactory#actionSlug}
+     * @throws NoSuchPlayerException if there is no player with ID specified in {@code message}
+     */
     public Action create(Player player, String message) throws NoSuchActionException, NoSuchPlayerException {
         parseAction(message);
 
@@ -31,6 +53,13 @@ public class ActionFactory {
         };
     }
 
+    /**
+     * Parses action entered by Player
+     *
+     * @param enteredAction Player input
+     * @throws IllegalArgumentException if arguments are not valid (in term of types, length and so on)
+     * @throws NoSuchPlayerException    if there is no player with ID specified in {@code enteredAction}
+     */
     private void parseAction(String enteredAction) throws IllegalArgumentException, NoSuchPlayerException {
         String[] splitAction = enteredAction.trim().split(" ");
 

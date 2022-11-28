@@ -3,7 +3,19 @@ package pl.pkozuch.poker.actions;
 import pl.pkozuch.poker.logic.GameController;
 import pl.pkozuch.poker.logic.Player;
 
+/**
+ * Call Action - means that Player bets the same amount as others.
+ * <p>
+ * Cannot be performed if nobody raises bet.
+ * <p>
+ * Can be performed only during betting phase.
+ */
 public class CallAction extends Action {
+
+    /**
+     * Amount to lower Player {@code balance}
+     * amount = {@code currentBetPerPlayer} - {@code Player #betInCurrentRound}
+     */
     private final Integer amount;
 
     CallAction(GameController gameController, Player player) {

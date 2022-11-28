@@ -4,9 +4,24 @@ import pl.pkozuch.poker.common.IntValidator;
 import pl.pkozuch.poker.logic.GameController;
 import pl.pkozuch.poker.logic.Player;
 
+/**
+ * Raise Action means that Player raises the current bet.
+ * <p>
+ * Bet cannot be raised to lower amount than has been already. Bet cannot be raised if Player does not have enough many to bet.
+ * <p>
+ * Can be performed only during bet phase.
+ */
 public class RaiseAction extends Action {
 
+    /**
+     * Amount to lower Player {@code balance}
+     * amount = {@link RaiseAction#providedAmount} - Player {@code betInCurrentRound}
+     */
     private final Integer amount;
+
+    /**
+     * Amount provided by Player. Must always be higher than amount provided by other Players.
+     */
     private final Integer providedAmount;
 
     RaiseAction(GameController gameController, Player player, String[] args) throws IllegalArgumentException {

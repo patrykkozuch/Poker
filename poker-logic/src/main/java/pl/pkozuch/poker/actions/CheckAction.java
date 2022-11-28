@@ -3,6 +3,11 @@ package pl.pkozuch.poker.actions;
 import pl.pkozuch.poker.logic.GameController;
 import pl.pkozuch.poker.logic.Player;
 
+/**
+ * Check Action means that Player can check as long as anybody bets.
+ * <p>
+ * Cannot be made if other Player has already bet.
+ */
 public class CheckAction extends Action {
     CheckAction(GameController gameController, Player player) {
         super(gameController, player);

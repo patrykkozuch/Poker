@@ -3,6 +3,13 @@ package pl.pkozuch.poker.actions;
 import pl.pkozuch.poker.logic.GameController;
 import pl.pkozuch.poker.logic.Player;
 
+/**
+ * Fold Action means that Player do not want to play during this round anymore.
+ * <p>
+ * After fold, player remains inactive and cannot win any prize.
+ * <p>
+ * Can be performed only during betting phase.
+ */
 public class FoldAction extends Action {
     FoldAction(GameController gameController, Player player) {
         super(gameController, player);

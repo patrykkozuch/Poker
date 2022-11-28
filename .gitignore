@@ -1,6 +1,8 @@
 # Project exclude paths
-/poker-client/target/
-/poker-common/target/
-/poker-logic/target/
-/poker-server/target/
+/poker-client/target/*
+/poker-common/target/*
+/poker-logic/target/*
+/poker-server/target/*
+/target*
 /logs/*
+/.idea/*

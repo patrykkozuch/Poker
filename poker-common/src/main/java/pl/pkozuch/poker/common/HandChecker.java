@@ -1,5 +1,8 @@
 package pl.pkozuch.poker.common;
 
+/**
+ * Utility class used to check hand seniority
+ */
 public class HandChecker {
 
     private HandChecker() {

@@ -2,9 +2,16 @@ package pl.pkozuch.poker.common;
 
 import java.util.Objects;
 
+/**
+ * Card wrapper - adds priority to card
+ */
 public class HandEntry implements Comparable<HandEntry> {
 
     private final Card card;
+
+    /**
+     * Card priority - the highest, the most powerful
+     */
     private int priority;
 
     public HandEntry(Card card, int priority) {
@@ -12,6 +19,11 @@ public class HandEntry implements Comparable<HandEntry> {
         this.priority = priority;
     }
 
+    /**
+     * Returns card
+     *
+     * @return Card
+     */
     public Card getCard() {
         return card;
     }
@@ -20,6 +32,12 @@ public class HandEntry implements Comparable<HandEntry> {
         this.priority = priority;
     }
 
+    /**
+     * Comparator - first HandEntries are compared by priority, then by card order
+     *
+     * @param o HandEntry to compare with
+     * @return comparison value
+     */
     @Override
     public int compareTo(HandEntry o) {
         if (priority == o.priority) {

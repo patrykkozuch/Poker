@@ -3,13 +3,38 @@ package pl.pkozuch.poker.common;
 import java.util.Arrays;
 import java.util.Optional;
 
+/**
+ * Representation of CardSuit
+ */
 public enum CardSuits {
+    /**
+     * Name: Trefl, Shortcut: "C"
+     */
     CLUB("Trefl", "C"),
+
+    /**
+     * Name: Karo, Shortcut: "D"
+     */
     DIAMOND("Karo", "D"),
+
+    /**
+     * Name: Kier, Shortcut: "H"
+     */
     HEART("Kier", "H"),
+
+    /**
+     * Name: Pik, Shortcut: "S"
+     */
     SPADE("Pik", "S");
 
+    /**
+     * Name of the suit in polish
+     */
     private final String name;
+
+    /**
+     * One-character long shortcut of the suit
+     */
     private final String shortcut;
 
     CardSuits(String name, String shortcut) {
@@ -19,8 +44,9 @@ public enum CardSuits {
 
     /**
      * Gets enum suit value by specified shortcut
-     * Possible values:<br>
+     * <p>Possible values:<br>
      * 'C', 'D', 'H', 'S'
+     * </p>
      *
      * @param suitShortcut one character long shortcut of the suit
      * @return found enum suit value
@@ -41,7 +67,7 @@ public enum CardSuits {
     /**
      * Gets name of the suit
      *
-     * @return name of the suit
+     * @return name of the suit in polish
      */
     public String getName() {
         return name;

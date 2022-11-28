@@ -11,6 +11,10 @@ import java.util.Objects;
 public class Hand implements Comparable<Hand> {
 
     ArrayList<HandEntry> handEntries = new ArrayList<>();
+
+    /**
+     * Seniority by default is set to {@link HandSeniority#HIGH_CARD}. After {@link Hand#check()} set to checked seniority.
+     */
     HandSeniority seniority = HandSeniority.HIGH_CARD;
 
     /**
@@ -73,6 +77,7 @@ public class Hand implements Comparable<Hand> {
 
     /**
      * Checks hand with use of {@link HandChecker}
+     * After check, {@link Hand#seniority} is set to checked seniority
      *
      * @return {@code this}
      */

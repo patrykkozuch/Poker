@@ -3,6 +3,9 @@ package pl.pkozuch.poker.common;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Deck representation - 52 cards without Jokers
+ */
 public class Deck {
 
     final ArrayList<Card> cardsInDeck = new ArrayList<>(52);

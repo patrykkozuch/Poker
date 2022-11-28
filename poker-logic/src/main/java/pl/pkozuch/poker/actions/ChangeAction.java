@@ -38,7 +38,7 @@ public class ChangeAction extends Action {
     }
 
     @Override
-    public void validate() throws IllegalActionException {
+    protected void validate() throws IllegalActionException {
         if (gameController.getRoundState() != GameController.possibleRoundStates.CHANGING)
             throw new IllegalActionException("Nie udało się wykonać akcji. Wymiana kart możliwa jest tylko w fazie wymiany.");
     }

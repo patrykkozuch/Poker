@@ -8,12 +8,20 @@ import pl.pkozuch.poker.server.Server;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Help Action shows list of available actions
+ */
 public class HelpAction extends ServerAction {
 
     @SuppressWarnings("unused")
     @UsedViaReflection
     public static final String HELP_STRING = "HELP";
 
+    /**
+     * @param server        {@link ServerAction#server}
+     * @param playerWrapper {@link ServerAction#playerWrapper}
+     * @throws IllegalArgumentException if {@code args} != null
+     */
     HelpAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
@@ -22,7 +30,7 @@ public class HelpAction extends ServerAction {
     }
 
     @Override
-    public void validate() {
+    protected void validate() {
         // Validation not needed
     }
 

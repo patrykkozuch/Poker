@@ -11,7 +11,7 @@ class GameTests {
 
     @Test
     void testAddPlayer() throws IllegalActionException {
-        Game game = new Game(0);
+        Game game = new Game(0, 0);
 
         Player p = new PlayerStub();
 
@@ -22,7 +22,7 @@ class GameTests {
 
     @Test
     void testAddMultiplePlayers() throws IllegalActionException {
-        Game game = new Game(0);
+        Game game = new Game(0, 0);
 
         Player p1 = new PlayerStub();
         Player p2 = new PlayerStub();
@@ -47,7 +47,7 @@ class GameTests {
 
     @Test
     void testHostIDIsSet() throws IllegalActionException {
-        Game game = new Game(0);
+        Game game = new Game(0, 0);
 
         Player p = new PlayerStub();
 
@@ -58,7 +58,7 @@ class GameTests {
 
     @Test
     void testHostIDDoesNotChangeWhenPlayerJoins() throws IllegalActionException {
-        Game game = new Game(0);
+        Game game = new Game(0, 0);
 
         Player p1 = new PlayerStub();
         Player p2 = new PlayerStub();
@@ -72,7 +72,7 @@ class GameTests {
 
     @Test
     void testRemovePlayerSuccessful() throws IllegalActionException, NoSuchPlayerException {
-        Game game = new Game(0);
+        Game game = new Game(0, 0);
 
         Player p1 = new PlayerStub();
 
@@ -85,7 +85,7 @@ class GameTests {
 
     @Test
     void testRemovePlayerNoPlayerWithID() {
-        Game game = new Game(0);
+        Game game = new Game(0, 0);
 
         Assertions.assertThrows(NoSuchPlayerException.class, () -> game.removePlayer(0));
     }

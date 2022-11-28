@@ -5,6 +5,9 @@ import pl.pkozuch.poker.common.IntValidator;
 import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
 
+/**
+ * Creates game action - creates Game on server with specified ANTE
+ */
 public class CreateGameAction extends ServerAction {
 
     @SuppressWarnings("unused")
@@ -12,6 +15,11 @@ public class CreateGameAction extends ServerAction {
     public static final String HELP_STRING = "CREATE <ante>";
     private final Integer ante;
 
+    /**
+     * @param server        {@link ServerAction#server}
+     * @param playerWrapper {@link ServerAction#playerWrapper}
+     * @throws IllegalArgumentException if ante is not specified or is not an integer
+     */
     CreateGameAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
@@ -24,8 +32,13 @@ public class CreateGameAction extends ServerAction {
         ante = Integer.parseInt(args[0]);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalActionException if Player is currently in game
+     */
     @Override
-    public void validate() throws IllegalActionException {
+    protected void validate() throws IllegalActionException {
         if (playerWrapper.getGameID() != null)
             throw new IllegalActionException("Jesteś już członkiem gry. Aby stworzyć nową grę, najpierw opuść aktualną (QUIT).");
     }

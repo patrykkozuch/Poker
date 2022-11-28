@@ -10,6 +10,11 @@ public class StartGameAction extends ServerAction {
     @UsedViaReflection
     public static final String HELP_STRING = "START";
 
+    /**
+     * @param server        {@link ServerAction#server}
+     * @param playerWrapper {@link ServerAction#playerWrapper}
+     * @throws IllegalArgumentException if {@code args} is not null
+     */
     StartGameAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
@@ -17,8 +22,13 @@ public class StartGameAction extends ServerAction {
             throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalActionException if player is not a member of any game or is not a host of game
+     */
     @Override
-    public void validate() throws IllegalActionException {
+    protected void validate() throws IllegalActionException {
         if (playerWrapper.getGameID() == null)
             throw new IllegalActionException("Nie jesteś aktualnie członkiem żadnej gry.");
 

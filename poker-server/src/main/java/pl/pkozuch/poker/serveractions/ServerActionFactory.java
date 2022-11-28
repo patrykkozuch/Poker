@@ -8,16 +8,38 @@ import pl.pkozuch.poker.server.Server;
 
 import java.util.Arrays;
 
+/**
+ * Factory class which creates needed actions based on user input
+ */
 public class ServerActionFactory {
+    /**
+     * Server to perform action on
+     */
     private final Server server;
 
+    /**
+     * Action slug provided by Player
+     */
     private String actionSlug;
+
+    /**
+     * Arguments provided by Player, if none set tu null
+     */
     private String[] actionsArgs;
 
     public ServerActionFactory(Server server) {
         this.server = server;
     }
 
+    /**
+     * Creates Action based on Player input
+     *
+     * @param playerWrapper which wants to perform action
+     * @param enteredAction Player input
+     * @return Action if action was valid
+     * @throws NoSuchActionException if there are no action with entered {@link ServerActionFactory#actionSlug}
+     * @throws NoSuchPlayerException if there is no player with ID specified in {@code message}
+     */
     public ServerAction create(PlayerWrapper playerWrapper, String enteredAction) throws NoSuchPlayerException, NoSuchActionException, IllegalArgumentException {
         parseAction(enteredAction);
 
@@ -33,6 +55,13 @@ public class ServerActionFactory {
         };
     }
 
+    /**
+     * Parses action entered by Player
+     *
+     * @param enteredAction Player input
+     * @throws IllegalArgumentException if arguments are not valid (in term of types, length and so on)
+     * @throws NoSuchPlayerException    if there is no player with ID specified in {@code enteredAction}
+     */
     private void parseAction(String enteredAction) throws NoSuchPlayerException, IllegalArgumentException {
         String[] splitAction = enteredAction.trim().split(" ");
 

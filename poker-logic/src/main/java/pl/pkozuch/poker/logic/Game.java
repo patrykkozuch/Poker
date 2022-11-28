@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class Game {
 
-    private static Integer counter = 0;
     private final Integer gameID;
 
     /**
@@ -26,10 +25,11 @@ public class Game {
     private Integer hostID = null;
 
     /**
-     * @param ante -
+     * @param gameID GameID provided by Server
+     * @param ante   default bet
      */
-    public Game(Integer ante) {
-        this.gameID = ++counter;
+    public Game(Integer gameID, Integer ante) {
+        this.gameID = gameID;
         this.ante = ante;
     }
 

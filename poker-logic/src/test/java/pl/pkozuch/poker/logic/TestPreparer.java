@@ -14,7 +14,7 @@ public class TestPreparer {
      */
     public static Object[] createGameControllerAndPlayers(Integer ante) {
 
-        Game game = new Game(ante);
+        Game game = new Game(1, ante);
 
         GameController gameController = new GameController(game);
 

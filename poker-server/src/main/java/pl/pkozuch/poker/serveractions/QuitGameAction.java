@@ -19,8 +19,13 @@ public class QuitGameAction extends ServerAction {
             throw new IllegalArgumentException("Nieprawidłowa liczba argumentów");
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalActionException if players is not a game member or game is already in progress
+     */
     @Override
-    public void validate() throws IllegalActionException {
+    protected void validate() throws IllegalActionException {
         if (playerWrapper.getGameID() == null)
             throw new IllegalActionException("Nie jesteś członkiem żadnej gry. Użyj CREATE <ante> lub JOIN <id_gry> aby dołączyć do lobby.");
 

@@ -6,6 +6,9 @@ import pl.pkozuch.poker.logic.Game;
 import pl.pkozuch.poker.server.PlayerWrapper;
 import pl.pkozuch.poker.server.Server;
 
+/**
+ * Join Action allows Player to join selected game
+ */
 public class JoinGameAction extends ServerAction {
 
     @SuppressWarnings("unused")
@@ -13,6 +16,12 @@ public class JoinGameAction extends ServerAction {
     public static final String HELP_STRING = "JOIN <id_gry>";
     private final Integer gameID;
 
+    /**
+     * @param server        {@link ServerAction#server}
+     * @param playerWrapper {@link ServerAction#playerWrapper}
+     * @param args          game number
+     * @throws IllegalArgumentException if {@code args} does not contain only one element or element is not a number
+     */
     JoinGameAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
@@ -25,8 +34,18 @@ public class JoinGameAction extends ServerAction {
         gameID = Integer.parseInt(args[0]);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalActionException if:
+     *                                <ul>
+     *                                    <li>Game of specified ID does not exist</li>
+     *                                    <li>Player is a member of another game</li>
+     *                                    <li>Player does not have amount enough to provide ante</li>
+     *                                </ul>
+     */
     @Override
-    public void validate() throws IllegalActionException {
+    protected void validate() throws IllegalActionException {
         if (!server.hasGameWithID(gameID))
             throw new IllegalActionException("Nie istnieje gra o podanym ID");
 

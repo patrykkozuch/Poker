@@ -21,6 +21,8 @@ import java.util.*;
 public class Server {
     protected final Map<Integer, PlayerWrapper> players = new HashMap<>();
     protected final Map<Integer, Game> games = new HashMap<>();
+    private Integer counter = 0;
+
 
     public static void main(String[] args) {
         Server server = new Server();
@@ -133,7 +135,7 @@ public class Server {
     }
 
     public Integer createGame(Integer ante) {
-        Game newGame = new Game(ante);
+        Game newGame = new Game(++counter, ante);
 
         games.put(newGame.getGameID(), newGame);
 

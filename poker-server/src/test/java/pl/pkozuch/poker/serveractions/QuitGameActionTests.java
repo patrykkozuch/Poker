@@ -27,7 +27,7 @@ class QuitGameActionTests {
         PlayerWrapperStub p = new PlayerWrapperStub();
         PlayerWrapperStub p2 = new PlayerWrapperStub();
 
-        new CreateGameAction(s, p, new String[]{"1"}).make();
+        new CreateGameAction(s, p, new String[]{"0"}).make();
         new JoinGameAction(s, p, new String[]{"1"}).make();
         new JoinGameAction(s, p2, new String[]{"1"}).make();
         new StartGameAction(s, p, null).make();
@@ -59,7 +59,7 @@ class QuitGameActionTests {
 
         p.getPlayer().setBalance(100);
 
-        new CreateGameAction(s, p, new String[]{"10"}).make();
+        new CreateGameAction(s, p, new String[]{"0"}).make();
         new JoinGameAction(s, p, new String[]{"1"}).make();
         new JoinGameAction(s, p2, new String[]{"1"}).make();
 
@@ -77,7 +77,7 @@ class QuitGameActionTests {
 
         p.getPlayer().setBalance(100);
 
-        new CreateGameAction(s, p, new String[]{"10"}).make();
+        new CreateGameAction(s, p, new String[]{"0"}).make();
         new JoinGameAction(s, p, new String[]{"1"}).make();
 
         Assertions.assertEquals(p.getPlayer().getId(), s.getGame(1).getHostID());

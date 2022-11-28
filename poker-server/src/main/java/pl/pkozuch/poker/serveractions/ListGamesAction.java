@@ -7,12 +7,20 @@ import pl.pkozuch.poker.server.Server;
 
 import java.util.Collection;
 
+/**
+ * List Games Action shows list of available games with number of people in lobby, ante and current game state
+ */
 public class ListGamesAction extends ServerAction {
 
     @SuppressWarnings("unused")
     @UsedViaReflection
     public static final String HELP_STRING = "LIST";
 
+    /**
+     * @param server        {@link ServerAction#server}
+     * @param playerWrapper {@link ServerAction#playerWrapper}
+     * @throws IllegalArgumentException if {@code args} is not null
+     */
     ListGamesAction(Server server, PlayerWrapper playerWrapper, String[] args) throws IllegalArgumentException {
         super(server, playerWrapper);
 
@@ -21,7 +29,7 @@ public class ListGamesAction extends ServerAction {
     }
 
     @Override
-    public void validate() {
+    protected void validate() {
         // Validation not needed
     }
 

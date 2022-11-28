@@ -82,6 +82,13 @@ public class Client {
         new Client();
     }
 
+    /**
+     * Connects to a server. As a part of connection playerID is received.
+     *
+     * @param selector used to select channel
+     * @param client   client channel
+     * @throws IOException if something badly happens (ex. read fails)
+     */
     private void connectToServer(Selector selector, SocketChannel client) throws IOException {
         client.configureBlocking(false);
         client.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);

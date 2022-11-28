@@ -9,6 +9,9 @@ import pl.pkozuch.poker.common.HandSeniority;
 
 import java.util.*;
 
+/**
+ * Class responsible for poker logic
+ */
 public class GameController {
     private final Game game;
     private final ActionFactory actionFactory = new ActionFactory(this);
@@ -19,11 +22,19 @@ public class GameController {
     private Integer currentRoundBetPerPlayer;
     private possibleRoundStates roundState = possibleRoundStates.START;
 
+    /**
+     * Creates gameController.
+     *
+     * @param game game for which controller is being created
+     */
     public GameController(Game game) {
         this.game = game;
-        messageController = new MessageController(this, game.getAllPlayers());
+        messageController = new MessageController(this);
     }
 
+    /**
+     * Starts game and reset game state.
+     */
     public void startGame() {
         sendMessageToAllPlayers("Rozpoczynanie gry...");
 
@@ -41,6 +52,9 @@ public class GameController {
         sendMessageToAllPlayers("Gra rozpoczęta.");
     }
 
+    /**
+     * Starts new round
+     */
     public void startNextRound() {
         sendMessageToAllPlayers("\n\n\n");
 
@@ -106,6 +120,19 @@ public class GameController {
         }
     }
 
+    /**
+     * Gets list of active players.
+     * <p>
+     * 'Active' Player means that:
+     * <ul>
+     *     <li>During betting phase: Player does not fold or bet All-In,
+     *     does not bet the same amount than others or nobody bet and player still do not check</li>
+     *     <li>During changing phase: Player does not fold and does not changed their cards</li>
+     *     <li>During end phase: Player does not fold</li>
+     * </ul>
+     *
+     * @return list of active players
+     */
     private List<Player> getActivePlayers() {
         if (roundState == possibleRoundStates.BETTING || roundState == possibleRoundStates.SECOND_BETTING)
             return new ArrayList<>(
@@ -132,7 +159,12 @@ public class GameController {
         return (int) playersInGameCounter;
     }
 
-
+    /**
+     * Gets action string from Player {@code p}
+     *
+     * @param p Players to be asked for action
+     * @return actionString provided by Player
+     */
     private String askPlayerForAction(Player p) {
         if (roundState == possibleRoundStates.BETTING || roundState == possibleRoundStates.SECOND_BETTING) {
             messageController.showBetMessageToPlayer(p);
@@ -151,6 +183,9 @@ public class GameController {
         roundState = possibleRoundStates.values()[roundState.ordinal() + 1 % possibleRoundStates.values().length];
     }
 
+    /**
+     * Ends round and rewards Players
+     */
     private void endRound() {
         ArrayList<Hand> hands = new ArrayList<>();
 
@@ -218,10 +253,21 @@ public class GameController {
         return pools;
     }
 
+    /**
+     * Sends message to all players in lobby
+     *
+     * @param message message to be sent
+     */
     public void sendMessageToAllPlayers(String message) {
         sendMessageToAllPlayersWithout(null, message);
     }
 
+    /**
+     * Sends message to all player, except the one specified
+     *
+     * @param without Player who should not receive the message
+     * @param message message to be sent
+     */
     public void sendMessageToAllPlayersWithout(Player without, String message) {
         for (Player p : game.getAllPlayers()) {
             if (p != without)
@@ -229,11 +275,21 @@ public class GameController {
         }
     }
 
+    /**
+     * Checks if player is active.
+     * <p>
+     * Being active is explained in: {@link GameController#getActivePlayers()}
+     *
+     * @param playerID ID of a player to be checked
+     * @return true if player is active, false otherwise
+     * @throws NoSuchPlayerException if there is no Player with specified ID in this game
+     */
     public boolean isPlayerActive(Integer playerID) throws NoSuchPlayerException {
         return getActivePlayers().contains(game.getPlayerByID(playerID));
     }
 
     //Functions used by Actions
+
     public boolean hasPlayerWithID(Integer playerID) {
         return game.hasPlayerWithID(playerID);
     }

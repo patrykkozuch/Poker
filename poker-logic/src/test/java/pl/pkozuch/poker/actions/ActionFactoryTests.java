@@ -48,7 +48,7 @@ class ActionFactoryTests {
     @ParameterizedTest
     @MethodSource("provideValidActions")
     void testCreateValidAction(Class<Action> actionClass, String actionString) throws NoSuchActionException, IllegalActionException, NoSuchPlayerException {
-        Game g = new Game(1, 1);
+        Game g = new Game(1);
 
         GameController gameController = new GameController(g);
 
@@ -65,7 +65,7 @@ class ActionFactoryTests {
     @ParameterizedTest
     @MethodSource("provideInvalidActions")
     void testCreateInvalidAction(String actionString) throws IllegalActionException {
-        Game g = new Game(1, 1);
+        Game g = new Game(1);
 
         GameController gameController = new GameController(g);
 
@@ -84,7 +84,7 @@ class ActionFactoryTests {
     @ParameterizedTest
     @MethodSource("provideNonExistingActions")
     void testCreateNonExistingActions(String actionString) throws IllegalActionException {
-        Game g = new Game(1, 1);
+        Game g = new Game(1);
 
         GameController gameController = new GameController(g);
 
@@ -101,7 +101,7 @@ class ActionFactoryTests {
 
     @Test
     void testCreateActionWithWrongPlayerID() throws IllegalActionException {
-        Game g = new Game(1, 1);
+        Game g = new Game(1);
 
         GameController gameController = new GameController(g);
 
@@ -118,7 +118,7 @@ class ActionFactoryTests {
 
     @Test
     void testCreateActionWithoutPlayerID() throws IllegalActionException {
-        Game g = new Game(1, 1);
+        Game g = new Game(1);
 
         GameController gameController = new GameController(g);
 
@@ -135,7 +135,7 @@ class ActionFactoryTests {
 
     @Test
     void testCreateActionWithInvalidPlayerID() throws IllegalActionException {
-        Game g = new Game(1, 1);
+        Game g = new Game(1);
 
         GameController gameController = new GameController(g);
 

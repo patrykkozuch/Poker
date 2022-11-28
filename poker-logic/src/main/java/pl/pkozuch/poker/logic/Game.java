@@ -6,15 +6,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Wrapper responsible for all meta-actions connected with game - creating, joining/quitting players, setting host etc.
+ */
 public class Game {
-    final Integer gameID;
-    final Integer ante;
+
+    private static Integer counter = 0;
+    private final Integer gameID;
+
+    /**
+     * Ante - value to be bet before game starts
+     */
+    private final Integer ante;
+
     private final HashMap<Integer, Player> players = new HashMap<>();
-    GameThread gameThread = null;
+
+    private GameThread gameThread = null;
+
     private Integer hostID = null;
 
-    public Game(Integer gameID, Integer ante) {
-        this.gameID = gameID;
+    /**
+     * @param ante -
+     */
+    public Game(Integer ante) {
+        this.gameID = ++counter;
         this.ante = ante;
     }
 
@@ -22,6 +37,12 @@ public class Game {
         return gameID;
     }
 
+    /**
+     * Adds player to game. If there were no players before addition, added player becomes a host.
+     *
+     * @param newPlayer - player to be added
+     * @throws IllegalActionException if server is full
+     */
     public void addPlayer(Player newPlayer) throws IllegalActionException {
         if (players.size() >= 4)
             throw new IllegalActionException("Serwer gry jest pełny (4/4). Nie można dołączyć.");
@@ -39,6 +60,16 @@ public class Game {
         }
     }
 
+    /**
+     * Removes player from game.
+     * <ul>
+     *     <li>If player was the host and lobby is not empty - first player on the list becomes the host</li>
+     *     <li>Otherwise hostID is set to {@code null}</li>
+     * </ul>
+     *
+     * @param playerToRemoveID ID of a player which should be removed
+     * @throws NoSuchPlayerException If there is no player with specified {@code playerToRemoveID}
+     */
     public void removePlayer(Integer playerToRemoveID) throws NoSuchPlayerException {
 
         if (!players.containsKey(playerToRemoveID))
@@ -63,6 +94,11 @@ public class Game {
         return players.size();
     }
 
+    /**
+     * Gets list of players in lobby as a {@code String}, ready to be shown to Player. Contains additional info.
+     *
+     * @return List of players
+     */
     private synchronized String getPlayersListAsString() {
         StringBuilder stringBuffer = new StringBuilder();
         stringBuffer.append("Aktualnie w lobby: \n");
@@ -76,6 +112,11 @@ public class Game {
         return stringBuffer.toString();
     }
 
+    /**
+     * Tries to start the game. If succeeded, new gameThread is created.
+     *
+     * @throws IllegalActionException if game has already started
+     */
     public void startGame() throws IllegalActionException {
         if (gameThread == null || !gameThread.isAlive()) {
             gameThread = new GameThread(this);
@@ -111,6 +152,13 @@ public class Game {
         }
     }
 
+    /**
+     * Gets Player by specified ID.
+     *
+     * @param playerID ID of a player to be found
+     * @return Player object
+     * @throws NoSuchPlayerException if there is no player with given ID in this game
+     */
     public Player getPlayerByID(Integer playerID) throws NoSuchPlayerException {
         if (!players.containsKey(playerID))
             throw new NoSuchPlayerException("Nie udało się znaleźć gracza o podanym ID = " + playerID);

@@ -2,10 +2,26 @@ package pl.pkozuch.poker.logic;
 
 import java.util.List;
 
+/**
+ * Utility class meant to prepare all mesage for users
+ *
+ * @param gameController
+ */
 public record MessageBuilder(GameController gameController) {
 
     public static String buildChangeMessageForPlayer = "Wybierz, które karty chcesz wymienić.\nPodaj numery kart, oddzielając je spacjami, np: CHANGE 2 4";
 
+    /**
+     * Builds header message. Contains:
+     *
+     * <ul>
+     *     <li>Nicknames of players</li>
+     *     <li>Balance of players</li>
+     *     <li>Current bet made by each player</li>
+     * </ul>
+     *
+     * @return header message
+     */
     public String buildHeaderMessage() {
         List<Player> players = gameController.getGame().getAllPlayers();
 
@@ -26,6 +42,13 @@ public record MessageBuilder(GameController gameController) {
         return playersNicknamesLine + playersBalanceLine + playersCurrentBetLine;
     }
 
+    /**
+     * Builds card message for a player. For {@code currentPlayer} cards are shown,
+     * for others cards are shown as '######'
+     *
+     * @param currentPlayer Player for whom message is built
+     * @return card message
+     */
     public String buildCardMessage(Player currentPlayer) {
 
         List<Player> players = gameController.getGame().getAllPlayers();
@@ -48,6 +71,12 @@ public record MessageBuilder(GameController gameController) {
         return cardsSummary.toString();
     }
 
+    /**
+     * Builds bet message for player. Contains possible actions which can be made by player.
+     *
+     * @param p Player who makes action
+     * @return action string provided by Player
+     */
     public String buildBetMessageForPlayer(Player p) {
         StringBuilder stringBuilder = new StringBuilder();
 

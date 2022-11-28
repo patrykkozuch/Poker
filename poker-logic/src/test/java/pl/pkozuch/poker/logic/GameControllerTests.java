@@ -9,7 +9,7 @@ import pl.pkozuch.poker.common.HandSeniority;
 class GameControllerTests {
     @Test
     void testGameStart() {
-        Game game = new Game(0, 0);
+        Game game = new Game(0);
         GameController gc = new GameController(game);
 
         gc.startGame();
@@ -356,7 +356,7 @@ class GameControllerTests {
 
     @Test
     void testStartNextRound__BeforeGameStart() {
-        Game game = new Game(0, 0);
+        Game game = new Game(0);
         GameController gameController = new GameController(game);
 
         Assertions.assertThrows(GameNotStartedException.class, gameController::startNextRound);

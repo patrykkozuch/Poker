@@ -21,7 +21,6 @@ import java.util.*;
 public class Server {
     protected final Map<Integer, PlayerWrapper> players = new HashMap<>();
     protected final Map<Integer, Game> games = new HashMap<>();
-    private Integer gameCounter = 1;
 
     public static void main(String[] args) {
         Server server = new Server();
@@ -126,7 +125,7 @@ public class Server {
                 serverActionFactory.create(playerWrapper, message).make();
             }
         } catch (NoSuchActionException | IllegalActionException |
-                 NoSuchPlayerException e) {
+                NoSuchPlayerException e) {
             sendMessageToPlayer(playerWrapper.getPlayerID(), e.getMessage());
         } catch (IllegalArgumentException e) {
             sendMessageToPlayer(playerWrapper.getPlayerID(), e.getMessage() + " Sprawdź prawidłowe użycie akcji poleceniem HELP");
@@ -134,7 +133,7 @@ public class Server {
     }
 
     public Integer createGame(Integer ante) {
-        Game newGame = new Game(gameCounter++, ante);
+        Game newGame = new Game(ante);
 
         games.put(newGame.getGameID(), newGame);
 

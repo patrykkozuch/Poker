@@ -6,10 +6,17 @@ import pl.pkozuch.poker.common.Hand;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Wrapper for Hand class, contains information about user whom the hand belongs to
+ */
 public class PlayerHand extends Hand {
 
     private final Player player;
 
+    /**
+     * @param cards  List of cards on {@code player} hand
+     * @param player Player whose hand is it
+     */
     PlayerHand(List<Card> cards, Player player) {
         super(cards);
         this.player = player;

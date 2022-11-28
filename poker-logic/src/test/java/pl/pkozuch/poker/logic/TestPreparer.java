@@ -8,13 +8,13 @@ public class TestPreparer {
     public static Object[] createGameControllerAndPlayers() {
         return createGameControllerAndPlayers(0);
     }
-    
+
     /**
      * @return Object[GameController, Player, Player, Player]
      */
     public static Object[] createGameControllerAndPlayers(Integer ante) {
 
-        Game game = new Game(1, ante);
+        Game game = new Game(ante);
 
         GameController gameController = new GameController(game);
 

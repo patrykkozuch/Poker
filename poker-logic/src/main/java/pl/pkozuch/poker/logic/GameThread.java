@@ -1,14 +1,25 @@
 package pl.pkozuch.poker.logic;
 
+/**
+ * Thread in which game will be processed
+ */
 public class GameThread extends Thread {
     private final GameController gameController;
     private final Game game;
 
+    /**
+     * Creates thread and runs game
+     *
+     * @param game Game to be run
+     */
     GameThread(Game game) {
         gameController = new GameController(game);
         this.game = game;
     }
 
+    /**
+     * Runs game
+     */
     @Override
     public void run() {
         super.run();

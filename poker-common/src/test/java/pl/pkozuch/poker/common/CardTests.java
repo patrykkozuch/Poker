@@ -36,4 +36,11 @@ class CardTests {
         Assertions.assertFalse(king.isBeforeInSeniorityOrder(ace));
         Assertions.assertFalse(king.isBeforeInSeniorityOrder(king));
     }
+
+    @Test
+    void testCardCreationFromInvalidSlug() {
+        Assertions.assertThrows(InvalidSlugException.class, () -> new Card("asdasd"));
+        Assertions.assertThrows(InvalidShortcutException.class, () -> new Card("QT"));
+        Assertions.assertThrows(InvalidShortcutException.class, () -> new Card("CX"));
+    }
 }

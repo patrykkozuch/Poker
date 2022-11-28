@@ -36,7 +36,7 @@ public enum CardValues {
      *
      * @param valueShortcut one character long shortcut of the suit
      * @return found enum value
-     * @throws RuntimeException if invalid shortcut is provided
+     * @throws InvalidShortcutException if invalid shortcut is provided
      */
     public static CardValues getValueByShortcut(String valueShortcut) {
 
@@ -44,7 +44,7 @@ public enum CardValues {
         if (foundValue.isPresent())
             return foundValue.get();
         else
-            throw new InvalidSlugException("Value " + valueShortcut + " not found");
+            throw new InvalidShortcutException("Value " + valueShortcut + " not found");
     }
 
     /**

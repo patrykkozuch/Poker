@@ -24,7 +24,7 @@ public enum CardSuits {
      *
      * @param suitShortcut one character long shortcut of the suit
      * @return found enum suit value
-     * @throws RuntimeException if invalid shortcut is provided
+     * @throws InvalidShortcutException if invalid shortcut is provided
      */
     public static CardSuits getSuitByShortcut(String suitShortcut) throws InvalidShortcutException {
 

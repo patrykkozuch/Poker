@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"pl.pkozuch.poker.actions"},{"l":"pl.pkozuch.poker.client"},{"l":"pl.pkozuch.poker.common"},{"l":"pl.pkozuch.poker.logic"},{"l":"pl.pkozuch.poker.server"},{"l":"pl.pkozuch.poker.serveractions"}];updateSearchResults();

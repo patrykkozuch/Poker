@@ -1,4 +1,4 @@
-# Poker (IN PROGRESS)
+# Poker
 
 Simple poker game for 4 players for programming classes. Project is configured with use of Maven.
 
@@ -81,3 +81,7 @@ Allows player to put all the money in. Player can win maximal prize equals to th
 
 ### `CHANGE <card numbers>` or `CHANGE 0`
 Change 0 allows player to skip card changing. In other cases player can change up to 5 cards. For example, `CHANGE 2 3 4` means player wants to change card number 2, 3 and 4.
+
+## TODO:
+* Add wheeler
+* Switch to log4j from println

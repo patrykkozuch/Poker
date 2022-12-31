@@ -30,7 +30,6 @@ public class QuitGameAction extends ServerAction {
 
         if (g.getStatus().equals("W trakcie"))
             throw new IllegalActionException("Nie możesz opuścić gry w trakcie");
-
     }
 
     @Override
